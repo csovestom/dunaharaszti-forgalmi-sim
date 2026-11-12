@@ -927,12 +927,9 @@ const KINDS = {
 const DAY_TRAINS = [["3719",-1,14280,1],["7919",-1,17760,1],["7930",1,18780,1],["3729",-1,18780,1],["3739",-1,20700,1],["349",1,22895,0],["3749",-1,22920,1],["3712",1,24900,1],["3717",-1,25680,1],["3722",1,28080,1],["7929",-1,28080,1],["3727",-1,29100,1],["7922",1,30095,0],["3732",1,31680,1],["3737",-1,32700,1],["7927",-1,34478,0],["3742",1,35280,1],["3747",-1,36300,1],["3714",1,38880,1],["3715",-1,39900,1],["348",-1,41678,0],["3724",1,42480,1],["3725",-1,43500,1],["343",1,44495,0],["3734",1,46080,1],["3735",-1,47100,1],["3744",1,49680,1],["3745",-1,50700,1],["7916",1,51695,0],["3716",1,53280,1],["3713",-1,54300,1],["7925",-1,56078,0],["3726",1,56880,1],["3723",-1,57900,1],["7926",1,58895,0],["3736",1,60480,1],["3733",-1,61500,1],["342",-1,63278,0],["3746",1,64080,1],["3743",-1,65100,1],["7918",1,66095,0],["3718",1,67680,1],["3711",-1,68700,1],["7923",-1,70478,0],["7928",1,71280,1],["3721",-1,72300,1],["3728",1,74880,1],["3731",-1,75900,1],["3738",1,78480,1],["7911",-1,79320,1],["3748",1,82080,1],["3758",1,85680,1]];
 // Tehervonatok: nincsenek a nyilvános menetrendben, a menetvonaluk a személyvonatok közötti szabad időkre becsült.
 // Éjjel több jár. [szám, irány, áthaladás ideje Dunaharasztin] – két vonat megáll, hogy egy személyvonat megelőzze.
-const DAY_FREIGHT = [
-  ['47551', -1, T(0, 5)], ['45150', 1, T(0, 35)], ['47553', -1, T(1, 10)], ['45152', 1, T(1, 40)], ['47555', -1, T(2, 15)],
-  ['45154', 1, T(2, 45)], ['47557', -1, T(3, 20)], ['45156', 1, T(4, 20)], ['45110', 1, T(6, 30, 50)], ['47511', -1, T(6, 39, 15)],
-  ['45112', 1, T(9, 20)], ['47515', -1, T(11, 20)], ['45114', 1, T(13, 25)], ['47517', -1, T(15, 20)], ['45116', 1, T(17, 20)],
-  ['47519', -1, T(19, 20)], ['45118', 1, T(20, 25)], ['45120', 1, T(22, 16, 50)], ['47521', -1, T(23, 7, 15)],
-];
+// Ötpercenként egy lehetséges tehervonat-menetvonal; buildTimetable mohón választ közülük: legalább 6 percre
+// a személyvonatoktól és 10 percre az előző tehervonattól, az irányt felváltva. Így óránként 3–5 tehervonat jár.
+const FREIGHT_SLOTS = (() => { const out = []; for (let t = T(0, 5); t < T(24, 0); t += 5 * 60) out.push(t); return out; })();
 const FREIGHT_STOPS = {   // megelőzés: a tehervonat mellékvágányon bevárja a személyvonatot
   '47513': { dir: -1, enter: T(6, 58), arr: T(7, 1), dep: T(7, 11), track: '3', exit: T(7, 13, 20), by: 'Sz 3717' },
   '45122': { dir: 1, enter: T(23, 40), arr: T(23, 42, 30), dep: T(23, 52), track: '1', exit: T(23, 56), by: 'Sz 3758' },
@@ -955,9 +952,14 @@ function buildTimetable(t0, t1) {
     for (const [no, f] of Object.entries(FREIGHT_STOPS))
       list.push({ no, cat: 'Teher', kind: 'G', type: 'Tehervonat · ' + (f.dir > 0 ? 'Ferencváros → Kelebia' : 'Kelebia → Ferencváros'), dir: f.dir,
         enter: f.enter + shift, arr: f.arr + shift, dep: f.dep + shift, exit: f.exit + shift, track: f.track, note: 'megelőzi: ' + f.by });
-    for (const [no, dir, t] of DAY_FREIGHT) {
+    let lastF = -1e9, dirF = shift ? 1 : -1, even = 45200 + (shift ? 400 : 0), odd = 47601 + (shift ? 400 : 0);
+    for (const t of FREIGHT_SLOTS) {
       const D = t + shift;
-      if (list.some(o => o.kind !== 'G' && Math.abs(o.dep - D) < 8 * 60)) continue;   // csak szabad menetvonalon
+      if (D - lastF < 10 * 60) continue;
+      if (list.some(o => o.kind !== 'G' && Math.abs(o.dep - D) < 6 * 60)) continue;   // csak szabad menetvonalon
+      if (list.some(o => o.kind === 'G' && D > o.enter - 9 * 60 && D < o.exit + 9 * 60)) continue;   // a megelőzésre váró tehervonat körül sem
+      const dir = (dirF = -dirF), no = String(dir > 0 ? (even += 2) : (odd += 2));
+      lastF = D;
       list.push({ no, cat: 'Teher', kind: 'G', type: 'Tehervonat · ' + (dir > 0 ? 'Ferencváros → Kelebia' : 'Kelebia → Ferencváros'), dir,
         arr: D, dep: D, enter: D - (dir > 0 ? 110 : 135), exit: D + (dir > 0 ? 140 : 105), track: '2', note: 'áthalad' });
     }
