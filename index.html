@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Dunaharaszti Forgalmi Szimulátor</title>
+<meta name="description" content="MÁV Dominó 55 forgalomirányító szimulátor, Dunaharaszti állomás">
+<meta name="theme-color" content="#1f2a1f">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+<link rel="icon" href="icons/icon-192.png" sizes="192x192" type="image/png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Dunaharaszti">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<style>
+  html,body{margin:0;height:100%;background:#141a14;overflow:hidden}
+  iframe{position:fixed;inset:0;width:100%;height:100%;border:0;display:block}
+  #frissites{position:fixed;left:50%;bottom:16px;transform:translateX(-50%);z-index:10;display:none;
+    background:#e8dcb4;color:#1f2a1f;font:600 14px Georgia,serif;padding:10px 14px;border-radius:4px;
+    box-shadow:0 3px 10px rgba(0,0,0,.45);align-items:center;gap:10px}
+  #frissites button{font:inherit;background:#1f2a1f;color:#e8dcb4;border:0;border-radius:3px;padding:6px 10px;cursor:pointer}
+</style>
+</head>
+<body>
+<!-- A szimulátor maga változatlanul a dunaharaszti_terepasztal.html fájlban van.
+     Frissítéshez elég azt a fájlt lecserélni, ezt a fájlt nem kell módosítani. -->
+<iframe id="sim" title="Dunaharaszti Forgalmi Szimulátor" allow="fullscreen; clipboard-write" allowfullscreen></iframe>
+<div id="frissites">Új változat érhető el. <button type="button" id="frissitesGomb">Újratöltés</button></div>
+<script>
+  // A címsorban megadott paraméterek (pl. ?kezdes=06:00) továbbmennek a szimulátornak
+  var sim = document.getElementById('sim');
+  sim.src = 'dunaharaszti_terepasztal.html' + location.search + location.hash;
+  sim.addEventListener('load', function () {
+    try { document.title = sim.contentDocument.title || document.title; } catch (e) {}
+    sim.focus(); // a billentyűparancsok azonnal működjenek
+  });
+  window.addEventListener('focus', function () { sim.focus(); });
+
+  // Offline működés: service worker
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function () {
+      navigator.serviceWorker.register('sw.js').then(function (reg) {
+        reg.addEventListener('updatefound', function () {
+          var w = reg.installing;
+          w && w.addEventListener('statechange', function () {
+            if (w.state === 'installed' && navigator.serviceWorker.controller) {
+              document.getElementById('frissites').style.display = 'flex';
+            }
+          });
+        });
+      }).catch(function () {});
+    });
+    document.getElementById('frissitesGomb').addEventListener('click', function () { location.reload(); });
+  }
+</script>
+</body>
+</html>

@@ -1,0 +1,22 @@
+{
+  "name": "Dunaharaszti Forgalmi Szimulátor",
+  "short_name": "Dunaharaszti",
+  "description": "MÁV Dominó 55 forgalomirányító szimulátor, Dunaharaszti állomás (150-es vonal)",
+  "lang": "hu",
+  "id": "./",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "display_override": ["window-controls-overlay", "standalone"],
+  "orientation": "landscape",
+  "background_color": "#141a14",
+  "theme_color": "#1f2a1f",
+  "categories": ["games", "education", "simulation"],
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icons/maskable-192.png", "sizes": "192x192", "type": "image/png", "purpose": "maskable" },
+    { "src": "icons/maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" },
+    { "src": "icons/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
+  ]
+}
