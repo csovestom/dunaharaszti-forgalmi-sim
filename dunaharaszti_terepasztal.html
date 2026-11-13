@@ -353,6 +353,161 @@ button.on,button[aria-pressed=true]{background:var(--grain),#e3b14f;border-color
 #top{gap:12px;min-width:0}
 @media(max-width:1460px){#stats{display:none}.top-controls{margin-left:auto}}
 @media(max-width:1180px){#top{flex-wrap:wrap}.top-controls{flex-wrap:wrap}}
+
+/* === Retró információs lapok: űrlapkeret, írógépes fejléc, bélyegző (a textúrák maradnak) === */
+.g-item,.auto-box,.gloss,.tu-intro,.tu-step,.tu-lessons button{border-radius:0;border:1px solid var(--rule);
+  box-shadow:inset 0 0 0 3px var(--card),inset 0 0 0 4px color-mix(in srgb,var(--rule) 42%,transparent),2px 2px 0 #0000001f}
+.g-item{padding:11px 14px 12px;border-left-width:6px}
+.g-tag,.g-hint{font-family:var(--mono)}
+.g-tag{letter-spacing:.12em}
+.g-item h4{padding-bottom:4px;margin-bottom:5px;border-bottom:1px solid color-mix(in srgb,var(--rule) 40%,transparent)}
+.g-train{border-radius:0;box-shadow:0 0 0 1px var(--card),0 0 0 2px var(--ink-strong)}
+.g-empty{border-radius:0;border:1px dashed var(--rule);font-family:var(--mono);font-size:12px}
+.auto-box{padding:10px 13px}
+.gloss summary{font-family:var(--mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase}
+#guideBody,#tutorBody{background:linear-gradient(90deg,transparent 0 6px,#b0443a2e 6px 7px,transparent 7px),var(--fibre),var(--paper)}
+#tutorBody{flex:1;overflow:auto;padding:10px 12px 14px 16px;display:flex;flex-direction:column;gap:9px;color:var(--ink)}
+#guideBody{padding-left:16px}
+#tutorBody[hidden]{display:none}
+#log div{border-radius:0;background:var(--fibre),var(--paper);color:var(--ink);border:1px solid var(--rule);border-left:5px solid var(--accent);font:700 11.5px/1.4 var(--mono);box-shadow:2px 3px 0 #0006}
+#log div.err{color:var(--d3)}
+#tip{border-radius:0;padding:9px 12px;box-shadow:inset 0 0 0 3px var(--paper),inset 0 0 0 4px color-mix(in srgb,var(--rule) 45%,transparent),3px 4px 0 #0007}
+#tip b{font-family:var(--mono);letter-spacing:.04em;text-transform:uppercase;font-size:11px}
+#approach{border-radius:0;padding:9px 10px 10px;box-shadow:inset 0 0 0 3px var(--paper),inset 0 0 0 4px color-mix(in srgb,var(--rule) 45%,transparent),3px 4px 0 #0008}
+#approach h3{font-family:var(--mono);padding:1px 2px 4px;border-bottom:3px double var(--rule);margin-bottom:3px}
+.ap-row{border-radius:0;background:var(--card)}
+.box{border-radius:0}
+.desk-tabs button{border-radius:2px 2px 0 0;font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase}
+.desk-head{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase}
+th{font-family:var(--mono)}
+
+/* Állapotkártya a terepasztalon */
+#infoCard{position:absolute;z-index:6;width:min(270px,calc(100% - 16px));color:var(--ink);background:var(--fibre),var(--paper);border:1px solid var(--rule);
+  box-shadow:inset 0 0 0 3px var(--paper),inset 0 0 0 4px color-mix(in srgb,var(--rule) 45%,transparent),3px 5px 0 #0008;padding:0 0 10px;font-size:12.5px;line-height:1.45}
+#infoCard[hidden]{display:none}
+#infoCard header{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:4px 4px 0;padding:6px 6px 6px 10px;background:var(--grain),#1c1c16;color:#f1e6c4}
+#infoCard header b{font:700 11px/1.2 var(--mono);letter-spacing:.1em;text-transform:uppercase}
+#infoCard header button{min-height:22px;width:24px;padding:0;border-radius:2px;border:1px solid #000;background:#33342c;color:#f1e6c4;font:700 15px/1 var(--sans);box-shadow:none}
+.ic-state{display:flex;align-items:center;gap:11px;margin:10px 13px 6px;padding-bottom:8px;border-bottom:3px double var(--rule)}
+.ic-state small{display:block;font:700 9.5px/1.2 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--ink-soft)}
+.ic-state strong{font:700 18px/1.2 var(--serif);color:var(--ink-strong)}
+.ic-state canvas{width:30px;height:42px;flex:none}
+.ic-lamp{width:20px;height:20px;flex:none;border-radius:50%;border:3px solid #17150f;background:#8fc46b;box-shadow:inset 0 2px 2px #fff6,0 1px 0 #fff5}
+.ic-state[data-tone=danger] .ic-lamp{background:#e0402e}.ic-state[data-tone=warn] .ic-lamp{background:#f0b030;animation:ic-blink .7s steps(2) infinite}
+@keyframes ic-blink{50%{background:#5b4a1e}}
+#infoCard p{margin:0 13px 6px;color:var(--ink-body)}
+#infoCard .ic-why{font-size:11.5px;color:var(--ink-soft)}
+#infoCard>button{margin:4px 13px 0;width:calc(100% - 26px)}
+
+/* Oktató */
+.tu-intro{padding:11px 14px;background:var(--card)}
+.tu-intro h3{margin:0 0 4px;font:700 16px/1.2 var(--serif);color:var(--title-ink)}
+.tu-intro p{margin:0;font-size:12.5px;color:var(--ink-body)}
+.tu-lessons{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}
+.tu-lessons button{width:100%;display:flex;align-items:center;gap:11px;padding:8px 12px;text-align:left;background:var(--card);color:var(--ink);text-shadow:none;cursor:pointer}
+.tu-lessons button:hover{background:var(--mark)}
+.tu-no{flex:none;width:26px;height:26px;border:2px solid var(--title-ink);border-radius:50%;display:grid;place-items:center;font:700 13px/1 var(--mono);color:var(--title-ink)}
+.tu-t{flex:1;min-width:0;display:flex;flex-direction:column}
+.tu-t b{font:700 14px/1.25 var(--serif);color:var(--ink-strong)}.tu-t small{font-size:11.5px;color:var(--ink-soft)}
+.tu-stamp{display:inline-block;flex:none;padding:2px 7px;border:2px solid var(--d0);color:var(--d0);font:700 10.5px/1.2 var(--mono);font-style:normal;letter-spacing:.14em;text-transform:uppercase;transform:rotate(-5deg);opacity:.9}
+.tu-head{display:flex;align-items:baseline;gap:10px;padding:0 2px 6px;border-bottom:3px double var(--rule)}
+.tu-head span{font:700 10.5px/1.2 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--ink-soft);white-space:nowrap}
+.tu-head b{flex:1;font:700 15px/1.2 var(--serif);color:var(--title-ink)}
+.tu-head button{min-height:22px;padding:2px 9px;font-size:11px}
+.tu-step{padding:12px 15px;background:var(--card)}
+.tu-step.ok{border-color:var(--d0)}
+.tu-do{margin:0 0 8px;font:600 14.5px/1.5 var(--sans);color:var(--ink-strong)}
+.tu-why{margin:0;padding-left:10px;border-left:3px solid color-mix(in srgb,var(--rule) 55%,transparent);font-size:12.5px;color:var(--ink-body)}
+.tu-why b{font:700 10.5px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--title-ink)}
+.tu-ok,.tu-wait{margin:9px 0 0}.tu-wait{font:700 11px var(--mono);letter-spacing:.06em;color:var(--dwell)}
+#tutorBody kbd{display:inline-block;padding:0 7px;margin:0 1px;border:1px solid #000;border-radius:3px;background:#24231c;color:#f4ecd2;font:700 12.5px/1.55 var(--mono);box-shadow:inset 0 1px 0 #ffffff33,0 2px 0 #0007;white-space:nowrap}
+.tu-actions{display:flex;flex-wrap:wrap;gap:8px}
+.tu-dots{display:flex;gap:5px}.tu-dots i{width:16px;height:5px;background:color-mix(in srgb,var(--rule) 35%,transparent)}.tu-dots i.d{background:var(--d0)}.tu-dots i.c{background:var(--title-ink)}
+body.tutoring #timebar{opacity:.4;pointer-events:none}
+body.tutoring #clock{opacity:.45}
+
+/* Tömör útmutató */
+.box .lead{margin:0 0 8px;font-size:14px}
+.box .howto{list-style:none;margin:0 0 10px;padding:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}
+.box .howto li{margin:0;padding:8px 10px;border:1px solid var(--rule);background:var(--card);font-size:12.5px;box-shadow:inset 0 0 0 3px var(--card),inset 0 0 0 4px color-mix(in srgb,var(--rule) 38%,transparent)}
+.box .howto b{display:block;font:700 11px/1.3 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--title-ink)}
+.help-keys{min-width:0;margin:0 0 8px;border:1px solid var(--rule);white-space:normal}
+.help-keys th,.help-keys td{position:static;padding:6px 10px;border-bottom:1px solid color-mix(in srgb,var(--rule) 30%,transparent);font-size:12.5px;background:none}
+.help-keys th{width:42%;border-right:1px solid color-mix(in srgb,var(--rule) 30%,transparent);font:700 11px/1.3 var(--mono);letter-spacing:.08em}
+.help-keys td{font-family:var(--mono);font-weight:700}
+.help-note{margin:0 0 8px;font-size:12.5px;color:var(--ink-body)}
+.help-more{border-top:1px solid color-mix(in srgb,var(--rule) 40%,transparent);padding:6px 0}
+.help-more summary{cursor:pointer;font:700 11px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--title-ink)}
+.help-kbd{font-size:12.5px;line-height:1.9;margin:6px 0 0}
+.box{width:min(100%,620px)}
+.box-foot{display:flex;justify-content:flex-end;gap:8px;margin-top:12px}
+@media(max-width:520px){.box .howto{grid-template-columns:1fr}.box{padding:16px 16px}}
+@media(max-width:1600px){#stats{display:none}.top-controls{margin-left:auto}}
+
+/* Lapozós mód: kis képernyőn egyszerre egy ablak, fent ikonsorral váltható */
+#pager{display:none}
+body.paged #pager{display:flex;flex:none;gap:3px;padding:4px 5px 5px;background:var(--grain),#11160f;border-bottom:1px solid #000;box-shadow:inset 0 2px 4px #000c;position:relative;z-index:2}
+#pager button{flex:1;min-width:0;display:flex;flex-direction:column;align-items:center;gap:2px;min-height:0;padding:5px 1px 4px;border-radius:4px;border:1px solid #000;
+  background:var(--grain),linear-gradient(#3d3d32,#25251c 55%,#18180f);color:#cfc7a8;font:700 8.5px/1 var(--sans);letter-spacing:.04em;text-transform:uppercase;box-shadow:inset 0 1px 0 #ffffff26,0 2px 0 #000}
+#pager svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+#pager span{max-width:100%;overflow:hidden;text-overflow:ellipsis;font-size:7.4px;letter-spacing:0}
+#pager button[aria-pressed=true]{color:#ffd98a;background:var(--grain),linear-gradient(#1c1c13,#26261d);box-shadow:inset 0 2px 5px #000d;transform:translateY(1px)}
+#pager button.ring{color:#ff9a78}
+body.paged #top{flex-wrap:wrap;min-height:0;padding:5px 8px;gap:8px}
+body.paged .brand{flex:1;min-width:0}
+body.paged .brand p{display:none}
+body.paged .brand h1{font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+body.paged .logo-mark{width:38px;height:27px}
+body.paged #stats,body.paged #btnPult,body.paged #btnGuide,body.paged #btnTutor,body.paged #btnTT,body.paged #btnPhone{display:none}
+body.paged:not([data-page=more]) .top-controls{display:none}
+body.paged[data-page=more] .top-controls{display:flex;flex-wrap:wrap;width:100%;margin:0}
+body.paged[data-page=more] .top-controls button{flex:1}
+body.paged #timebar{padding:3px 6px;gap:6px}
+body.paged:not([data-page=more]) #timebar{flex-wrap:nowrap;overflow-x:auto}
+body.paged:not([data-page=more]) #timebar>:not(#speedBtns){display:none}
+body.paged #speedBtns{flex:1}body.paged #speedBtns button{flex:1}
+body.paged #splitDesk,body.paged #splitPult{display:none!important}
+body.paged:not([data-page=map]):not([data-page=more]) #mapWrap{display:none}
+body.paged[data-page=phone] #main{display:none}
+body.paged #bottom{flex:1;height:auto;min-height:0}
+body.paged #pultWrap{width:100%!important;display:flex;flex-direction:column;overflow:hidden}
+body.paged #pultWrap.closed{display:none}
+body.paged #pultCanvas{touch-action:none}
+body.paged #bottom.stack{flex-direction:column}
+body.paged #bottom.stack #pultWrap{flex:1 1 54%;min-height:0}
+body.paged #bottom.stack #tt{flex:1 1 46%;min-height:0;border-top:3px double #6b6a4c}
+body.paged #bottom.stack .desk-tabs{display:none}
+body.paged #phonePanel{position:static;flex:1;width:auto;min-width:0;max-width:none;max-height:none;min-height:0;resize:none;border-radius:0;border-width:0}
+body.paged:not([data-page=phone]) #phonePanel{display:none!important}
+body.paged #shiftLabel{display:none}
+body.paged #log{width:min(300px,70%);right:6px;top:44px}
+body.paged #sigWrap{top:48px;height:min(260px,calc(100% - 60px))}
+@media(max-height:520px){body.paged #pager span{display:none}body.paged #pager button{padding:3px 1px}body.paged #pager svg{width:20px;height:20px}
+  body.paged #top{padding:2px 8px}body.paged .logo-mark{display:none}body.paged #clock{font-size:15px;padding:2px 8px}body.paged #timebar button{min-height:22px;padding:2px 6px}}
+/* Lapozós mód, Terep lap: a terepasztal kitölti a képernyőt, a vezérlők egy sorba és a térkép fölé kerülnek */
+#mapToolsToggle{display:none}
+body.paged{position:relative}
+body.paged:not([data-page=more]) #top{display:none}
+body.paged #pager{align-items:stretch;padding:3px 4px 4px}
+body.paged #pager span{display:none}
+body.paged #pager button{padding:4px 1px}
+body.paged #pager svg{width:21px;height:21px}
+body.paged #pager .timebox{flex:none;display:flex;align-items:center;margin-left:3px}
+body.paged #pager #clock{min-width:0;padding:6px 7px;font-size:14px}
+body.paged[data-page=map] #timebar{position:absolute;left:6px;right:6px;bottom:6px;z-index:6;padding:0;background:none;border:0;box-shadow:none}
+body.paged[data-page=map] #speedBtns{background:var(--grain),#121912e6;box-shadow:0 2px 8px #0009}
+body.paged .map-source{display:none}
+body.paged .map-scale{bottom:46px;right:6px}
+body.paged .map-tools{top:6px;left:6px;gap:4px;flex-direction:column;align-items:flex-start}
+body.paged #mapToolsToggle{display:grid;place-items:center;width:36px;height:34px;min-height:0;padding:0;border-radius:4px;border:1px solid #000;background:var(--grain),#121912e6;color:#e3dcc3;box-shadow:0 2px 6px #0008}
+body.paged #mapToolsToggle[aria-expanded=true]{color:#ffd98a;box-shadow:inset 0 2px 5px #000d}
+body.paged #mapToolsToggle svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linejoin:round;stroke-linecap:round}
+body.paged .map-tools:not(.open) .grp{display:none}
+body.paged .map-tools .grp{background:var(--grain),#121912e6}
+body.paged #log{top:6px;right:6px;width:min(280px,calc(100% - 56px))}
+body.paged #approach{bottom:50px}
+body.paged #sigWrap{top:46px;left:6px}
+@media(max-height:520px){body.paged #pager button{padding:2px 1px}body.paged #pager #clock{padding:4px 7px}}
 </style>
 </head>
 <body>
@@ -368,6 +523,7 @@ button.on,button[aria-pressed=true]{background:var(--grain),#e3b14f;border-color
   <div class="grp top-controls">
     <button id="btnPult" aria-controls="pultWrap" aria-expanded="true">Pult</button>
     <button id="btnGuide" aria-controls="tt" aria-expanded="true" title="Teendők és magyarázatok (H)">Segítő</button>
+    <button id="btnTutor" aria-controls="tt" aria-expanded="false" title="Oktató: a Dominó 55 kezelése lépésről lépésre (O)">Oktató</button>
     <button id="btnTT" aria-controls="tt" aria-expanded="false" title="Menetrend (M)">Menetrend</button>
     <button type="button" id="btnPhone" aria-controls="phonePanel" aria-expanded="false">
       <span>Telefon</span><span id="phoneIndicator" class="phone-trigger-dot" aria-hidden="true" hidden></span>
@@ -377,6 +533,15 @@ button.on,button[aria-pressed=true]{background:var(--grain),#e3b14f;border-color
     <button id="btnHelp" aria-haspopup="dialog">Útmutató</button>
   </div>
 </header>
+<nav id="pager" aria-label="Nézetek">
+  <button type="button" data-page="map" aria-pressed="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 8.5h20M2 15.5h20M6 6v12M12 6v12M18 6v12"/></svg><span>Terep</span></button>
+  <button type="button" data-page="pult" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4.5" width="18" height="15" rx="1.5"/><circle cx="8" cy="10" r="1.7"/><circle cx="16" cy="10" r="1.7"/><path d="M6.5 15.5h11"/></svg><span>Pult</span></button>
+  <button type="button" data-page="guide" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.2v.6"/></svg><span>Segítő</span></button>
+  <button type="button" data-page="tutor" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 6.5c-2-1.5-5-2-8-1.5v13c3-.5 6 0 8 1.5 2-1.5 5-2 8-1.5V5c-3-.5-6 0-8 1.5zM12 6.5v13"/></svg><span>Oktató</span></button>
+  <button type="button" data-page="tt" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 6.8V12l3.6 2.2"/></svg><span>Menetrend</span></button>
+  <button type="button" data-page="phone" id="pgPhone" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3.5 9.5c0-2.4 3.8-4.5 8.5-4.5s8.500 2.100 8.500 4.500l-1.300 2.300-4.200-1V8.600h-6v2.200l-4.200 1zM7.200 13h9.600l2.200 6.500H5z"/><circle cx="12" cy="16" r="1.6"/></svg><span>Telefon</span></button>
+  <button type="button" data-page="more" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7h18M3 12h18M3 17h18"/><circle cx="9" cy="7" r="2.2"/><circle cx="15.500" cy="12" r="2.200"/><circle cx="7.500" cy="17" r="2.200"/></svg><span>Egyéb</span></button>
+</nav>
 <div id="timebar" role="group" aria-label="Időkezelés">
   <div class="grp">
     <button id="tBack5" title="5 perccel vissza (Shift + ←)">−5 p</button>
@@ -402,6 +567,7 @@ button.on,button[aria-pressed=true]{background:var(--grain),#e3b14f;border-color
   <div id="mapWrap">
     <canvas id="map" aria-label="Interaktív terepasztal, Soroksár – Dunaharaszti – Taksony"></canvas>
     <div class="map-tools">
+      <button type="button" id="mapToolsToggle" aria-expanded="false" aria-label="Nézet és rétegek" title="Nézet és rétegek"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4l9 4.500-9 4.500-9-4.500zM3 12.500l9 4.500 9-4.500M3 16.500l9 4.500 9-4.500"/></svg></button>
       <div class="grp" role="group" aria-label="Terepasztal nézete">
         <button id="btnFit" aria-pressed="true">Állomás</button>
         <button id="btnHouse" aria-pressed="false" title="Dunaharaszti állomásépülete">Épület</button>
@@ -419,6 +585,7 @@ button.on,button[aria-pressed=true]{background:var(--grain),#e3b14f;border-color
       </div>
     </div>
     <div id="approach" hidden aria-live="polite"></div>
+    <div id="infoCard" role="dialog" aria-label="Állapot" hidden></div>
     <div id="sigWrap"><canvas id="sigView" width="420" height="760" role="button" tabindex="0" aria-label="Jelző közelkép. Kattintásra bezárható." title="Bezárás (a jobb alsó saroknál átméretezhető)"></canvas></div>
     <div id="log"></div>
   </div>
@@ -432,6 +599,7 @@ button.on,button[aria-pressed=true]{background:var(--grain),#e3b14f;border-color
   <div id="tt">
     <div class="desk-tabs" role="tablist" aria-label="Oldalpanel">
       <button type="button" role="tab" data-tab="guide" aria-selected="true" aria-controls="guideBody">Segítő <span id="guideCount" class="count" hidden></span></button>
+      <button type="button" role="tab" data-tab="tutor" aria-selected="false" aria-controls="tutorBody">Oktató</button>
       <button type="button" role="tab" data-tab="tt" aria-selected="false" aria-controls="ttBody">Menetrend</button>
       <small id="shiftLabel">Dunaharaszti · reggeli szolgálat</small>
       <button type="button" id="paperDark" class="paper-toggle" aria-pressed="false" title="A Segítő és a Menetrend lapja bármikor sötétre váltható">Sötét lap</button>
@@ -467,6 +635,7 @@ button.on,button[aria-pressed=true]{background:var(--grain),#e3b14f;border-color
         </dl>
       </details>
     </div>
+    <div id="tutorBody" role="tabpanel" hidden></div>
     <div id="ttBody" role="tabpanel" hidden></div>
   </div>
   </div>
@@ -496,33 +665,21 @@ button.on,button[aria-pressed=true]{background:var(--grain),#e3b14f;border-color
 <div class="modal" id="helpModal" role="dialog" aria-modal="true" aria-labelledby="helpTitle">
   <div class="box">
     <div class="help-brand"><svg class="logo-svg" aria-hidden="true" viewBox="0 110 560 360" xmlns="http://www.w3.org/2000/svg"><defs><mask id="mvB"><rect x="0" y="0" width="560" height="600" fill="#fff"/><path d="M256.6 187.3A108 108 0 1 1 256.6 392.7L265.0 367.0A81 81 0 1 0 265.0 213.0Z" fill="#000"/><path d="M0 262H290A26.5 26.5 0 0 1 290 315H0Z" fill="#000"/></mask></defs><g mask="url(#mvB)" fill="currentColor"><circle cx="290" cy="290" r="165"/><path d="M12 208H540L516 262H38Z"/><path d="M40 315H512L488 370H64Z"/></g></svg><h2 id="helpTitle">Dunaharaszti Forgalmi Szimulátor<small>kezelési útmutató</small></h2></div>
-    <p>Dunaharaszti forgalmi szolgálattevője vagy, a 150-es vonalon, a MÁV 2020/21-es menetrendje szerint. <span id="shiftIntro"></span> A tehervonatok menetvonala becsült, mert a nyilvános menetrendben nem szerepelnek.</p>
-    <h3>Először játszol? Így kezdj</h3>
-    <ol class="howto">
-      <li>Nyisd meg a <b>Segítő</b> fület (<kbd>H</kbd>): mindig megmutatja a következő teendőt, és elmagyarázza, miért kell.</li>
-      <li>Indítsd az időt az <b>1×</b> gombbal. A Segítő által javasolt gomb a pulton és a térképen sárgán villog.</li>
-      <li>Minden vonatnak két vágányút kell: <b>bejárati</b> (a nyílt vonalról az állomás egyik vágányára) és <b>kijárati</b> (onnan tovább a szomszéd állomás felé).</li>
-      <li>Az egyvágányú vonalon egyszerre csak egy irányba mehet vonat. Ha két vonat szemben jön, az egyik az állomáson megvárja a másikat (<b>keresztezés</b>).</li>
-      <li>Ha elakadsz, a Segítő <b>Végrehajtom</b> gombja elvégzi helyetted a lépést. A pult gombjai fölé állva leírást kapsz róluk.</li>
-      <li>Az <b>Automata</b> gombbal (<kbd>A</kbd>) a játék mindent elvégez helyetted – így végig is nézheted, hogyan kell.</li>
-    </ol>
-    <h3>A pult kezelése (két gomb „együtt”: kattints egymás után a kettőre)</h3>
-    <ul>
-      <li><b>Vágányút (első lezárás):</b> kezdőgomb + célgomb. Bejáratnál: a bejárati jelző (A, B) gombja, majd a célvágány túlsó végén álló kijárati jelző gombja (A → V1/V2/V3, B → K1/K2/K3). Kijáratnál: a kijárati jelző gombja, majd a bejárati jelző mögötti zöld vágányúti gomb. A lezárt vágányutat fehér fénycsík mutatja.</li>
-      <li><b>Jelzőállítás (második lezárás):</b> „Jelzőáll.” + a jelző gombja. Az SR2 sorompó lezárásáig a jelző késleltetve vált szabadra.</li>
-      <li><b>Törlés:</b> „Törlés” + a kezdőjelző gombja. Közeledő vonatnál csak <b>Kényszeroldás</b> (időzített) lehetséges.</li>
-      <li><b>Jelző M!:</b> a szabad jelzőt Megállj!-ra kapcsolja, a vágányút lezárva marad.</li>
-      <li><b>Egyéni váltóállítás:</b> „Közös áll.” + a váltó számozott gombja. Ha a váltó lezárt vagy foglalt, a gomb feletti lámpa világít. Foglaltnál: „Szig. kikapcs.” + váltógomb.</li>
-      <li><b>Sorompó és kisiklasztó saru:</b> „Közös áll.” + SR2, illetve KS1/KS2 gombja.</li>
-      <li><b>Hívójelzés:</b> „Bejárat hívó” vagy „Kijárat hívó” + a jelző gombja. Semmilyen függést nem ellenőriz, a vonat 15 km/h-val, a váltók állása szerint halad.</li>
-      <li><b>Váltó vissz.:</b> a váltók állását mutató fehér szárcsíkok be- és kikapcsolása.</li>
+    <p class="lead">Dunaharaszti forgalmi szolgálattevője vagy a 150-es vonalon. <span id="shiftIntro"></span></p>
+    <ul class="howto">
+      <li><b>Oktató</b> lépésenként megtanítja a Dominó 55 pult kezelését.</li>
+      <li><b>Segítő</b> mindig mutatja a következő teendőt és az okát.</li>
+      <li><b>Automata</b> a játék kezel, te figyelsz.</li>
+      <li><b>Idő</b> az 1× gombbal indul, a csúszkával tekerhető.</li>
     </ul>
-    <h3>Gyorskezelés a helyszínrajzon</h3>
-    <ul>
-      <li>Kattints a kezdőjelzőre, majd a célvágányra. A jelző közelképe élőben mutatja a jelzési képet. A jelzőn jobb kattintással törölheted a vágányutat.</li>
-      <li>Egér húzás: mozgatás · görgő: nagyítás · <kbd>Szóköz</kbd>: állj · <kbd>1</kbd> <kbd>2</kbd> <kbd>5</kbd> <kbd>0</kbd>: sebesség (0 = 10×) · <kbd>H</kbd>: segítő · <kbd>A</kbd>: automata · <kbd>D</kbd>: sötét mód · <kbd>M</kbd>: menetrend · <kbd>P</kbd>: pult · <kbd>Esc</kbd>: kijelölés törlése</li>
-    </ul>
-    <h3>Jelzési képek</h3>
+    <table class="help-keys">
+      <tr><th>Vágányút</th><td>kezdőgomb + célgomb</td></tr>
+      <tr><th>Jelző szabadra</th><td>Jelzőáll. + a jelző gombja</td></tr>
+      <tr><th>Feloldás</th><td>Törlés + a kezdőjelző gombja</td></tr>
+      <tr><th>Váltó, sorompó, saru</th><td>Közös áll. + a saját gombja</td></tr>
+    </table>
+    <p class="help-note">Két gomb együtt: kattints egymás után a kettőre. A terepasztalon a váltóra vagy a sorompóra kattintva látod az állását.</p>
+    <details class="help-more"><summary>Jelzési képek</summary>
     <div class="signal-examples">
       <div class="signal-example"><canvas width="52" height="85" data-aspect="VOROS" aria-hidden="true"></canvas><div><b>Megállj!</b><span>Egy vörös fény</span></div></div>
       <div class="signal-example"><canvas width="52" height="85" data-aspect="ZOLD" aria-hidden="true"></canvas><div><b>Szabad</b><span>Egy zöld fény</span></div></div>
@@ -530,8 +687,12 @@ button.on,button[aria-pressed=true]{background:var(--grain),#e3b14f;border-color
       <div class="signal-example"><canvas width="52" height="85" data-aspect="KETSARGA" aria-hidden="true"></canvas><div><b>Kitérő irány</b><span>Két sárga · 40 km/h</span></div></div>
       <div class="signal-example"><canvas width="52" height="85" data-aspect="HIVO" aria-hidden="true"></canvas><div><b>Hívójelzés</b><span>Vörös és alatta villogó fehér · 15 km/h</span></div></div>
     </div>
-    <p class="signal-source">A jelzőlapok mintája a Gyermekvasutas Tankönyv, Jelzési ismeretek, F1–22–25. A sebességek a játék nagyvasúti modelljére vonatkoznak.</p>
-    <p class="box-foot"><button id="btnStart" class="on">Vissza a terepasztalhoz</button></p>
+    <p class="signal-source">Minta: Gyermekvasutas Tankönyv, Jelzési ismeretek, F1–22–25.</p>
+    </details>
+    <details class="help-more"><summary>Billentyűk és egér</summary>
+      <p class="help-kbd"><kbd>Szóköz</kbd> állj · <kbd>1</kbd> <kbd>2</kbd> <kbd>5</kbd> <kbd>0</kbd> sebesség · <kbd>H</kbd> segítő · <kbd>O</kbd> oktató · <kbd>M</kbd> menetrend · <kbd>P</kbd> pult · <kbd>A</kbd> automata · <kbd>K</kbd> követés · <kbd>D</kbd> napszak · <kbd>Esc</kbd> kijelölés törlése. Húzás: mozgatás, görgő: nagyítás. Jelzőre kattintva, majd a célvágányra: gyors vágányút; jobb kattintás a jelzőn: törlés.</p>
+    </details>
+    <p class="box-foot"><button id="btnStartTutor">Oktató indítása</button> <button id="btnStart" class="on">Kezdés</button></p>
   </div>
 </div>
 
@@ -838,12 +999,14 @@ function setRoute(def, withSignal = false) {
   for (const s of def.secs) SEC[s].lock = def.id;
   if (def.line) LINES[def.line].dir = def.ldir;
   active.push(r); activeFrom[def.start] = r;
+  showHands('pSig:' + def.start, SIGS[def.start].kind === 'entry' ? 'pSig:' + def.end : 'pTarget:' + (def.line === 'E' ? 'cE' : 'cW'));
   msg(`Vágányút lezárva: ${def.name}.` + (withSignal ? '' : ' Jelzőállítás szükséges.'), 'ok');
   computeAspects();
   return true;
 }
 // Második lezárás
 function jelzoAllit(id) {
+  showHands('pCommon:JA', 'pSig:' + id);
   const r = activeFrom[id];
   if (!r) { msg(`Jelzőállítás: a(z) ${id} jelzőről nincs lezárt vágányút.`, 'err'); return; }
   if (r.train) { msg(`Jelzőállítás: a vágányút már felhasználva.`, 'err'); return; }
@@ -852,6 +1015,7 @@ function jelzoAllit(id) {
   msg(`Jelzőállítás: ${id}.` + (r.def.sr && SR.state !== 'closed' ? ' SR2 sorompó zár, a jelző késleltetve vált szabadra.' : ''), 'ok');
 }
 function jelzoM(id) {
+  showHands('pCommon:JM', 'pSig:' + id);
   const r = activeFrom[id];
   if (SIGS[id].hivoUntil > now) { SIGS[id].hivoUntil = 0; msg(`${id}: hívójelzés megszüntetve.`, 'warn'); return; }
   if (!r || !r.sigReq) { msg(`Jelző M!: a(z) ${id} jelző nem mutat szabad jelzést.`, 'info'); return; }
@@ -866,6 +1030,7 @@ function cancelRoute(r, silent) {
 }
 function approachingTrain(sigId) { return trains.find(t => t.state === 'run' && t.nextSig === sigId && t.nextSigDist < 1000); }
 function torles(id) {
+  showHands('pCommon:TO', 'pSig:' + id);
   const r = activeFrom[id];
   if (!r) { msg(`Törlés: a(z) ${id} jelzőről nincs lezárt vágányút.`, 'info'); return; }
   if (r.train) { msg(`Törlés: a vonat már a vágányúton van, az menet közben, szakaszosan oldódik.`, 'err'); return; }
@@ -874,6 +1039,7 @@ function torles(id) {
   cancelRoute(r);
 }
 function kenyszerOldas(id) {
+  showHands('pCommon:KO', 'pSig:' + id);
   const r = activeFrom[id];
   if (!r) { msg(`Kényszeroldás: a(z) ${id} jelzőről nincs lezárt vágányút.`, 'info'); return; }
   if (r.forceAt) return;
@@ -883,12 +1049,14 @@ function kenyszerOldas(id) {
 function hivo(id, which) {
   if (!START_SIGS.has(id)) return;
   const kind = SIGS[id].kind;
+  showHands('pCommon:' + (which || (kind === 'entry' ? 'HB' : 'HK')), 'pSig:' + id);
   if (which && ((which === 'HB') !== (kind === 'entry'))) { msg(`Ez a hívógomb ${which === 'HB' ? 'bejárati' : 'kijárati'} jelzőkhöz való.`, 'err'); return; }
   if (SIGS[id].hivoUntil > now) { SIGS[id].hivoUntil = 0; msg(`${id}: hívójelzés megszüntetve.`, 'warn'); return; }
   SIGS[id].hivoUntil = now + 90; COUNT[kind === 'entry' ? 'HB' : 'HK']++;
   msg(`HÍVÓJELZÉS a(z) ${id} jelzőn (90 mp). A berendezés semmit sem ellenőriz – a váltókért és a sorompóért te felelsz!`, 'warn');
 }
 function manualSwitch(id, pos, bypass) {
+  showHands('pCommon:' + (bypass ? 'SK' : 'KA'), 'pSw:' + id);
   const w = SW[id];
   if (pos === undefined) pos = (w.moving ? w.target : w.pos) === 'N' ? 'R' : 'N';
   if (SEC[w.sec].lock) { msg(`A(z) ${id}. váltó vágányútban lezárva (${SEC[w.sec].lock}).`, 'err'); return; }
@@ -900,11 +1068,13 @@ function manualSwitch(id, pos, bypass) {
   msg(`${id}. váltó állítása ${pos === 'N' ? 'egyenes (+)' : 'kitérő (−)'} állásba…`, 'info');
 }
 function toggleKS(id) {
+  showHands('pCommon:KA', 'ks:' + id);
   if (SEC.T1.lock) { msg(`${id}: az I. vágány vágányútban lezárva, a saru nem állítható.`, 'err'); return; }
   KS[id].on = !KS[id].on;
   msg(`${id} kisiklasztó saru ${KS[id].on ? 'felhelyezve (védő állás)' : 'levéve a sínről'}.`, 'info');
 }
 function toggleSR() {
+  showHands('pCommon:KA', 'sr:SR2');
   if (SR.manual && active.some(r => r.def.sr && (r.sigReq || r.train))) { msg('SR2: vágányút miatt zárva marad.', 'err'); }
   SR.manual = !SR.manual;
   msg(`SR2 sorompó kézi ${SR.manual ? 'lezárása' : 'felnyitása'}.`, 'info');
@@ -1725,7 +1895,7 @@ function drawCrossing(c, cm, x, name, closed, barrier, k) {
 /* A vasúti tengely az eredeti, 2018. november 13-i légifotósávhoz igazodik.
    A telektömbök és a rakodóudvar alapja a 2019. március 24-i felvétel.
    A frissebb képek az utcák, kertek, a Kiserdő és a csatornapart részleteihez adtak mintát. */
-const modelTop = -120, modelBottom = 470;
+const modelTop = -520, modelBottom = 900;
 const modelTileCache = new Map();
 let aerialView = false;
 const aerialToggle = $('#aerialBtn');
@@ -1782,8 +1952,9 @@ function modelExtendRoad(points) {
     if(Math.abs(a[1]-b[1])<22) continue;
     const y=a[1]<5?modelTop:a[1]>345?modelBottom:null;
     if(y!==null) {
-      const p=stretch(a,b,y);
-      if(end) pts.push(p); else pts.unshift(p);
+      // a régi szegélyig egyenesen, azon túl enyhébb dőléssel fut tovább az utca
+      const mid=a[1]<5?-120:470, p=stretch(a,b,mid), q=[p[0]+(y-mid)*(p[0]-a[0])/(mid-a[1])*.3,y];
+      if(end) pts.push(p,q); else pts.unshift(q,p);
     }
   }
   return pts;
@@ -1829,22 +2000,55 @@ const modelRoads = [
   [1,[[6010,402],[6300,414],[6580,410],[6840,403],[7070,401],[7370,392],[7670,382],[7990,379],[8300,397],[8615,417]]],
   [0,[[5270,-45],[5580,-58],[5830,-53],[6001,-38]]],
   [0,[[8290,-48],[8520,-50],[8738,-53],[8942,-67],[9130,-60]]]
-].map(([type,points]) => {
+].map(modelRoadOf);
+function modelRoadOf([type,points]) {
   const pts=modelExtendRoad(points);
   return {type,pts,left:Math.min(...pts.map(p=>p[0])),right:Math.max(...pts.map(p=>p[0]))};
-});
+}
+// Beépítetlenül hagyott foltok a bővített városrészben: ipartelep, sportpálya, park, telephely
+const modelKeep = [[2690,3010,735,892],[5215,5535,476,642],[7950,8170,585,692]];
+// A légi fotók alapján bővített városrész utcahálója: a vasúttal párhuzamos utcák és köztük rövid keresztutcák.
+(() => {
+  const rand=modelRandom(77121), streets=[];
+  const yAt=(pts,x)=>{ for(let i=1;i<pts.length;i++) if(x<=pts[i][0]||i===pts.length-1){const [ax,ay]=pts[i-1],[bx,by]=pts[i];return ay+(by-ay)*clamp((x-ax)/(bx-ax),0,1);} };
+  const street=(x0,x1,y,tilt)=>{ const n=Math.max(2,Math.round((x1-x0)/250)), p=[];
+    for(let i=0;i<=n;i++){const x=x0+(x1-x0)*i/n;p.push([x,y+tilt*(x-x0)+(rand()-.5)*16]);}
+    streets.push(p); return p; };
+  const old=k=>modelRoads[k].pts;
+  const find=(x,y)=>modelRoads.find(r=>r.pts.some(p=>Math.abs(p[0]-x)<2&&Math.abs(p[1]-y)<2)).pts;
+  const n1=find(1760,-54), n2=find(6100,-43), s1=find(785,387), s2=find(6010,402);
+  const a1=street(1885,5265,-200,-.004), a2=street(5300,8075,-196,.004), b=street(1900,8060,-342,.003), c1=street(1935,8045,-476,-.002);
+  const d1=street(900,5195,556,.003), d2=street(5560,8700,552,-.003), e1=street(880,5175,704,-.003), e2=street(5545,8690,700,.004);
+  const f1=street(900,2684,846,.002), f2=street(3016,5180,848,-.002), f3=street(5560,8600,842,-.002);
+  const m=street(5235,6005,436,0);
+  const cross=(up,lo,x0,x1,step,lean)=>{
+    for(let x=x0+rand()*step*.6;x<x1;x+=step*(.82+rand()*.36)) {
+      const ya=yAt(up,x), xb=x+lean*120+(rand()-.5)*14, yb=yAt(lo,xb), mx=(x+xb)/2, my=(ya+yb)/2;
+      if(modelKeep.some(([l,r,t,bt])=>mx>l-20&&mx<r+20&&my>t-20&&my<bt+20)) continue;
+      if([[mx,my],[x+(xb-x)*.2,ya+(yb-ya)*.2],[x+(xb-x)*.8,ya+(yb-ya)*.8]].some(([px,py])=>modelRoads.some(r=>px>r.left-70&&px<r.right+70&&modelDistance(px,py,r.pts)<52))) continue;
+      streets.push([[x,ya],[xb,yb]]);
+    }
+  };
+  cross(c1,b,1960,8000,345,-.12); cross(b,a1,1930,5240,330,-.1); cross(b,a2,5330,8040,330,-.1);
+  cross(a1,n1,1900,5240,350,-.08); cross(a2,n2,6120,8000,350,-.08);
+  cross(s1,d1,930,5180,340,.05); cross(s2,d2,6040,8600,340,.05); cross(m,d2,5580,5990,300,.04);
+  cross(d1,e1,900,5160,330,-.04); cross(d2,e2,5570,8660,330,-.04);
+  cross(e1,f1,900,2660,345,.04); cross(e1,f2,3040,5160,345,.04); cross(e2,f3,5580,8580,345,.04);
+  for(const p of streets) modelRoads.push(modelRoadOf([1,p]));
+})();
 const modelFields = [
-  ['#9c966d',[[233,-120],[690,-120],[710,78],[442,86],[338,75]],true],
-  ['#a99b6d',[[760,-120],[1710,-120],[1752,65],[1618,94],[1260,84],[995,87],[810,74]],true],
-  ['#a39564',[[345,163],[743,156],[862,192],[820,470],[431,470]],true],
-  ['#829259',[[0,184],[134,156],[158,286],[290,470],[0,470]],false],
+  ['#9c966d',[[40,-520],[762,-520],[762,76],[710,78],[442,86],[338,75],[196,-110]],true],
+  ['#a99b6d',[[760,-520],[1795,-520],[1752,65],[1618,94],[1260,84],[995,87],[810,74]],true],
+  ['#a39564',[[345,163],[743,156],[862,192],[845,900],[500,900]],true],
+  ['#829259',[[0,184],[134,156],[158,286],[290,470],[380,900],[0,900]],false],
   ['#92a169',[[5284,-47],[5880,-58],[5961,24],[6002,112],[5711,110],[5465,91],[5320,82]],false],
-  ['#879d66',[[8232,-120],[8501,-120],[8534,98],[8290,111],[8110,115]],false],
-  ['#98a570',[[9080,-120],[MAPW,-120],[MAPW,114],[9150,101],[9079,61]],true],
-  ['#809968',[[8993,270],[9120,259],[MAPW,235],[MAPW,470],[8910,470]],false]
+  ['#879d66',[[8120,-520],[8560,-520],[8534,98],[8290,111],[8110,115]],false],
+  ['#98a570',[[9150,-520],[MAPW,-520],[MAPW,114],[9150,101],[9079,61]],true],
+  ['#809968',[[8993,270],[9120,259],[MAPW,235],[MAPW,900],[8700,900]],false]
 ];
 const modelGravel = [
   ['#a9a18e',[[80,-120],[114,-120],[151,-35],[135,25],[74,13],[31,-44]]],
+  ['#a8a08a',[[7950,585],[8170,585],[8170,692],[7950,692]]],
   ['#a29b88',[[1172,282],[1430,277],[1493,350],[1141,350]]],
   ['#b6a68e',[[4106,193],[4190,181],[4312,194],[4417,212],[4362,232],[4127,251]]],
   ['#b4a789',[[5141,227],[5218,202],[5697,202],[5960,178],[5945,247],[5865,312],[5503,309],[5271,324],[5138,316]]],
@@ -1858,7 +2062,9 @@ const modelHousing = [
   [6120,7620,188,350,.94], [6680,7680,0,119,.91], [7630,8540,180,350,.87],
   [7700,8150,0,99,.65], [8510,8770,252,350,.67],
   [1810,5230,-110,4,.86], [6170,8060,-111,3,.89],
-  [860,1440,354,465,.74],[1530,5200,349,463,.92],[6040,8740,351,463,.9]
+  [860,1440,354,465,.74],[1530,5200,349,463,.92],[6040,8740,351,463,.9],
+  [1870,5270,-510,-116,.9],[5290,8085,-510,-116,.9],
+  [890,5195,474,892,.9],[5225,6020,350,430,.8],[5550,8705,474,892,.9]
 ];
 const modelWoods = [
   [20,175,0,96,45], [16,143,182,345,41], [305,420,115,345,36], [505,799,108,171,60],
@@ -1868,7 +2074,8 @@ const modelWoods = [
   [4420,4870,242,321,52], [4780,5180,178,304,49], [5320,5940,8,76,21],
   [4250,5240,150,192,87], [5135,5970,142,198,81], [6040,7240,154,192,99],
   [7300,8150,103,176,101], [8200,8840,20,143,181], [8410,8850,150,231,118],
-  [8770,9220,-120,470,285], [9070,9240,172,335,77],
+  [8770,9220,-120,470,285], [9070,9240,172,335,77], [8720,9230,-515,-120,150], [8480,9230,470,895,330],
+  [30,430,470,895,70], [1800,1880,-515,-130,30], [5225,5530,480,640,26], [2695,3005,735,760,10],
   [15,190,345,465,50], [380,515,345,451,41], [7910,8240,-110,13,50]
 ];
 // Szakaszos bozót a pályaszéleken, a füves tisztásokat és a bejárókat szabadon hagyva.
@@ -1879,8 +2086,8 @@ const modelVerge = [
   [5250,5710,1],[5760,5960,1],[6150,6540,1],[6480,6710,-1],[6720,7210,-1],
   [7280,7770,-1],[7460,7780,1],[7760,8190,1],[8110,8320,1],[8220,8490,-1],[8560,8820,1]
 ];
-const modelM0 = [[99,modelTop],[158,0],[202,91],[258,207],[324,350],[380,modelBottom]];
-const modelCanal = [[8957,modelTop],[8922,0],[8910,53],[8893,98],[8877,152],[8857,206],[8825,284],[8790,350],[8735,modelBottom]];
+const modelM0 = [[-20,modelTop],[99,-120],[158,0],[202,91],[258,207],[324,350],[380,470],[455,modelBottom]];
+const modelCanal = [[9075,modelTop],[8957,-120],[8922,0],[8910,53],[8893,98],[8877,152],[8857,206],[8825,284],[8790,350],[8735,470],[8560,modelBottom]];
 const modelWoodPaths = [
   [[8518,307],[8550,305],[8588,315],[8624,340],[8684,348],[8723,368],[8739,406],[8706,470]],
   [[8648,337],[8663,303],[8695,280],[8728,253],[8749,215],[8797,194]],
@@ -1930,7 +2137,7 @@ const modelProps = (() => {
     for (let gy=a+17;gy<b-6;gy+=46+rand()*11) for (let gx=l+12+rand()*28;gx<r-15;gx+=34+rand()*18) {
       if (rand()>density) continue;
       const x=gx+(rand()-.5)*13, y=gy+(rand()-.5)*24;
-      if (!modelClear(x,y,15) || (x>3980 && x<4410 && y>153 && y<263)) continue;
+      if (!modelClear(x,y,15) || (x>3980 && x<4410 && y>153 && y<263) || modelKeep.some(([l,r,t,b])=>x>l-14&&x<r+14&&y>t-14&&y<b+14)) continue;
       let w=12+rand()*13, h=17+rand()*13;
       if (rand()>.76) [w,h]=[h,w];
       const angle=(rand()-.5)*.7;
@@ -1947,7 +2154,7 @@ const modelProps = (() => {
       const x=l+rand()*(r-l), y=a+rand()*(b-a), size=3+rand()*9;
       if ((x>3950 && x<4180 && y>150 && y<212) || !modelClear(x,y,6+size/2) ||
         houses.some(p=>Math.abs(x-p.x)<p.w/2+2&&Math.abs(y-p.y)<p.h/2+1) ||
-        (x<400 && modelDistance(x,y,modelM0)<30) || (x>8740 && modelDistance(x,y,modelCanal)<18)) continue;
+        (x<600 && modelDistance(x,y,modelM0)<30) || (x>8740 && modelDistance(x,y,modelCanal)<18)) continue;
       addTree(x,y,size);
     }
   }
@@ -1982,7 +2189,8 @@ const modelProps = (() => {
     [4033,181,15,12,.03,2],[4127,174,15,12,.035,0],
     [4188,235,19,16,.02,3],[4330,244,99,22,.035,1],[4465,226,34,31,.12,2],
     [5161,265,60,27,-.08,4],[5402,294,78,22,-.07,3],[6050,225,36,23,.23,0],
-    [6601,61,32,16,.01,2],[7284,124,11,7,0,3]
+    [6601,61,32,16,.01,2],[7284,124,11,7,0,3],
+    [8020,622,96,30,.3,3],[8100,662,70,24,.3,6],[2975,748,34,14,0,1]
   ]) houses.push({x,y,w,h,angle,roof,lot:0});
   // Utcai lámpák a burkolt utak mentén, felváltva a két oldalon
   const lamps = [];
@@ -2270,6 +2478,26 @@ function modelLoadingYard(c) {
 }
 const PLATFORM_LAMPS = [];
 for (let x = 3660; x < 4320; x += 46) PLATFORM_LAMPS.push([x, 8], [x + 23, -8], [x + 11, 28]);
+function modelTownExtras(c,l,r) {
+  if(r>2680&&l<3020) {   // sportpálya futókörrel
+    modelPoly(c,[[2694,738],[3006,738],[3006,890],[2694,890]],'#7f9a62');
+    c.save(); c.beginPath(); c.ellipse(2840,818,128,62,0,0,7); c.strokeStyle='#a8644a'; c.lineWidth=11; c.stroke(); c.restore();
+    modelRect(c,2760,778,160,80,'#6f9a55');
+    for(let i=0;i<8;i++) if(i%2) modelRect(c,2760+i*20,778,20,80,'#78a35c');
+    c.strokeStyle='#eef0dccc'; c.lineWidth=1.1; c.strokeRect(2760,778,160,80);
+    strokePoly(c,[[2840,778],[2840,858]],'#eef0dccc',1.1);
+    c.beginPath(); c.arc(2840,818,13,0,7); c.stroke();
+    c.strokeRect(2760,800,22,36); c.strokeRect(2898,800,22,36);
+  }
+  if(r>5200&&l<5540) {   // park sétautakkal
+    modelPoly(c,[[5220,480],[5530,484],[5526,638],[5224,634]],'#7fa064');
+    for(const p of [[[5224,560],[5330,548],[5420,566],[5526,556]],[[5372,482],[5380,548],[5362,636]],[[5236,490],[5330,548]],[[5420,566],[5510,628]]]) {
+      strokePoly(c,p,'#6c6a52',4.6,null,'round'); strokePoly(c,p,'#d2c6a0',3.2,null,'round');
+    }
+    modelOval(c,5376,553,13,10,'#d2c6a0'); modelOval(c,5376,553,6.5,5,'#6f93a0');
+  }
+  if(r>7940&&l<8180) for(let i=0;i<7;i++) modelRect(c,7962+i*14,596+i*4.3,9,22,i%3?'#d9d3bd':'#56708a');
+}
 function modelFacilities(c,l,r) {
   if (r>3500 && l<4500) {
     modelPlatform(c,3550,4338,8,7.7);
@@ -2324,7 +2552,7 @@ function modelFacilities(c,l,r) {
 
 // A terepasztal képe csempékben készül, a nagyításhoz illő felbontásban (2 hatványai),
 // így ráközelítve is éles marad. A csempéket legutóbb használt sorrendben tartjuk meg.
-const TILE_PX = 512, TILE_LIMIT = 64;
+const TILE_PX = 512; let TILE_LIMIT = 64;
 function tileScale(cm) { return clamp(2 ** Math.ceil(Math.log2(cm.z * (window.devicePixelRatio || 1) * .95)), .25, 8); }
 function cachedTile(cache, key, s, ix, iy, paint) {
   let t = cache.get(key);
@@ -2348,6 +2576,7 @@ function drawTiles(c, cm, cache, tag, paint) {
   const ix0 = Math.max(0, Math.floor(ax / ws)), ix1 = Math.min(Math.ceil(MAPW / ws) - 1, Math.floor(bx / ws));
   const iy0 = Math.max(0, Math.floor((ay - modelTop) / ws)), iy1 = Math.min(Math.ceil((modelBottom - modelTop) / ws) - 1, Math.floor((by - modelTop) / ws));
   const [ox, oy] = W2S(cm, 0, 0);
+  TILE_LIMIT = clamp((ix1 - ix0 + 1) * (iy1 - iy0 + 1) * 2, 48, 160);
   c.save(); c.translate(ox, oy); c.scale(cm.z, cm.z);
   c.imageSmoothingEnabled = true; c.imageSmoothingQuality = 'high';
   for (let iy = iy0; iy <= iy1; iy++) for (let ix = ix0; ix <= ix1; ix++) {
@@ -2405,7 +2634,15 @@ function paintModelTile(c, start, end, y0, y1) {
   strokePoly(c,YM,'#606c48b0',33,null,'round');
   strokePoly(c,YM.map(([x,y])=>[x,y+12]),'#627951',3.2);
   strokePoly(c,YM.map(([x,y])=>[x,y-13]),'#a0a07280',2.3);
-  for (const road of modelRoads) if(road.right>=start-20&&road.left<=end+20) modelRoad(c,road);
+  // Az utak rétegenként készülnek (árnyék, szegély, burkolat, felfestés), így a kereszteződésekben egybenyílnak.
+  {
+    const rs=modelRoads.filter(road=>road.right>=start-20&&road.left<=end+20).sort((a,b)=>a.type-b.type), W=[7,8,13];
+    for(const r of rs) strokePoly(c,r.pts,'#354336',W[r.type]+5,null,'round');
+    for(const r of rs) strokePoly(c,r.pts,'#b9b7a1',W[r.type]+2,null,'round');
+    for(const r of rs) strokePoly(c,r.pts,['#b6aa8b','#838b84','#687573'][r.type],W[r.type],null,'round');
+    for(const r of rs) if(r.type!==1) strokePoly(c,r.pts,'#eee1b29e',.8,r.type===2?[8,7]:[11,6]);
+  }
+  modelTownExtras(c,start,end);
   if(end>8500) {
     for(const points of modelWoodPaths) {
       strokePoly(c,points,'#5a634e8c',7,null,'round');
@@ -2558,6 +2795,10 @@ function drawScene(c, cm) {
   // útátjárók
   drawCrossing(c, cm, SR.x, 'SR2 sorompó', SR.state !== 'open', true, k);
   for (const a of AS) drawCrossing(c, cm, a.x, a.id, asActive(a), false, k);
+  for (const [id, x] of [['SR2', SR.x], ...AS.map((a, i) => [i, a.x])]) {
+    const [hx, hy] = W2S(cm, x, ym(x));
+    hits.push({ type: 'crossing', id, x: hx, y: hy, rx: Math.max(13, 16 * k), ry: Math.max(22, 34 * k) });
+  }
   // kisiklasztó saruk
   for (const id in KS) {
     const s = KS[id]; const [x, y] = W2S(cm, s.pos[0], s.pos[1] + 9);
@@ -2861,6 +3102,7 @@ function drawPult(c, cm) {
   for (const [x, y] of [[10, 10], [cm.w - 10, 10], [10, cm.h - 10], [cm.w - 10, cm.h - 10]]) { c.fillStyle = '#2b2620'; c.beginPath(); c.arc(x, y, 4, 0, 7); c.fill(); c.strokeStyle = '#8a8266'; c.beginPath(); c.moveTo(x - 3, y - 1); c.lineTo(x + 3, y + 1); c.stroke(); }
   if (hover && hover.cv === c.canvas) { c.strokeStyle = '#ffffffaa'; c.lineWidth = 1; c.beginPath(); c.arc(hover.x, hover.y, hover.rx + 2, 0, 7); c.stroke(); }
   for (const h of hits) if (guideHL.pult.has(h.type + ':' + h.id)) drawGuideRing(c, h.x, h.y, h.rx);
+  drawPultHands(c, hits, z);
   hitCache.set(c.canvas, hits);
   $('#pultHint').textContent = armed ? ARM_TEXT[armed] + ' …' : pStart ? `Kezdőgomb: ${pStart} – nyomd meg a célgombot` : 'Kezdőgomb → célgomb';
 }
@@ -3075,9 +3317,10 @@ function hitTest(cv, cm, x, y, sections) {
   return best;
 }
 function mapClick(el, mods) {
-  if (!el) { selStart = null; return; }
+  if (!el) { selStart = null; closeInfo(); return; }
   if (el.type === 'signal' || el.type === 'pre') openSigView(el.id);
-  if (el.type === 'station') { setDeskOpen('pult', true); return; }
+  if (el.type === 'station') { if (isPaged()) setPage('pult'); else setDeskOpen('pult', true); return; }
+  if (el.type === 'crossing') { openInfo({ kind: el.id === 'SR2' ? 'sr' : 'as', id: el.id, w: S2W(cam, el.x, el.y) }); return; }
   if (el.type === 'signal') {
     if (mods.shift) { hivo(el.id); selStart = null; return; }
     if (selStart) {
@@ -3101,7 +3344,7 @@ function mapClick(el, mods) {
     }
     return;
   }
-  if (el.type === 'switch') { if (!selStart) manualSwitch(el.id); else selStart = null; }
+  if (el.type === 'switch') { if (!selStart) openInfo({ kind: 'sw', id: el.id, w: S2W(cam, el.x, el.y) }); else selStart = null; }
 }
 function setupCanvasInput(c, cm, isMap) {
   let down = null;
@@ -3115,11 +3358,11 @@ function setupCanvasInput(c, cm, isMap) {
   c.addEventListener('pointermove', e => {
     if (!e.isPrimary) return;
     const [x, y] = pos(e);
-    if (down && isMap && Math.hypot(x - down.x, y - down.y) > 4) down.moved = true;
+    if (down && (isMap || isPaged()) && Math.hypot(x - down.x, y - down.y) > (e.pointerType === 'touch' ? 8 : 4)) down.moved = true;
     if (down && down.moved) {
       cm.x = down.cx - (x - down.x) / cm.z;
       cm.y = down.cy - (y - down.y) / cm.z;
-      follow = null; hover = null; setViewButton(null); camHold();
+      hover = null; if (isMap) { follow = null; setViewButton(null); camHold(); }
       $('#tip').style.display = 'none';
       c.style.cursor = 'grabbing';
       return;
@@ -3159,7 +3402,9 @@ function showTip(e, el) {
     html = `<b>${s.label} jelző</b><br>${ASP_NAME[ASP[el.id]]}` + (r ? `<br>Vágányút: ${r.def.name}${r.sigReq ? '' : ' (jelzőállítás nélkül)'}` : '');
   } else if (el.type === 'switch') {
     const w = SW[el.id];
-    html = `<b>${el.id}. sz. váltó</b><br>Állás: ${w.moving ? 'állítás alatt…' : w.pos === 'N' ? 'egyenes (+) – a váltójelzőn függőleges fehér téglalap' : 'kitérő (−) – a váltójelzőn a csúcs felől nyíl, a gyök felől vízszintes téglalap'}<br>${SEC[w.sec].lock ? 'Lezárva: ' + SEC[w.sec].lock : SEC[w.sec].occ ? 'Foglalt' : 'Szabad – kattintásra átáll'}`;
+    html = `<b>${el.id}. sz. váltó</b><br>Állás: ${w.moving ? 'állítás alatt…' : w.pos === 'N' ? 'egyenes (+) – a váltójelzőn függőleges fehér téglalap' : 'kitérő (−) – a váltójelzőn a csúcs felől nyíl, a gyök felől vízszintes téglalap'}<br>${SEC[w.sec].lock ? 'Lezárva: ' + SEC[w.sec].lock : SEC[w.sec].occ ? 'Foglalt' : 'Szabad'}<br>Kattintás: állapot és állítás`;
+  } else if (el.type === 'crossing') {
+    html = `<b>${el.id === 'SR2' ? 'SR2 állomási sorompó' : AS[el.id].id}</b><br>Kattintás: állapot és magyarázat`;
   } else if (el.type === 'section') {
     const s = SEC[el.id];
     const who = trains.filter(t => t.state === 'run' && t.secs && t.secs.has(el.id)).map(t => t.no).join(', ');
@@ -3193,18 +3438,20 @@ function setDeskOpen(section, force) {
   const panel = $(section === 'pult' ? '#pultWrap' : '#tt');
   const open = force === undefined ? panel.classList.contains('closed') : force;
   panel.classList.toggle('closed', !open);
-  if (open && compactDesk.matches) $(section === 'pult' ? '#tt' : '#pultWrap').classList.add('closed');
+  if (open && compactDesk.matches && !isPaged()) $(section === 'pult' ? '#tt' : '#pultWrap').classList.add('closed');
   resize();
 }
-$('#btnTT').onclick = () => selectDeskTab('tt', true);
-$('#btnGuide').onclick = () => selectDeskTab('guide', true);
-$('#btnPult').onclick = () => setDeskOpen('pult');
+$('#btnTT').onclick = () => isPaged() ? setPage('tt') : selectDeskTab('tt', true);
+$('#btnGuide').onclick = () => isPaged() ? setPage('guide') : selectDeskTab('guide', true);
+$('#btnTutor').onclick = () => isPaged() ? setPage('tutor') : selectDeskTab('tutor', true);
+$('#btnPult').onclick = () => isPaged() ? setPage('pult') : setDeskOpen('pult');
 function closeHelp() {
   $('#helpModal').classList.remove('open');
   $('#btnHelp').focus();
 }
 $('#btnHelp').onclick = () => { $('#helpModal').classList.add('open'); $('#btnStart').focus(); };
 $('#btnStart').onclick = closeHelp;
+$('#btnStartTutor').onclick = () => { closeHelp(); if (isPaged()) setPage('tutor'); else selectDeskTab('tutor'); };
 // Első indításkor megnyílik az útmutató (csak kényelmi funkció, tárolás nélkül is működik)
 try { if (!localStorage.getItem('dunaharaszti-seen')) { localStorage.setItem('dunaharaszti-seen', '1'); $('#helpModal').classList.add('open'); } } catch (err) { /* privát mód */ }
 $('#helpModal').addEventListener('click', e => { if (e.target.id === 'helpModal') closeHelp(); });
@@ -3221,7 +3468,7 @@ window.addEventListener('keydown', e => {
   if (e.ctrlKey || e.metaKey || e.altKey) return;
   if (e.key === 'Escape' && !phonePanel.hidden) { closePhone(); return; }
   if (e.key === 'Escape') {
-    selStart = null; armed = null; pStart = null;
+    selStart = null; armed = null; pStart = null; closeInfo();
     if (sigViewId) closeSigView();
   } else if (e.key === ' ' && !e.target.closest('button')) {
     e.preventDefault();
@@ -3237,6 +3484,7 @@ window.addEventListener('keydown', e => {
   else if (e.key === '0') setSpeed(10);
   else if (e.key.toLowerCase() === 'm') $('#btnTT').click();
   else if (e.key.toLowerCase() === 'h') $('#btnGuide').click();
+  else if (e.key.toLowerCase() === 'o') $('#btnTutor').click();
   else if (e.key.toLowerCase() === 'a') setAuto(!autoMode);
   else if (e.key.toLowerCase() === 'k') setCamAuto(!camAuto);
   else if (e.key.toLowerCase() === 'd') cycleTheme();
@@ -3317,6 +3565,7 @@ function ringingLine() {
 }
 
 function openPhone(line = ringingLine() ?? phoneLine) {
+  if (isPaged() && page !== 'phone') { prevPage = page; setPage('phone'); }
   phonePanel.hidden = false;
   phoneTrigger.setAttribute('aria-expanded', 'true');
   selectPhoneLine(line);
@@ -3328,7 +3577,7 @@ function closePhone() {
   autoWin.phone = false;
   phonePanel.hidden = true;
   phoneTrigger.setAttribute('aria-expanded', 'false');
-  phoneTrigger.focus();
+  if (isPaged()) { if (page === 'phone') setPage(prevPage); } else phoneTrigger.focus();
 }
 
 function queuePhoneCall(line, type, train) {
@@ -3759,7 +4008,282 @@ guideList.addEventListener('click', e => {
 $('#guideHL').addEventListener('change', e => { guideOn = e.target.checked; });
 
 // Mely gombokat/elemeket kell épp kiemelni: a terv aktuális lépése
+/* ---------- [9e] Állapotkártya: váltóra vagy sorompóra kattintva a terepasztalon ---------- */
+const SW_INFO = { '2': ['a II. és a III. vágány felé', 'az I. vágány felé'], '4': ['a II. vágányra', 'a III. vágányra'], '7': ['az I. vágányon tovább', 'a rakodóvágányra'],
+  '5': ['az I. vágányon tovább', 'a rakodóvágányra'], '3': ['a II. vágányra', 'a III. vágányra'], '1': ['a II. és a III. vágány felé', 'az I. vágány felé'] };
+let infoSel = null, infoKey = '';
+const infoCard = $('#infoCard');
+function openInfo(sel) { infoSel = sel; infoKey = ''; renderInfo(); placeInfo(); }
+function closeInfo() { infoSel = null; infoCard.hidden = true; }
+function infoData() {
+  const s = infoSel;
+  if (s.kind === 'sw') {
+    const w = SW[s.id], sec = SEC[w.sec], free = !sec.lock && !sec.occ;
+    return { title: `${s.id}. sz. váltó`, tone: w.moving ? 'warn' : w.pos === 'N' ? 'ok' : 'info',
+      state: w.moving ? 'Állítás alatt' : w.pos === 'N' ? 'Egyenes állás' : 'Kitérő állás',
+      mean: w.moving ? 'A váltó 3 másodperc alatt áll át, addig nem járható.'
+        : w.pos === 'N' ? `Az út ${SW_INFO[s.id][0]} vezet. A váltójelzőn függőleges fehér téglalap.`
+        : `Az út ${SW_INFO[s.id][1]} vezet, legfeljebb 40 km/h-val. A váltójelzőn nyíl mutatja az irányt.`,
+      why: sec.lock ? `Lezárva („${ROUTE[sec.lock] ? ROUTE[sec.lock].name : sec.lock}”): amíg a vágányút fel nem oldódik, nem állítható.`
+        : sec.occ ? 'Foglalt: vonat van rajta, ezért nem állítható.' : 'Szabad, állítható. A pulton: Közös áll. + a váltó gombja.',
+      act: free ? 'Átállítás' : '', sign: true };
+  }
+  if (s.kind === 'sr') {
+    return { title: 'SR2 állomási sorompó', tone: { open: 'ok', closed: 'danger' }[SR.state] || 'warn',
+      state: { open: 'Nyitva', closing: 'Zár', closed: 'Lezárva', opening: 'Nyit' }[SR.state],
+      mean: { open: 'A csapórudak fent vannak, a közút szabad.', closing: 'A piros fények villognak, a csapórudak ereszkednek. A jelző csak a teljes lezárás után vált szabadra.',
+        closed: 'A közút zárva, a vonat áthaladhat.', opening: 'A csapórudak emelkednek, a közút mindjárt szabad.' }[SR.state],
+      why: (SR.manual ? 'Most kézzel van lezárva. ' : '') + 'A Soroksár felőli vágányutak jelzőállításakor magától zár, a vonat után magától nyit. Kézzel a pulton: Közös áll. + SR2.',
+      act: SR.manual ? 'Kézi zárás feloldása' : 'Kézi zárás' };
+  }
+  const a = AS[s.id], on = asActive(a);
+  return { title: a.id === 'útátjáró' ? 'Útátjáró fénysorompója' : `${a.id} fénysorompó`, tone: on ? 'danger' : 'ok',
+    state: on ? 'Tilos jelzés' : 'Szabad jelzés',
+    mean: on ? 'Két piros fény felváltva villog: vonat közeledik, a közúton meg kell állni.' : 'Villogó fehér fény: a sorompó működik, vonat nem közeledik.',
+    why: 'Önműködő: a közeledő vonat kapcsolja be, utána magától kikapcsol. A szolgálattevő nem kezeli' + (a.p ? ', a pulton csak visszajelentő lámpája van.' : '.'), act: '' };
+}
+function renderInfo() {
+  if (!infoSel) return;
+  const d = infoData(), key = JSON.stringify(d) + (infoSel.kind === 'sw' ? SW[infoSel.id].pos : '');
+  if (key === infoKey) return;
+  infoKey = key;
+  infoCard.innerHTML = `<header><b>${d.title}</b><button type="button" data-act="close" aria-label="Bezárás">×</button></header>
+    <div class="ic-state" data-tone="${d.tone}">${d.sign ? '<canvas width="44" height="62" aria-hidden="true"></canvas>' : '<i class="ic-lamp"></i>'}<div><small>Aktuális állás</small><strong>${d.state}</strong></div></div>
+    <p>${d.mean}</p><p class="ic-why">${d.why}</p>${d.act ? `<button type="button" data-act="do">${d.act}</button>` : ''}`;
+  infoCard.hidden = false;
+  const cv = infoCard.querySelector('canvas');
+  if (cv) { const w = SW[infoSel.id]; drawSwitchSign(cv.getContext('2d'), 22, 38, 3, infoSel.id, w, SEC[w.sec].lock); }
+}
+function placeInfo() {
+  if (!infoSel || infoCard.hidden) return;
+  const [sx, sy] = W2S(cam, ...infoSel.w), cw = infoCard.offsetWidth, ch = infoCard.offsetHeight;
+  // a kártya a tárgy mellé kerül, hogy ne takarja el; keskeny képernyőn alá vagy fölé
+  let left = sx + 44 + cw <= cam.w - 8 ? sx + 44 : sx - 44 - cw, top = sy - ch / 2;
+  if (left < 8) { left = sx - cw / 2; top = sy + 40 + ch <= cam.h - 8 ? sy + 40 : sy - 40 - ch; }
+  infoCard.style.left = clamp(left, 8, Math.max(8, cam.w - cw - 8)) + 'px';
+  infoCard.style.top = clamp(top, 46, Math.max(46, cam.h - ch - 8)) + 'px';
+}
+infoCard.addEventListener('click', e => {
+  const act = e.target.closest('[data-act]')?.dataset.act;
+  if (act === 'close') closeInfo();
+  if (act === 'do') { if (infoSel.kind === 'sw') manualSwitch(infoSel.id); else if (infoSel.kind === 'sr') toggleSR(); infoKey = ''; renderInfo(); }
+});
+
+/* ---------- [9f] Kéz a pulton: az együtt nyomott gombokon kis kéz jelenik meg ---------- */
+let handFx = null;
+function showHands(...keys) { handFx = { keys, until: performance.now() + 1300 }; }
+function drawHand(c, x, y, s, mirror) {
+  c.save(); c.translate(x, y); c.scale(mirror ? -s : s, s); c.rotate(-0.32);
+  c.lineJoin = 'round'; c.lineWidth = 1.25;
+  const part = (fn, fill) => { c.beginPath(); fn(); c.fillStyle = fill; c.fill(); c.strokeStyle = '#17150f'; c.stroke(); };
+  c.fillStyle = '#0006'; c.beginPath(); c.ellipse(6.5, 21, 10, 9, 0, 0, 7); c.fill();
+  part(() => roundRect(c, 0, 25, 12, 8, 1.5), '#33342c');                       // kézelő
+  part(() => c.ellipse(-5.2, 17.5, 2.9, 5.6, 0.45, 0, 7), '#f1e7cc');           // hüvelykujj
+  part(() => roundRect(c, -3.6, 11, 16.6, 15.5, 4.5), '#f1e7cc');               // kézfej
+  for (let i = 0; i < 3; i++) part(() => roundRect(c, 3.2 + i * 3.5, 9.6 - i * .35, 3.4, 7.6, 1.7), '#f8f0d8');  // behajlított ujjak
+  part(() => roundRect(c, -3.4, -1.5, 6.6, 17, 3.3), '#f8f0d8');                // mutatóujj
+  c.strokeStyle = '#17150f66'; c.lineWidth = .8; c.beginPath(); c.moveTo(-1.6, 4.6); c.lineTo(1.6, 4.6); c.stroke();
+  c.restore();
+}
+function drawPultHands(c, hits, z) {
+  const keys = new Set(handFx && performance.now() < handFx.until ? handFx.keys : []);
+  if (armed) keys.add('pCommon:' + armed);
+  if (pStart) keys.add('pSig:' + pStart);
+  if (!keys.size) return;
+  const on = hits.filter(h => keys.has(h.type + ':' + h.id)).sort((a, b) => a.x - b.x);
+  const s = clamp(z * 1.25, .95, 1.7);
+  on.forEach((h, i) => drawHand(c, h.x + (on.length > 1 && i === 0 ? -1 : 1) * 1.5, h.y + 1, s, on.length > 1 && i === 0));
+}
+
+/* ---------- [9g] Oktató: a Dominó 55 kezelése lépésről lépésre, vonatok nélküli tanpályán ---------- */
+const tutor = { on: false, li: 0, si: 0, okAt: 0, save: null, speed: 0, train: null, key: '', finished: false, done: new Set() };
+try { for (const i of JSON.parse(localStorage.getItem('dunaharaszti-tutor') || '[]')) tutor.done.add(i); } catch (err) { /* nincs tárhely */ }
+const tT = () => tutor.train && TRAIN[tutor.train];
+const K = { KA: 'pCommon:KA', JA: 'pCommon:JA', TO: 'pCommon:TO' };
+const pb = t => `<kbd>${t}</kbd>`;
+const LESSONS = [
+  { title: 'A pult felépítése', sub: 'Mit látsz, mi micsoda', steps: [
+    { do: 'A pult az állomás vágányhálózatának rajza. Balra Soroksár, jobbra Taksony, középen a három vágány.', why: 'Minden gomb és lámpa ott ül a rajzon, ahol a valóságban a jelző vagy a váltó áll. Így ránézésre látod a helyzetet.' },
+    { do: 'A vágányok csíkja jelez: sötét = szabad, fehér = lezárt vágányút, piros = vonat van rajta.', why: 'A sínek áramköre érzékeli a vonatot. Foglalt szakaszra a berendezés nem enged másik vonatot.' },
+    { do: 'A piros gombok a jelzők gombjai: A és B a bejárati, K1–K3 és V1–V3 a kijárati jelzőké. Mellettük kis lámpa mutatja a jelző fényét.', why: 'A vágányutat mindig jelzőtől jelzőig állítod, ezért a jelző gombja egyszerre kezdő- és célpont.', hl: ['pSig:A', 'pSig:B', 'pSig:K1', 'pSig:K2', 'pSig:K3', 'pSig:V1', 'pSig:V2', 'pSig:V3'] },
+    { do: 'Alul és felül a közös gombok. Egyedül semmit sem tesznek: mindig egy másik gombbal együtt, két kézzel kell megnyomni őket.', why: 'A kétkezes kezelés véd a véletlen gombnyomástól. A játékban kattints egymás után a két gombra; az elsőn ott marad a kezed.', hl: ['pCommon:KA', 'pCommon:TO', 'pCommon:JA', 'pCommon:HB', 'pCommon:HK', 'pCommon:SK', 'pCommon:KO', 'pCommon:JM'] },
+  ] },
+  { title: 'Váltóállítás', sub: 'Közös áll. + váltógomb', steps: [
+    { do: `Állítsd át a 4-es váltót: ${pb('Közös áll.')} + ${pb('4')}.`, why: 'A váltógomb egyedül nem hat, így véletlenül nem állítható el váltó. Az átállás 3 másodperc, közben a száma villog.', keys: [K.KA, 'pSw:4'], done: () => SW['4'].pos === 'R' && !SW['4'].moving },
+    { do: `Állítsd vissza egyenesbe: ${pb('Közös áll.')} + ${pb('4')}.`, why: 'Az alapállás az egyenes. Lezárt vagy foglalt váltó nem állítható: ilyenkor a gombja fölött piros lámpa ég.', keys: [K.KA, 'pSw:4'], done: () => SW['4'].pos === 'N' && !SW['4'].moving },
+  ] },
+  { title: 'Bejárati vágányút', sub: 'Kezdőgomb + célgomb, majd jelzőállítás', steps: [
+    { do: `Bejárat Soroksár felől a II. vágányra: ${pb('A')} + ${pb('V2')}.`, why: 'A kezdő- és a célgomb kijelöli az utat. A berendezés maga állítja a váltókat és le is zárja őket: ezt mutatja a fehér csík. Ez az első lezárás.', keys: ['pSig:A', 'pSig:V2'], done: () => activeFrom.A && activeFrom.A.def.id === 'A-2' },
+    { do: `Állítsd szabadra a jelzőt: ${pb('Jelzőáll.')} + ${pb('A')}.`, why: 'A jelző csak külön parancsra vált szabadra (második lezárás). Előbb az SR2 sorompó zár le, ezért a jelző pár másodpercet késik.', keys: [K.JA, 'pSig:A'], done: () => ASP.A !== 'VOROS' },
+    { do: `Nem jön vonat, oldd fel: ${pb('Törlés')} + ${pb('A')}.`, why: 'A fel nem használt vágányutat törléssel oldod fel. Ha a vonat már közel jár, csak a Kényszeroldás hat, az 30 másodpercet vár.', keys: [K.TO, 'pSig:A'], done: () => !activeFrom.A },
+  ] },
+  { title: 'Kijárati vágányút', sub: 'Kijárati jelző + zöld célgomb', steps: [
+    { do: `Kijárat a II. vágányról Taksony felé: ${pb('V2')} + a jobb oldali ${pb('zöld')} célgomb.`, why: 'Kijáratnál a cél a nyílt vonal. A menetirány nyila Taksony felé fordul: amíg így áll, szemből nem indulhat vonat.', keys: ['pSig:V2', 'pTarget:cE'], done: () => !!activeFrom.V2 },
+    { do: `Jelzőt szabadra: ${pb('Jelzőáll.')} + ${pb('V2')}.`, why: 'A zöld fény azt jelenti, hogy a térköz szabad. A vonat mögött a vágányút magától, szakaszonként feloldódik.', keys: [K.JA, 'pSig:V2'], done: () => ASP.V2 !== 'VOROS' },
+    { do: `Oldd fel: ${pb('Törlés')} + ${pb('V2')}.`, why: 'Feloldás után a menetirány is felszabadul, így a szomszéd állomás újra indíthat vonatot.', keys: [K.TO, 'pSig:V2'], done: () => !activeFrom.V2 },
+  ] },
+  { title: 'Sorompó és rendkívüli gombok', sub: 'SR2, hívójelzés, kényszeroldás', steps: [
+    { do: `Zárd le kézzel a sorompót: ${pb('Közös áll.')} + ${pb('SR2')}.`, why: 'Vágányútnál a sorompó magától zár. Kézzel akkor zárod le, ha például tolatás lesz az útátjárón. Záráskor a lámpája villog.', keys: [K.KA, 'sr:SR2'], done: () => SR.state === 'closed' },
+    { do: `Nyisd fel: ${pb('Közös áll.')} + ${pb('SR2')}.`, why: 'A kézi zárást neked kell feloldanod, különben a közút zárva marad.', keys: [K.KA, 'sr:SR2'], done: () => SR.state === 'open' },
+    { do: 'A felső sor rendkívüli gombjai: Hívójelzés, Szigetelés kikapcsolása, Kényszeroldás, Jelző Megállj!.', why: 'Ezek megkerülik a berendezés védelmét, ezért csak hiba esetén használhatók, és számláló rögzíti minden használatukat. A Jelző Megállj! a szabad jelzőt azonnal vörösre kapcsolja.', hl: ['pCommon:HB', 'pCommon:HK', 'pCommon:SK', 'pCommon:KO', 'pCommon:JM'] },
+  ] },
+  { title: 'Vonat fogadása és indítása', sub: 'Gyakorlóvonat a tanpályán', steps: [
+    { do: `Vonat indult Soroksárról. Bejárat a II. vágányra: ${pb('A')} + ${pb('V2')}.`, why: 'A vonat a bejárati jelzőnél megáll, ha nincs vágányútja. Időben állíts neki utat, hogy ne kelljen fékeznie.', keys: ['pSig:A', 'pSig:V2'], enter: tutorTrain, done: () => !!activeFrom.A || !!(tT() && tT().arrAt != null) },
+    { do: `Jelzőt szabadra: ${pb('Jelzőáll.')} + ${pb('A')}.`, why: 'A sárga fény azt mondja a mozdonyvezetőnek: bejárhat, de a következő jelző (V2) Megállj!-t mutat.', keys: [K.JA, 'pSig:A'], done: () => ASP.A !== 'VOROS' || !activeFrom.A || !!activeFrom.A.train },
+    { do: 'Figyeld a pultot: a piros csík maga a vonat. Megérkezik a II. vágányra.', why: 'A vonat mögött a vágányút szakaszonként feloldódik, a sorompó felnyit. Semmit sem kell kezelned.', wait: true, rate: 4, done: () => !tT() || tT().arrAt != null },
+    { do: `Indítás Taksony felé: ${pb('V2')} + a jobb oldali ${pb('zöld')} célgomb.`, why: 'Élesben előtte telefonon engedélyt kérsz a szomszéd állomástól. A tanpályán ezt most kihagyjuk.', keys: ['pSig:V2', 'pTarget:cE'], done: () => !!activeFrom.V2 },
+    { do: `Jelzőt szabadra: ${pb('Jelzőáll.')} + ${pb('V2')}.`, why: 'A vonat a menetrend szerinti indulási időben, szabad jelzőre indul el.', keys: [K.JA, 'pSig:V2'], done: () => ASP.V2 !== 'VOROS' || !activeFrom.V2 || !!activeFrom.V2.train },
+    { do: 'A vonat elindul, és elhagyja az állomást.', why: 'Ennyi a szolgálat lényege: bejárat, jelző, kijárat, jelző. Élesben a Segítő mindig megmutatja a következő lépést.', wait: true, rate: 4, done: () => !tT() || tT().exiting || tT().state === 'done' },
+  ] },
+];
+function tutorTrain() {
+  const tr = trains.find(t => t.state === 'pending' && t.dir > 0 && t.kind === 'S') || trains.find(t => t.state === 'pending' && t.dir > 0);
+  tutor.train = null;
+  if (!tr) return;
+  Object.assign(tr, { enter: now, arr: now, dep: now, exit: now + 900 });
+  if (trySpawn(tr)) tutor.train = tr.no;
+}
+const tStep = () => LESSONS[tutor.li].steps[tutor.si];
+function tutorEnter() {
+  tutor.okAt = 0; armed = null; pStart = null;
+  const st = tStep(); if (st.enter) st.enter();
+  renderTutor(true);
+}
+function tutorLesson(i) {
+  if (!tutor.on) {
+    setAuto(false); closeInfo();
+    tutor.save = snapshot(); tutor.speed = speed; tutor.on = true;
+    document.body.classList.add('tutoring');
+  }
+  restore(baseSnap); logEl.replaceChildren();
+  tutor.li = i; tutor.si = 0; tutor.finished = false; tutor.train = null;
+  if (deskTab !== 'tutor' || $('#tt').classList.contains('closed')) selectDeskTab('tutor');
+  if (document.body.classList.contains('paged')) setPage('pult'); else setDeskOpen('pult', true);
+  msg(`Tanpálya: ${i + 1}. lecke – ${LESSONS[i].title}.`, 'info');
+  tutorEnter();
+}
+function tutorNext() {
+  if (tutor.si + 1 < LESSONS[tutor.li].steps.length) { tutor.si++; tutorEnter(); return; }
+  tutor.done.add(tutor.li);
+  try { localStorage.setItem('dunaharaszti-tutor', JSON.stringify([...tutor.done])); } catch (err) { /* nincs tárhely */ }
+  if (tutor.li + 1 < LESSONS.length) tutorLesson(tutor.li + 1);
+  else { tutor.finished = true; renderTutor(true); }
+}
+function stopTutor() {
+  if (!tutor.on) return;
+  tutor.on = false; tutor.finished = false; tutor.train = null;
+  document.body.classList.remove('tutoring');
+  restore(tutor.save); tutor.save = null;
+  logEl.replaceChildren(); msg('Tanpálya vége: a szolgálat ott folytatódik, ahol abbahagytad.', 'info');
+  setSpeed(tutor.speed);
+  phoneChoiceKey = ''; renderPhone(); guideKey = ''; renderTT(); renderGuide(); syncTimebar(true);
+  renderTutor(true); resize();
+}
+// A tanpályán az idő a menetrendtől függetlenül jár: nem indulnak vonatok, nem csörög a telefon.
+function tutorSim(real) {
+  let left = real * ((tStep() && !tutor.finished && tStep().rate) || 1);
+  while (left > 1e-6) {
+    const dt = Math.min(0.1, left); left -= dt;
+    now += dt;
+    for (const id in SW) { const w = SW[id]; if (w.moving && now >= w.until) { w.pos = w.target; w.moving = false; } }
+    computeOcc(); updateSR(); computeAspects();
+    for (const tr of trains) if (tr.state === 'run') moveTrain(tr, dt);
+    computeOcc(); releaseRoutes();
+    for (const k in LINES) { const L = LINES[k]; if (!L.secs.some(s => SEC[s].occ || SEC[s].lock)) L.dir = 0; }
+    updateSR(); computeAspects(); updateCars(dt);
+  }
+}
+function tutorTick() {
+  if (!tutor.on || tutor.finished) return;
+  const st = tStep();
+  if (!st.done) return;
+  if (!tutor.okAt) { if (st.done()) { tutor.okAt = performance.now(); renderTutor(true); } }
+  else if (performance.now() - tutor.okAt > 1600) tutorNext();
+}
+function tutorHL() {
+  const hl = { pult: new Set(), map: new Set(), sec: new Set() };
+  if (tutor.finished) return hl;
+  const st = tStep();
+  if (st.hl) for (const k of st.hl) hl.pult.add(k);
+  if (st.keys && !tutor.okAt && !(handFx && performance.now() < handFx.until + 2200)) {
+    const held = armed ? 'pCommon:' + armed : pStart ? 'pSig:' + pStart : null;
+    hl.pult.add(held === st.keys[0] ? st.keys[1] : st.keys[0]);
+  }
+  return hl;
+}
+function tutorDemo() {
+  const st = tStep(); if (!st.keys || tutor.okAt) return;
+  const el = k => { const [type, id] = k.split(':'); return { type, id }; };
+  armed = null; pStart = null;
+  pultClick(el(st.keys[0]));
+  setTimeout(() => { if (tutor.on && tStep() === st) pultClick(el(st.keys[1])); }, 900);
+}
+function renderTutor(force) {
+  const body = $('#tutorBody');
+  const key = [tutor.on, tutor.li, tutor.si, !!tutor.okAt, tutor.finished, [...tutor.done]].join('|');
+  if (!force && key === tutor.key) return;
+  tutor.key = key;
+  if (!tutor.on) {
+    body.innerHTML = `<div class="tu-intro"><h3>Dominó 55 oktató</h3><p>Hat rövid lecke az alapoktól: melyik gombot mikor és miért nyomod meg. A tanpályán nincs forgalom, nyugodtan gyakorolhatsz. Kilépéskor a szolgálat ott folytatódik, ahol abbahagytad.</p></div>
+      <ol class="tu-lessons">${LESSONS.map((l, i) => `<li><button type="button" data-lesson="${i}"><span class="tu-no">${i + 1}</span><span class="tu-t"><b>${l.title}</b><small>${l.sub}</small></span>${tutor.done.has(i) ? '<i class="tu-stamp">Kész</i>' : ''}</button></li>`).join('')}</ol>`;
+    return;
+  }
+  if (tutor.finished) {
+    body.innerHTML = `<div class="tu-head"><span>Tanpálya</span><b>Vége az oktatónak</b></div>
+      <div class="tu-step"><p class="tu-do">Ismered a pult alapjait: vágányút, jelzőállítás, törlés, váltó, sorompó.</p><p class="tu-why">Élesben a <b>Segítő</b> fül mindig megmutatja a következő teendőt és az okát. Ha elakadsz, az <b>Automata</b> megmutatja, hogyan kell.</p></div>
+      <div class="tu-actions"><button type="button" class="on" data-act="exit">Vissza a szolgálatba</button><button type="button" data-lesson="0">Újra az elejéről</button></div>`;
+    return;
+  }
+  const L = LESSONS[tutor.li], st = tStep(), n = L.steps.length;
+  body.innerHTML = `<div class="tu-head"><span>${tutor.li + 1}. lecke · ${tutor.si + 1}/${n}</span><b>${L.title}</b><button type="button" data-act="exit">Kilépés</button></div>
+    <div class="tu-step${tutor.okAt ? ' ok' : ''}"><p class="tu-do">${st.do}</p><p class="tu-why"><b>Miért?</b> ${st.why}</p>
+    ${tutor.okAt ? '<p class="tu-ok"><i class="tu-stamp">Rendben</i></p>' : st.wait ? '<p class="tu-wait">A vonat úton van…</p>' : ''}</div>
+    <div class="tu-actions">${st.keys && !tutor.okAt ? '<button type="button" data-act="demo">Mutasd meg</button>' : ''}<button type="button" class="${st.done ? '' : 'on'}" data-act="next">${st.done && !tutor.okAt ? 'Kihagyom' : 'Tovább'}</button>${tutor.si ? '<button type="button" data-act="prev">Vissza</button>' : ''}</div>
+    <div class="tu-dots" aria-hidden="true">${L.steps.map((s, i) => `<i class="${i < tutor.si ? 'd' : i === tutor.si ? 'c' : ''}"></i>`).join('')}</div>`;
+}
+$('#tutorBody').addEventListener('click', e => {
+  const b = e.target.closest('button'); if (!b) return;
+  if (b.dataset.lesson) return tutorLesson(+b.dataset.lesson);
+  const a = b.dataset.act;
+  if (a === 'exit') stopTutor();
+  else if (a === 'demo') tutorDemo();
+  else if (a === 'next') tutorNext();
+  else if (a === 'prev') { tutor.si--; tutorEnter(); }
+});
+
+/* ---------- [9h] Lapozós mód: kis képernyőn egyszerre egy ablak látszik, fent ikonokkal váltható ---------- */
+let prevPage = 'map';
+const pagedMQ = window.matchMedia('(max-width: 860px), (max-height: 520px)');
+let page = 'map';
+function setPage(p) {
+  page = p; document.body.dataset.page = p;
+  for (const b of document.querySelectorAll('#pager button')) b.setAttribute('aria-pressed', String(b.dataset.page === p));
+  if (!document.body.classList.contains('paged')) return;
+  const pw = $('#pultWrap'), tt = $('#tt');
+  if (p !== 'phone' && !phonePanel.hidden) { phonePanel.hidden = true; phoneTrigger.setAttribute('aria-expanded', 'false'); }
+  if (p === 'phone' && phonePanel.hidden) { phonePanel.hidden = false; phoneTrigger.setAttribute('aria-expanded', 'true'); selectPhoneLine(ringingLine() ?? phoneLine); }
+  const tab = { guide: 'guide', tt: 'tt', tutor: 'tutor' }[p];
+  pw.classList.toggle('closed', p !== 'pult');
+  tt.classList.toggle('closed', !(tab || (p === 'pult' && tutor.on)));
+  if (tab && deskTab !== tab) selectDeskTab(tab); else resize();
+}
+function syncPaged() {
+  const on = pagedMQ.matches;
+  document.body.classList.toggle('paged', on);
+  // lapozós módban az óra az ikonsor végére kerül, a fejléc csak az Egyéb lapon látszik
+  const tb = document.querySelector('.timebox');
+  if (on && tb.parentNode.id !== 'pager') $('#pager').append(tb);
+  else if (!on && tb.parentNode.id === 'pager') $('#top .brand').after(tb);
+  if (on) setPage(page); else { document.body.dataset.page = ''; if (page === 'phone') page = 'map'; resize(); }
+}
+for (const b of document.querySelectorAll('#pager button')) { b.title = b.textContent.trim(); b.setAttribute('aria-label', b.title); b.onclick = () => setPage(b.dataset.page); }
+pagedMQ.addEventListener('change', syncPaged);
+$('#mapToolsToggle').onclick = e => { const open = !$('.map-tools').classList.contains('open'); $('.map-tools').classList.toggle('open', open); e.currentTarget.setAttribute('aria-expanded', String(open)); };
+
+let baseSnap = null;
+const isPaged = () => document.body.classList.contains('paged');
 function guideHighlight() {
+  if (tutor.on) return tutorHL();
   const hl = { pult: new Set(), map: new Set(), sec: new Set() };
   if (!guideOn || !guidePlan) return hl;
   if (guidePlan.kind === 'route') {
@@ -3821,8 +4345,11 @@ function selectDeskTab(tab, toggle) {
   for (const b of document.querySelectorAll('[data-tab]')) b.setAttribute('aria-selected', String(b.dataset.tab === tab));
   $('#ttBody').hidden = tab !== 'tt';
   $('#guideBody').hidden = tab !== 'guide';
+  $('#tutorBody').hidden = tab !== 'tutor';
+  if (tab === 'tutor') renderTutor(true);
   if (closed) setDeskOpen('tt', true); else resize();
   guideKey = ''; renderGuide();
+  if (isPaged() && ['guide', 'tt', 'tutor'].includes(page) && page !== tab) setPage(tab);
 }
 for (const b of document.querySelectorAll('[data-tab]')) b.onclick = () => selectDeskTab(b.dataset.tab);
 
@@ -3830,6 +4357,7 @@ for (const b of document.querySelectorAll('[data-tab]')) b.onclick = () => selec
 // A Segítő javaslatait hajtja végre, és a telefonbeszélgetéseket is lefolytatja a helyes válaszokkal.
 let autoMode = false, autoAcc = 0, autoPhoneAcc = 0;
 function setAuto(on) {
+  if (on && tutor.on) stopTutor();
   autoMode = on;
   for (const b of [$('#btnAuto'), $('#btnAuto2')]) { b.setAttribute('aria-pressed', String(on)); b.classList.toggle('on', on); }
   $('#btnAuto2').textContent = on ? 'Kikapcsolás' : 'Bekapcsolás';
@@ -3984,6 +4512,7 @@ function simStep(d, fast) {
   if (now >= nextSnapAt) recordSnap();
 }
 function seekTo(target) {
+  if (tutor.on) stopTutor();
   target = clamp(target, T0, TEND);
   const wasSpeed = speed;
   const back = target < now;
@@ -4128,9 +4657,10 @@ function camTarget() {
 }
 // A nézet nem csúszhat le a terepasztalról: a látómező széle legfeljebb a terepasztal széléig ér.
 function clampCam(cm) {
+  if (isPaged()) cm.z = Math.max(cm.z, cm.h / (modelBottom - modelTop), cm.w / MAPW);   // kis képernyőn a terepasztal mindig kitölti a nézetet
   const hw = cm.w / 2 / cm.z, hh = cm.h / 2 / cm.z;
   cm.x = 2 * hw >= MAPW ? MAPW / 2 : clamp(cm.x, hw, MAPW - hw);
-  cm.y = 2 * hh >= MAPH ? MAPH / 2 : clamp(cm.y, hh, MAPH - hh);
+  cm.y = 2 * hh >= modelBottom - modelTop ? Math.min((modelTop + modelBottom) / 2, 175) : clamp(cm.y, modelTop + hh, modelBottom - hh);
 }
 function autoCamera(real) {
   if (follow) return;
@@ -4160,10 +4690,7 @@ function autoCamera(real) {
   if (q && sel.value !== q) { sel.add(new Option(`${q}-tól`, q)); sel.value = q; }
   Object.assign($('#timeSlider'), { min: T0, max: TEND, value: T0 });
   const n = trains.length, f = trains.filter(t => t.kind === 'G').length;
-  const xs = trains.filter(t => t.note && t.note.includes('kereszt') && t.dir > 0).map(t => `${fmt(t.dep, false)}-kor a(z) ${t.no} és a(z) ${t.note.match(/kereszt: (\d+)/)[1]}`);
-  const ov = trains.filter(t => t.note && t.note.startsWith('megelőzi')).map(t => `${fmt(t.arr, false)}-kor a(z) ${t.no} tehervonat bevárja, hogy a(z) ${t.note.split(': ')[1]} megelőzze`);
-  $('#shiftIntro').textContent = `${fmt(T0, false)} és ${end} között ${n - f} személy- és gyorsvonat, valamint ${f} tehervonat közlekedik Soroksár (bal) és Taksony (jobb) felől, a nyíltvonal egyvágányú.`
-    + (xs.length ? ` Keresztezés: ${xs.join(', ')}.` : '') + (ov.length ? ` Megelőzés: ${ov.join(', ')}.` : '') + (n ? '' : ' Ebben az időszakban nem közlekedik vonat – válassz másik kezdési időt.');
+  $('#shiftIntro').textContent = n ? `${fmt(T0, false)}–${end}: ${n - f} személy- és gyorsvonat, ${f} tehervonat.` : 'Ebben az időszakban nem közlekedik vonat, válassz másik kezdési időt.';
   $('#shiftLabel').textContent = `Dunaharaszti · ${fmt(T0, false)}–${end}`;
   $('#tbEnd').textContent = end === '00:00' ? '24:00' : end;
   $('#clock').textContent = fmt(T0);
@@ -4208,7 +4735,7 @@ function fit(mode) {
   cam.y = mode === 'building' ? 171 : 156;
   if (mode === 'line') cam.z = cam.w / (MAPW + 100);
   else if (mode === 'building') cam.z = Math.min(cam.w / 320, cam.h / 148);
-  else cam.z = Math.min(cam.w / 2530, cam.h / 390);
+  else cam.z = Math.max(Math.min(cam.w / 2530, cam.h / 390), cam.h / (modelBottom - modelTop));
 }
 function zoomMap(factor, x = cam.w / 2, y = cam.h / 2) {
   camHold();
@@ -4221,11 +4748,13 @@ function zoomMap(factor, x = cam.w / 2, y = cam.h / 2) {
 function resize() {
   const dpr = window.devicePixelRatio || 1;
   const bottom = $('#bottom'), pw = $('#pultWrap'), tt = $('#tt');
-  if (compactDesk.matches && !pw.classList.contains('closed') && !tt.classList.contains('closed')) pw.classList.add('closed');
+  if (compactDesk.matches && !isPaged() && !pw.classList.contains('closed') && !tt.classList.contains('closed')) pw.classList.add('closed');
   const pOpen = !pw.classList.contains('closed'), tOpen = !tt.classList.contains('closed');
   $('#btnPult').setAttribute('aria-expanded', pOpen);
   $('#btnTT').setAttribute('aria-expanded', tOpen && deskTab === 'tt');
   $('#btnGuide').setAttribute('aria-expanded', tOpen && deskTab === 'guide');
+  $('#btnTutor').setAttribute('aria-expanded', tOpen && deskTab === 'tutor');
+  bottom.classList.toggle('stack', isPaged() && pOpen && tOpen);
   bottom.classList.toggle('hidden', !pOpen && !tOpen);
   pw.classList.toggle('full', !tOpen);
   $('#splitDesk').hidden = !pOpen && !tOpen;
@@ -4236,8 +4765,9 @@ function resize() {
   pw.style.width = pOpen && tOpen ? (LAYOUT.pult ? LAYOUT.pult * 100 : 57) + '%' : '';
   if (pOpen) {
     const w = pw.getBoundingClientRect().width;
-    const h = Math.max(0, bottom.getBoundingClientRect().height - pw.querySelector('.desk-head').offsetHeight);
+    const h = Math.max(0, (isPaged() ? pw : bottom).getBoundingClientRect().height - pw.querySelector('.desk-head').offsetHeight);
     pcam.w = w; pcam.h = h; pcam.z = Math.min(w / 1260, h / 500);
+    if (isPaged()) pcam.z = Math.max(pcam.z, Math.min(0.62, h / 520));
     pc.style.height = h + 'px'; pc.width = Math.round(w * dpr); pc.height = Math.round(h * dpr);
     pctx.setTransform(dpr, 0, 0, dpr, 0, 0);
   }
@@ -4279,7 +4809,8 @@ function frame(t) {
   if (armed && t - armedAt > 8000) armed = null;
   if (pStart && t - pStartAt > 8000) pStart = null;
   let simDt = real * speed;
-  while (simDt > 1e-6) { const d = Math.min(0.1, simDt); simStep(d); simDt -= d; }
+  if (tutor.on) { tutorSim(real); tutorTick(); }
+  else while (simDt > 1e-6) { const d = Math.min(0.1, simDt); simStep(d); simDt -= d; }
   syncTimebar();
   if (follow && TRAIN[follow].state === 'run') {
     const tr = TRAIN[follow], HE = EDGE[tr.trail[0]];
@@ -4292,16 +4823,30 @@ function frame(t) {
   guideHL = guideHighlight();
   drawScene(ctx, cam);
   syncMapControls();
-  if (!$('#pultWrap').classList.contains('closed')) { drawPult(pctx, pcam); pultGlow = 1; }
+  if (!$('#pultWrap').classList.contains('closed')) {
+    if (tutor.on && isPaged() && guideHL.pult.size === 1) {   // kis képernyőn a kért gomb mindig látsszon
+      const [type, id] = [...guideHL.pult][0].split(':');
+      const p = type === 'pCommon' ? [COMMON[id].x, COMMON[id].y] : type === 'pSw' ? SWBTN[id] : type === 'pTarget' ? TARGETS[id] : type === 'pSig' ? P[SIGS[id].node] : [640, 100];
+      const [sx] = W2S(pcam, ...p);
+      if (sx < 36 || sx > pcam.w - 36) pcam.x += (p[0] - pcam.x) * 0.12;
+    }
+    const mx = Math.max(0, 640 - pcam.w / 2 / pcam.z), my = Math.max(0, 255 - pcam.h / 2 / pcam.z);
+    pcam.x = clamp(pcam.x, 1100 - mx, 1100 + mx); pcam.y = clamp(pcam.y, 5 - my, 5 + my);
+    drawPult(pctx, pcam); pultGlow = 1;
+  }
   drawSigView();
   autoWindows(real);
   phoneTalkTick();
   ttTimer -= real;
-  if (ttTimer <= 0) { ttTimer = 0.4; renderTT(); phoneTick(); renderGuide(); applyTheme(); }
+  placeInfo();
+  if (ttTimer <= 0) { ttTimer = 0.4; renderTT(); if (!tutor.on) phoneTick(); renderGuide(); applyTheme(); renderInfo(); $('#pgPhone').classList.toggle('ring', !tutor.on && ringingLine() != null); }
   requestAnimationFrame(frame);
 }
 setSpeed(0);
 recordSnap();
+baseSnap = snaps[0];
+renderTutor(true);
+syncPaged();
 renderTT();
 phoneTick();
 renderGuide();
