@@ -625,6 +625,10 @@ body.paged #sigWrap{top:46px;left:6px}
 #phonePanel .phone-heading h2{font-size:17px}
 #phonePanel .phone-neighbors{padding:8px 11px 9px}
 #phoneReceiveState[hidden]{display:none}
+.period-pick{display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px;margin:10px 0 0;font-size:13px}
+.period-pick label{font:700 11px/1 var(--mono,monospace);letter-spacing:.08em;text-transform:uppercase}
+.period-pick select{font:600 13px var(--sans,system-ui);padding:5px 8px;border:1px solid #000;border-radius:3px;background:var(--card,#f4ead5);color:inherit;max-width:100%}
+#periodNote{font-size:11.5px;color:var(--ink-soft,#666)}
 </style>
 </head>
 <body data-page="">
@@ -931,6 +935,7 @@ body.paged #sigWrap{top:46px;left:6px}
     <details class="help-more"><summary>Billentyűk és egér</summary>
       <p class="help-kbd"><kbd>Szóköz</kbd> állj · <kbd>1</kbd> <kbd>2</kbd> <kbd>5</kbd> <kbd>0</kbd> sebesség · <kbd>H</kbd> segítő · <kbd>O</kbd> oktató · <kbd>M</kbd> menetrend · <kbd>P</kbd> pult · <kbd>A</kbd> automata · <kbd>K</kbd> követés · <kbd>D</kbd> napszak · <kbd>Esc</kbd> kijelölés törlése. Húzás: mozgatás, görgő: nagyítás. Jelzőre kattintva, majd a célvágányra: gyors vágányút; jobb kattintás a jelzőn: törlés.</p>
     </details>
+    <p class="period-pick"><label for="periodSel">Menetrend</label> <select id="periodSel"></select> <span id="periodNote"></span></p>
     <p class="box-foot"><button id="btnStartTutor">Oktató indítása</button> <button id="btnStart" class="on">Kezdés</button></p>
   </div>
 </div>
@@ -1474,21 +1479,45 @@ const FORMATION_BY_TRAIN = {
 // Dunaharaszti, egész nap: [vonatszám, irány (1 = Soroksár felől, Taksony felé), idő (mp, éjféltől), megáll-e]
 // A MÁV 2020/21-es menetrendjéből (150-es vonal, a felhasználó PDF-je). Az át nem álló vonatok ideje
 // Pesterzsébet és Kunszentmiklós-Tass között arányosan becsült.
-const DAY_TRAINS = [["3719",-1,14280,1],["7919",-1,17760,1],["7930",1,18780,1],["3729",-1,18780,1],["3739",-1,20700,1],["349",1,22895,0],["3749",-1,22920,1],["3712",1,24900,1],["3717",-1,25680,1],["3722",1,28080,1],["7929",-1,28080,1],["3727",-1,29100,1],["7922",1,30095,0],["3732",1,31680,1],["3737",-1,32700,1],["7927",-1,34478,0],["3742",1,35280,1],["3747",-1,36300,1],["3714",1,38880,1],["3715",-1,39900,1],["348",-1,41678,0],["3724",1,42480,1],["3725",-1,43500,1],["343",1,44495,0],["3734",1,46080,1],["3735",-1,47100,1],["3744",1,49680,1],["3745",-1,50700,1],["7916",1,51695,0],["3716",1,53280,1],["3713",-1,54300,1],["7925",-1,56078,0],["3726",1,56880,1],["3723",-1,57900,1],["7926",1,58895,0],["3736",1,60480,1],["3733",-1,61500,1],["342",-1,63278,0],["3746",1,64080,1],["3743",-1,65100,1],["7918",1,66095,0],["3718",1,67680,1],["3711",-1,68700,1],["7923",-1,70478,0],["7928",1,71280,1],["3721",-1,72300,1],["3728",1,74880,1],["3731",-1,75900,1],["3738",1,78480,1],["7911",-1,79320,1],["3748",1,82080,1],["3758",1,85680,1]];
+const BUILTIN_DAY_TRAINS = [["3719",-1,14280,1],["7919",-1,17760,1],["7930",1,18780,1],["3729",-1,18780,1],["3739",-1,20700,1],["349",1,22895,0],["3749",-1,22920,1],["3712",1,24900,1],["3717",-1,25680,1],["3722",1,28080,1],["7929",-1,28080,1],["3727",-1,29100,1],["7922",1,30095,0],["3732",1,31680,1],["3737",-1,32700,1],["7927",-1,34478,0],["3742",1,35280,1],["3747",-1,36300,1],["3714",1,38880,1],["3715",-1,39900,1],["348",-1,41678,0],["3724",1,42480,1],["3725",-1,43500,1],["343",1,44495,0],["3734",1,46080,1],["3735",-1,47100,1],["3744",1,49680,1],["3745",-1,50700,1],["7916",1,51695,0],["3716",1,53280,1],["3713",-1,54300,1],["7925",-1,56078,0],["3726",1,56880,1],["3723",-1,57900,1],["7926",1,58895,0],["3736",1,60480,1],["3733",-1,61500,1],["342",-1,63278,0],["3746",1,64080,1],["3743",-1,65100,1],["7918",1,66095,0],["3718",1,67680,1],["3711",-1,68700,1],["7923",-1,70478,0],["7928",1,71280,1],["3721",-1,72300,1],["3728",1,74880,1],["3731",-1,75900,1],["3738",1,78480,1],["7911",-1,79320,1],["3748",1,82080,1],["3758",1,85680,1]];
+// Történeti személyvonati menetrendek a felhasználó táblázatából (150_vasutvonal_Dunaharaszti_menetrendek_evekre_idoszakokra.xlsx).
+// [vonatszám, irány (1 = Budapest felől, Taksony felé), dunaharaszti idő (mp), S25/S250 jellegű-e]. Tehervonat nincs bennük.
+const MENETREND_PERIODS = {"2013-2014":{"label":"2013–2014 · javított 12.07","from":"2013-12-15","to":"2014-12-13","source":"https://www.mavcsoport.hu/sites/default/files/res/2013-2014__evi_menetrend_jav1207_1.pdf","trains":[["3719",-1,14340,1],["7919",-1,17820,0],["17910",1,18720,0],["7910",1,18720,0],["3729",-1,19740,1],["3739",-1,21720,1],["3749",-1,23340,1],["3712",1,25140,1],["3717",-1,25140,1],["3722",1,28740,1],["3732",1,32340,1],["3727",-1,32340,1],["3737",-1,35940,1],["3742",1,39540,1],["3747",-1,39540,1],["3714",1,43140,1],["3715",-1,43140,1],["3724",1,46740,1],["3725",-1,46740,1],["3734",1,50340,1],["3735",-1,50340,1],["3744",1,53940,1],["3713",-1,53940,1],["3716",1,57540,1],["3723",-1,57540,1],["3726",1,61140,1],["3733",-1,61140,1],["3736",1,64740,1],["3743",-1,64740,1],["3728",1,68340,1],["3711",-1,68340,1],["3721",-1,71940,1],["3731",-1,75540,1],["3748",1,82740,1],["3758",1,86340,1]]},"2015-2016":{"label":"2015–2016 · 1. módosítás","from":"2016-04-04","to":"2016-12-10","source":"https://www.mavcsoport.hu/sites/default/files/upload/page/2015-2016._evi_1._sz._modositassal_aktualizalt_menetrend_viszonylatjellel.pdf","trains":[["3719",-1,14340,1],["7919",-1,17820,0],["3790",1,18660,1],["7930",1,18660,0],["3729",-1,19740,1],["3739",-1,21720,1],["3749",-1,23340,1],["3712",1,25140,1],["3717",-1,25140,1],["3722",1,28740,1],["3727",-1,28740,1],["3732",1,32340,1],["3737",-1,32340,1],["3742",1,35940,1],["3747",-1,35940,1],["3714",1,39540,1],["3715",-1,39540,1],["3724",1,43140,1],["3725",-1,43140,1],["3734",1,46740,1],["3735",-1,46740,1],["3744",1,50340,1],["3745",-1,50340,1],["3716",1,53940,1],["3713",-1,53940,1],["3726",1,57540,1],["3723",-1,57540,1],["3736",1,61140,1],["3733",-1,61140,1],["3746",1,64740,1],["3743",-1,64740,1],["3718",1,68340,1],["3711",-1,68340,1],["3721",-1,71940,1],["3728",1,75540,1],["3731",-1,75540,1],["3738",1,79140,1],["3748",1,82740,1],["3758",1,86340,1]]},"2016-2017":{"label":"2016–2017 · nyomdai állapot","from":"2016-12-11","to":"2017-12-09","source":"https://www.mavcsoport.hu/sites/default/files/upload/page/2016-2017._evi_nyomas_kozbeni_modositasokkal_kiegeszitett_menetrend_11.24.pdf","trains":[["3719",-1,14340,1],["7919",-1,17820,0],["3790",1,18660,1],["7930",1,18660,0],["3729",-1,19740,1],["3739",-1,21720,1],["3749",-1,23340,1],["3712",1,25140,1],["3717",-1,25140,1],["3722",1,28740,1],["3727",-1,28740,1],["3732",1,32340,1],["3737",-1,32340,1],["3742",1,35940,1],["3747",-1,35940,1],["3714",1,39540,1],["3715",-1,39540,1],["3724",1,43140,1],["3725",-1,43140,1],["3734",1,46740,1],["3735",-1,46740,1],["3744",1,50340,1],["3745",-1,50340,1],["3716",1,53940,1],["3713",-1,53940,1],["3726",1,57540,1],["3723",-1,57540,1],["3736",1,61140,1],["3733",-1,61140,1],["3746",1,64740,1],["3743",-1,64740,1],["3718",1,68340,1],["3711",-1,68340,1],["3721",-1,71940,1],["3728",1,75540,1],["3731",-1,75540,1],["3738",1,79140,1],["3748",1,82740,1],["3758",1,86340,1]]},"2017-2018":{"label":"2017–2018 · alap","from":"2017-12-10","to":"2018-12-08","source":"https://www.mavcsoport.hu/sites/default/files/upload/page/150_sz._mezss_343-346._oldal.pdf","trains":[["3719",-1,14220,1],["7919",-1,17880,0],["3790",1,18840,1],["7930",1,18840,0],["3729",-1,18840,1],["3739",-1,20880,1],["3749",-1,22920,1],["3712",1,24840,1],["3717",-1,25680,1],["3722",1,28080,1],["3727",-1,29100,1],["3732",1,31680,1],["3737",-1,32700,1],["3742",1,35280,1],["3747",-1,36300,1],["3714",1,38880,1],["3715",-1,39900,1],["3724",1,42480,1],["3725",-1,43500,1],["3734",1,46080,1],["3735",-1,47100,1],["3744",1,49680,1],["3745",-1,50700,1],["3716",1,53280,1],["3713",-1,54300,1],["3726",1,56880,1],["3723",-1,57900,1],["3736",1,60480,1],["3733",-1,61500,1],["3746",1,64080,1],["3743",-1,65100,1],["3718",1,67680,1],["3711",-1,68700,1],["3721",-1,72300,1],["3728",1,74880,1],["3731",-1,75900,1],["3738",1,78480,1],["7911",-1,79440,0],["3748",1,82080,1],["3758",1,85680,1]]},"2018-2019":{"label":"2018–2019 · VI.15 változat","from":"2019-06-15","to":"2019-12-14","source":"https://www.mavcsoport.hu/sites/default/files/upload/page/150_20190615.pdf","trains":[["3719",-1,14220,1],["7919",-1,17700,0],["3790",1,18840,1],["7930",1,18840,0],["3729",-1,18840,1],["3739",-1,20880,1],["3749",-1,22920,1],["3712",1,24840,1],["3717",-1,25680,1],["3722",1,28080,1],["3727",-1,29100,1],["3732",1,31680,1],["3737",-1,32700,1],["3742",1,35280,1],["3747",-1,36300,1],["3714",1,38880,1],["3715",-1,39900,1],["3724",1,42480,1],["3725",-1,43500,1],["3734",1,46080,1],["3735",-1,47100,1],["3744",1,49680,1],["3745",-1,50700,1],["3716",1,53280,1],["3713",-1,54300,1],["3726",1,56880,1],["3723",-1,57900,1],["3736",1,60480,1],["3733",-1,61500,1],["3746",1,64080,1],["3743",-1,65100,1],["3718",1,67680,1],["3711",-1,68700,1],["3721",-1,72300,1],["3728",1,74880,1],["3731",-1,75900,1],["3738",1,78480,1],["7911",-1,79320,0],["3748",1,82080,1],["3758",1,85680,1]]},"2019-2020":{"label":"2019–2020 · VIII.03 változat","from":"2020-08-03","to":"2020-12-12","source":"https://www.mavcsoport.hu/sites/default/files/upload/page/150_vonali-menetrend-v0803.pdf","trains":[["3719",-1,14220,1],["7919",-1,17760,0],["3790",1,18780,1],["7930",1,18780,0],["3729",-1,18780,1],["3739",-1,20700,1],["3749",-1,22920,1],["3712",1,24840,1],["3717",-1,25680,1],["3722",1,28080,1],["7929",-1,28140,0],["3727",-1,29100,1],["3732",1,31680,1],["3737",-1,32700,1],["3742",1,35280,1],["3747",-1,36300,1],["3714",1,38880,1],["3715",-1,39900,1],["3724",1,42480,1],["3725",-1,43500,1],["3734",1,46080,1],["3735",-1,47100,1],["3744",1,49680,1],["3745",-1,50700,1],["3716",1,53280,1],["3713",-1,54300,1],["3726",1,56880,1],["3723",-1,57900,1],["3736",1,60480,1],["3733",-1,61500,1],["3746",1,64080,1],["3743",-1,65100,1],["3718",1,67680,1],["3711",-1,68700,1],["3721",-1,72300,1],["3728",1,74880,1],["3731",-1,75900,1],["3738",1,78480,1],["7911",-1,79320,0],["3748",1,82080,1],["3758",1,85680,1]]},"2020-2021":{"label":"2020–2021 · XII.13 alap","from":"2020-12-13","to":"2021-12-11","source":"https://www.mavcsoport.hu/sites/default/files/upload/page/150_20201213.pdf","trains":[["3719",-1,14280,1],["7919",-1,17760,0],["3790",1,18780,1],["7930",1,18780,0],["3729",-1,18780,1],["3739",-1,20700,1],["3749",-1,22920,1],["3712",1,24900,1],["3717",-1,25680,1],["3722",1,28080,1],["7929",-1,28080,0],["3727",-1,29100,1],["3732",1,31680,1],["3737",-1,32700,1],["3742",1,35280,1],["3747",-1,36300,1],["3714",1,38880,1],["3715",-1,39900,1],["3724",1,42480,1],["3725",-1,43500,1],["3734",1,46080,1],["3735",-1,47100,1],["3744",1,49680,1],["3745",-1,50700,1],["3716",1,53280,1],["3713",-1,54300,1],["3726",1,56880,1],["3723",-1,57900,1],["3736",1,60480,1],["3733",-1,61500,1],["3746",1,64080,1],["3743",-1,65100,1],["3718",1,67680,1],["3711",-1,68700,1],["3721",-1,72300,1],["3728",1,74880,1],["3731",-1,75900,1],["3738",1,78480,1],["7911",-1,79320,0],["3748",1,82080,1],["3758",1,85680,1]]},"2021-2022":{"label":"2021–2022 · III.18 változat","from":"2022-03-18","to":"2022-04-30","source":"https://www.mavcsoport.hu/sites/default/files/upload/page/150_v0318.pdf","trains":[["3719",-1,14400,1],["7919",-1,17820,0],["3790",1,18840,1],["7930",1,18840,0],["3729",-1,18840,1],["3739",-1,20700,1],["3749",-1,22920,1],["3712",1,24900,1],["3717",-1,25680,1],["3722",1,28080,1],["7929",-1,28080,0],["3727",-1,29100,1],["3732",1,31680,1],["3737",-1,32700,1],["3742",1,35280,1],["3747",-1,36300,1],["3714",1,38880,1],["3715",-1,39900,1],["3724",1,42480,1],["3725",-1,43500,1],["3734",1,46080,1],["3735",-1,47100,1],["3744",1,49680,1],["3745",-1,50700,1],["3716",1,53280,1],["3713",-1,54300,1],["3726",1,56880,1],["3723",-1,57900,1],["3736",1,60480,1],["3733",-1,61500,1],["3746",1,64080,1],["3743",-1,65100,1],["3718",1,67680,1],["3711",-1,68700,1],["3721",-1,72300,1],["3728",1,74880,1],["3731",-1,75900,1],["3738",1,78480,1],["7911",-1,79320,0],["3748",1,82080,1],["3758",1,85680,1]]}};
+// Azonos irányú, azonos időpontú vonatpárok a táblázatban (eltérő közlekedési napú változatok): csak egyik közlekedhet.
+const PERIOD_ALTERNATES = new Set(['3790', '17910']);
+const PERIOD_DEFAULT = '2020-2021';
+const PERIOD_KEY = (() => {
+  const q = new URLSearchParams(location.search).get('menetrend');
+  let saved = null; try { saved = localStorage.getItem('dunaharaszti-menetrend'); } catch (err) { /* nincs tárolás */ }
+  return [q, saved].find(k => k && MENETREND_PERIODS[k]) || PERIOD_DEFAULT;
+})();
+const PERIOD = MENETREND_PERIODS[PERIOD_KEY];
+// A 2020–21-es rend a játék eredeti, kidolgozott menetrendje (a táblázattal egyezik, plusz az áthaladó gyorsvonatok).
+const PERIOD_BUILTIN = PERIOD_KEY === PERIOD_DEFAULT;
+const DAY_TRAINS = PERIOD_BUILTIN ? BUILTIN_DAY_TRAINS
+  : PERIOD.trains.filter(([no]) => !PERIOD_ALTERNATES.has(no)).map(([no, dir, t]) => [no, dir, t, 1]);
 // Tehervonatok: nincsenek a nyilvános menetrendben, a menetvonaluk a személyvonatok közötti szabad időkre becsült.
 // Éjjel több jár. [szám, irány, áthaladás ideje Dunaharasztin] – két vonat megáll, hogy egy személyvonat megelőzze.
 // Ötpercenként egy lehetséges tehervonat-menetvonal, a többi vonattól elkülönítve.
 // A kijelölt keresztekhez az eredeti tehervonati helyet a személyvonat megállásához igazítjuk.
 const FREIGHT_SLOTS = (() => { const out = []; for (let t = T(0, 5); t < T(24, 0); t += 5 * 60) out.push(t); return out; })();
-const PASSENGER_CROSSES = [['3729', '7930'], ['3749', '349'], ['7929', '3722']];
+const PASSENGER_CROSSES = PERIOD_BUILTIN ? [['3729', '7930'], ['3749', '349'], ['7929', '3722']] : (() => {
+  const out = [], used = new Set();
+  for (const a of DAY_TRAINS) for (const b of DAY_TRAINS) {
+    if (a[1] !== -1 || b[1] !== 1 || used.has(a[0]) || used.has(b[0]) || Math.abs(a[2] - b[2]) > 120) continue;
+    out.push([a[0], b[0]]); used.add(a[0]); used.add(b[0]);   // a Budapest felé tartó vár a mellékvágányon
+  }
+  return out;
+})();
 const FREIGHT_CROSSES = new Map([
   [T(8, 15), '3727'], [T(9, 55), '3747'], [T(10, 55), '3714'], [T(11, 55), '3724'],
   [T(13, 55), '3744'], [T(14, 55), '3713'], [T(16, 55), '3736'], [T(17, 55), '3746'],
   [T(18, 55), '3711'], [T(20, 55), '3728'], [T(21, 55), '7911'],
 ]);
 const FREIGHT_STOPS = {   // megelőzés: a tehervonat mellékvágányon bevárja a személyvonatot
-  '47513': { dir: -1, enter: T(6, 58), arr: T(7, 1), dep: T(7, 11), track: '3', exit: T(7, 13, 20), by: 'Sz 3717' },
-  '45122': { dir: 1, enter: T(23, 40), arr: T(23, 42, 30), dep: T(23, 52), track: '1', exit: T(23, 56), by: 'Sz 3758' },
+  // az időpontok a megelőző személyvonat dunaharaszti idejéhez képest (mp)
+  '47513': { dir: -1, byNo: '3717', enter: -600, arr: -420, dep: 180, track: '3', exit: 320, by: 'Sz 3717' },
+  '45122': { dir: 1, byNo: '3758', enter: -480, arr: -330, dep: 240, track: '1', exit: 480, by: 'Sz 3758' },
 };
 function trainType(no, dir) {
   const south = no === '7930' ? 'Kiskunhalas' : /^(34\d$|79)/.test(no) ? 'Kelebia' : 'Kunszentmiklós-Tass';
@@ -1527,9 +1556,12 @@ function buildTimetable(t0, t1) {
       passenger[no] = train;
       list.push(train);
     }
-    for (const [no, f] of Object.entries(FREIGHT_STOPS))
+    for (const [no, f] of Object.entries(FREIGHT_STOPS)) {
+      const by = passenger[f.byNo]; if (!by || by.dir === f.dir) continue;   // ebben a menetrendben nincs ilyen személyvonat
+      const D = by.dep;
       list.push({ no, cat: 'Teher', kind: 'G', type: 'Tehervonat · ' + (f.dir > 0 ? 'Ferencváros → Kelebia' : 'Kelebia → Ferencváros'), dir: f.dir,
-        enter: f.enter + shift, arr: f.arr + shift, dep: f.dep + shift, exit: f.exit + shift, track: f.track, note: 'megelőzi: ' + f.by });
+        enter: D + f.enter, arr: D + f.arr, dep: D + f.dep, exit: D + f.exit, track: f.track, note: 'megelőzi: ' + f.by });
+    }
     const freightSlots = new Map();
     let lastF = -1e9, dirF = shift ? 1 : -1, even = 45200 + (shift ? 400 : 0), odd = 47601 + (shift ? 400 : 0);
     for (const t of FREIGHT_SLOTS) {
@@ -1546,7 +1578,7 @@ function buildTimetable(t0, t1) {
     }
     for (const [slot, no] of FREIGHT_CROSSES) {
       const freight = freightSlots.get(slot), waiting = passenger[no];
-      if (!freight) continue;
+      if (!freight || !waiting || waiting.crossing || Math.abs(waiting.dep - (slot + shift)) > 20 * 60) continue;
       if (freight.dir === waiting.dir) {
         freight.dir = -waiting.dir;
         freight.no = String(freight.dir > 0 ? (even += 2) : (odd += 2));
@@ -1557,7 +1589,7 @@ function buildTimetable(t0, t1) {
       planCrossing(waiting, freight);
     }
     for (const hour of [0, 1, 2, 3]) planNightCrossing(freightSlots.get(T(hour, 35)), freightSlots.get(T(hour, 50)));
-    for (const [side, main] of PASSENGER_CROSSES) planCrossing(passenger[side], passenger[main]);
+    for (const [side, main] of PASSENGER_CROSSES) if (passenger[side] && passenger[main] && !passenger[side].crossing && !passenger[main].crossing) planCrossing(passenger[side], passenger[main]);
   }
   const tt = list.filter(r => r.enter >= t0 + 20 && r.dep <= t1 - 120).sort((a, b) => a.enter - b.enter);
   const numbers = new Set(tt.map(t => t.no));
@@ -3711,7 +3743,7 @@ function drawTrainLabel(c, cm, tr, k, hits) {
 }
 
 /* ---------- [7] Dominó 55 pult ---------- */
-let armed = null, armedAt = 0, pStart = null, pStartAt = 0, showStems = true;
+let armed = null, armedAt = 0, pStart = null, pStartAt = 0, showStems = false;   // Váltó vissz.: alapból nincs benyomva
 const COMMON = {
   HB: { x: 540, y: -205, label: ['Bejárat', 'hívójelz.'], col: '#f4f0df', cnt: 'HB' },
   HK: { x: 610, y: -205, label: ['Kijárat', 'hívójelz.'], col: '#f4f0df', cnt: 'HK' },
@@ -4613,6 +4645,10 @@ function autoClosePhone(line, delay = 1600) {
     if (c) finishPhoneCall(line);
     if (phonePanel.hidden) return;
     if (Object.values(phoneLines).some(l => l.call && l.call.stage !== 'done')) return;
+    // Amíg van csörgő vagy várakozó hívás, a panel nyitva marad, és arra a vonalra vált.
+    const ring = Object.keys(phoneLines).find(l => !phoneLines[l].call &&
+      phoneLines[l].queue.some(item => item.type !== 'offer' || item.train.enterAt == null));
+    if (ring != null) { selectPhoneLine(ring); renderPhone(true); return; }
     closePhone();
     renderGuide();
   }, delay);
@@ -6030,7 +6066,18 @@ function autoCamera(real) {
   Object.assign($('#timeSlider'), { min: T0, max: TEND, value: T0 });
   const n = trains.length, f = trains.filter(t => t.kind === 'G').length;
   $('#shiftIntro').textContent = n ? `${fmt(T0, false)}–${end}: ${n - f} személy- és gyorsvonat, ${f} tehervonat.` : 'Ebben az időszakban nem közlekedik vonat, válassz másik kezdési időt.';
-  $('#shiftLabel').textContent = `Dunaharaszti · ${fmt(T0, false)}–${end}`;
+  $('#shiftLabel').textContent = `Dunaharaszti · ${PERIOD.label.split(' · ')[0]} · ${fmt(T0, false)}–${end}`;
+  // menetrendi időszak választása (a játék újratöltődik a kiválasztott menetrenddel)
+  const psel = $('#periodSel');
+  for (const [key, p] of Object.entries(MENETREND_PERIODS).reverse()) psel.add(new Option(p.label + (key === PERIOD_DEFAULT ? ' (áthaladó gyorsvonatokkal)' : ''), key));
+  psel.value = PERIOD_KEY;
+  $('#periodNote').textContent = `Érvényes: ${PERIOD.from ? PERIOD.from.replaceAll('-', '.') + '.' : '?'}–${PERIOD.to ? PERIOD.to.replaceAll('-', '.') + '.' : '?'}` +
+    (PERIOD_BUILTIN ? '' : ' · csak a Dunaharasztin megálló személyvonatok; a tehervonatok becsültek.');
+  psel.addEventListener('change', e => {
+    try { localStorage.setItem('dunaharaszti-menetrend', e.target.value); } catch (err) { /* nincs tárolás */ }
+    const u = new URL(location.href); u.searchParams.set('menetrend', e.target.value);
+    location.href = u.href;
+  });
   $('#tbEnd').textContent = end === '00:00' ? '24:00' : end;
   $('#clock').textContent = fmt(T0);
   sel.addEventListener('change', e => {
