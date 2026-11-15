@@ -100,7 +100,7 @@ kbd{font:700 11px var(--mono);padding:1px 5px;border-radius:3px;background:#fffa
 .split-v::after{width:2px;height:42px}
 .split:hover,.split.drag,.split:focus-visible{background:#8a6a26;outline:none}
 .split:hover::after,.split.drag::after{background:#ffd75e}
-#sigWrap{display:none;position:absolute;left:12px;top:56px;z-index:4;height:min(190px,calc(100% - 24px));min-height:90px;max-height:calc(100% - 20px);aspect-ratio:21/38;
+#sigWrap{display:none;position:absolute;left:12px;top:56px;z-index:4;height:min(250px,calc(100% - 24px));min-height:110px;max-height:calc(100% - 20px);aspect-ratio:21/38;
   resize:vertical;overflow:hidden;border:1px solid #6b6a4c;border-radius:6px;box-shadow:0 10px 26px #000a}
 #sigWrap.open{display:block}
 #sigWrap #sigView{display:block;cursor:pointer;position:static;width:100%;height:100%;border:0;border-radius:0;box-shadow:none;max-width:none;aspect-ratio:auto}
@@ -277,8 +277,8 @@ button.on,button[aria-pressed=true]{background:var(--grain),#e3b14f;border-color
 .tb-shift select{min-height:25px;padding:3px 6px;border-radius:3px;border:1px solid #000;background:#0b0f0a;color:#ffb648;font:700 12px var(--mono);box-shadow:inset 0 2px 4px #000;cursor:pointer}
 
 /* Bakelit szolgálati telefon és papír hívásnapló */
-#phonePanel{position:fixed;z-index:12;top:var(--phone-top,72px);right:12px;width:min(450px,calc(100% - 24px));min-width:min(260px,calc(100% - 24px));
-  max-width:calc(100vw - 16px);max-height:min(590px,calc(100dvh - var(--phone-top,72px) - 8px));display:grid;
+#phonePanel{position:fixed;z-index:12;top:var(--phone-top,72px);right:12px;width:min(355px,calc(100% - 24px));min-width:min(260px,calc(100% - 24px));
+  max-width:calc(100vw - 16px);max-height:min(520px,calc(100dvh - var(--phone-top,72px) - 8px));display:grid;
   grid-template-rows:auto minmax(0,1fr);resize:both;overflow:hidden;color:#f5e7c5;
   border:1px solid #8b7257;border-radius:14px 14px 10px 10px;
   background:var(--grain),var(--fibre),radial-gradient(ellipse at 30% 0,#554236 0,#32251e 55%,#201711 100%);
@@ -569,7 +569,7 @@ body.paged #phonePanel{position:static;flex:1;width:auto;min-width:0;max-width:n
 body.paged:not([data-page=phone]) #phonePanel{display:none!important}
 body.paged #shiftLabel{display:none}
 body.paged #log{width:min(300px,70%);right:6px;top:44px}
-body.paged #sigWrap{top:48px;height:min(130px,calc(100% - 60px))}
+body.paged #sigWrap{top:48px;height:min(170px,calc(100% - 60px))}
 @media(max-height:520px){body.paged #pager span{display:none}body.paged #pager button{padding:3px 1px}body.paged #pager svg{width:20px;height:20px}
   body.paged #top{padding:2px 8px}body.paged .logo-mark{display:none}body.paged #clock{font-size:15px;padding:2px 8px}body.paged #timebar button{min-height:22px;padding:2px 6px}}
 /* Lapozós mód, Terep lap: a terepasztal kitölti a képernyőt, a vezérlők egy sorba és a térkép fölé kerülnek */
@@ -606,6 +606,25 @@ body.paged #sigWrap{top:46px;left:6px}
   #ttBody td:nth-child(3),#ttBody td:nth-child(4){font-size:10px;letter-spacing:-.4px}
   #ttBody th{font-size:8px;letter-spacing:0;white-space:nowrap;overflow-wrap:normal;padding-left:2px;padding-right:1px}
 }
+/* Hangerő panel */
+#soundPanel{position:fixed;z-index:60;width:260px;padding:0 0 10px;background:var(--grain),var(--card,#f4ead5);color:var(--ink-body,#222);
+  border:1px solid #000;border-radius:var(--r,3px);box-shadow:0 8px 24px #0006;font:13px/1.35 var(--sans,system-ui)}
+#soundPanel[hidden]{display:none}
+#soundPanel header{display:flex;align-items:center;justify-content:space-between;margin:4px 4px 8px;padding:6px 6px 6px 10px;background:var(--grain),#1c1c16;color:#f1e6c4}
+#soundPanel header b{font:700 11px/1.2 var(--mono,monospace);letter-spacing:.1em;text-transform:uppercase}
+#soundPanel header button{min-height:22px;width:24px;padding:0;border:1px solid #000;background:#33342c;color:#f1e6c4;font:700 15px/1 var(--sans,system-ui);box-shadow:none}
+#soundPanel label{display:grid;grid-template-columns:96px 1fr 30px;align-items:center;gap:6px;margin:4px 12px}
+#soundPanel label input[type=range]{width:100%;accent-color:#c9902e}
+#soundPanel output{font:600 11px var(--mono,monospace);text-align:right}
+#soundPanel .snd-mute{display:flex;gap:6px;margin-top:8px}
+#soundPanel p{margin:8px 12px 0;font-size:11px;color:var(--ink-soft,#555)}
+/* tömör telefonablak */
+#phoneTalk{display:none}
+#phonePanel .phone-head{padding:9px 11px 8px;gap:9px;grid-template-columns:52px minmax(0,1fr) 30px}
+#phonePanel .phone-emblem{width:52px;height:38px}#phonePanel .phone-svg{width:40px;height:32px}
+#phonePanel .phone-heading h2{font-size:17px}
+#phonePanel .phone-neighbors{padding:8px 11px 9px}
+#phoneReceiveState[hidden]{display:none}
 </style>
 </head>
 <body data-page="">
@@ -669,7 +688,7 @@ body.paged #sigWrap{top:46px;left:6px}
     <div class="map-tools">
       <button type="button" id="mapToolsToggle" aria-expanded="false" aria-label="Nézet és rétegek" title="Nézet és rétegek"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4l9 4.500-9 4.500-9-4.500zM3 12.500l9 4.500 9-4.500M3 16.500l9 4.500 9-4.500"></path></svg></button>
       <div class="grp" role="group" aria-label="Terepasztal nézete">
-        <button id="btnFit" aria-pressed="true">Állomás</button>
+        <button id="btnFit" aria-pressed="false">Állomás</button>
         <button id="btnHouse" aria-pressed="false" title="Dunaharaszti állomásépülete">Épület</button>
         <button id="btnLine" aria-pressed="false">Vonalszakasz</button>
       </div>
@@ -753,11 +772,11 @@ body.paged #sigWrap{top:46px;left:6px}
           <dt>Hívójelzés</dt><dd>Villogó fehér fény a vörös alatt: a vonat legfeljebb 15 km/h-val, a berendezés ellenőrzése nélkül haladhat. Csak hiba vagy foglalt vágány esetén!</dd>
           <dt>Kisiklasztó saru</dt><dd>A rakodóvágány végén lévő eszköz, amely a kigurulni készülő kocsit kisiklasztja, hogy ne érjen az I. vágányra.</dd>
           <dt>Fogadási engedély</dt><dd>A szomszéd állomás a telefonpanelen megadott engedély után indíthatja a vonatot. A bejárati vágányutat és a jelzőt külön kell kezelni.</dd>
-          <dt>Menesztés</dt><dd>Az álló vonat adatlapjáról hívd a célállomást. Engedéllyel és szabad kijárati jelzőnél a tárcsás gombbal menesztheted a vonatot, vagy írásban késleltetheted az indulását.</dd>
+          <dt>Menesztés</dt><dd>Az álló vonat adatlapjáról hívd a célállomást. Engedéllyel és szabad kijárati jelzőnél a tárcsás gombbal menesztheted a vonatot, vagy írásban késleltetheted az indulását. Amikor a vonat kihaladt, az indulási időközlést a játék automatikusan leadja a célállomásnak.</dd>
         </dl>
       </details>
     </div>
-    <div id="tutorBody" role="tabpanel" hidden=""><div class="tu-intro"><h3>Dominó 55 oktató</h3><p>Hat rövid lecke az alapoktól: melyik gombot mikor és miért nyomod meg. A tanpályán nincs forgalom, nyugodtan gyakorolhatsz. Kilépéskor a szolgálat ott folytatódik, ahol abbahagytad.</p></div>
+    <div id="tutorBody" role="tabpanel" hidden=""><div class="tu-intro"><h3>Dominó 55 oktató</h3><p>Nyolc rövid lecke az alapoktól: melyik gombot mikor és miért nyomod meg. A tanpályán nincs forgalom, nyugodtan gyakorolhatsz. Kilépéskor a szolgálat ott folytatódik, ahol abbahagytad.</p></div>
       <ol class="tu-lessons"><li><button type="button" data-lesson="0"><span class="tu-no">1</span><span class="tu-t"><b>A pult felépítése</b><small>Mit látsz, mi micsoda</small></span><i class="tu-stamp">Kész</i></button></li><li><button type="button" data-lesson="1"><span class="tu-no">2</span><span class="tu-t"><b>Váltóállítás</b><small>Közös áll. + váltógomb</small></span><i class="tu-stamp">Kész</i></button></li><li><button type="button" data-lesson="2"><span class="tu-no">3</span><span class="tu-t"><b>Bejárati vágányút</b><small>Kezdőgomb + célgomb, majd jelzőállítás</small></span><i class="tu-stamp">Kész</i></button></li><li><button type="button" data-lesson="3"><span class="tu-no">4</span><span class="tu-t"><b>Kijárati vágányút</b><small>Kijárati jelző + zöld célgomb</small></span><i class="tu-stamp">Kész</i></button></li><li><button type="button" data-lesson="4"><span class="tu-no">5</span><span class="tu-t"><b>Sorompó és rendkívüli gombok</b><small>SR2, hívójelzés, kényszeroldás</small></span></button></li><li><button type="button" data-lesson="5"><span class="tu-no">6</span><span class="tu-t"><b>Vonat fogadása és indítása</b><small>Gyakorlóvonat a tanpályán</small></span></button></li></ol></div>
     <div id="ttBody" role="tabpanel" class=""><table><thead><tr><th>Vonat</th><th>Irány</th><th>Érk.</th><th>Ind.</th><th>Vg.</th><th>Tart.</th><th>Állapot</th><th>Késés</th></tr></thead><tbody><tr class="row  " data-no="3732">
       <td><span class="badge b-S">Sz</span><b>3732</b><div class="act">Személyvonat · Budapest-Keleti → Kunszentmiklós-Tass</div><div class="act">431 (V43) Szili + 4 Bhv</div></td>
@@ -1006,6 +1025,11 @@ const TRACK_OF = { t1a: '1', t1: '1', t1c: '1', t2: '2', t3: '3' };
 // A peronok közepe az él elejétől (m). A személyvonat úgy áll meg, hogy a közepe a peron közepére essen.
 // (Peronok: I–II. között 3550–4338, II–III. között 3650–4349, az épület felől 3600–4340 terepasztal-egység, 2 egység = 1 m.)
 const PLATFORM_MID = { t1a: 342, t2: 345, t3: 370 };
+// Dunaharaszti-alsó megállóhely (nyílt vonal, Taksony felé, az AS 166 mögött): peron 7260–7490 egység.
+// A személyvonatok itt is megállnak, a biztosítóberendezéstől függetlenül (nincs jelző, nincs menesztés).
+const HALT = { edge: 'el1', mid: (7375 - 7200) / 2, dwell: 25, name: 'Dunaharaszti-alsó' };
+const haltHead = (E, tr) => Math.min(E.len - 2, (tr.dir > 0 ? HALT.mid : E.len - HALT.mid) + tr.len / 2);   // hosszú vonatnál az eleje a szakasz végén áll meg
+const HALT_EXTRA = { 1: 72, '-1': 71 };   // a megállás miatti menetidő-többlet (fékezés + tartózkodás + gyorsítás), s
 const isStopEdge = id => PLATFORM_MID[id] !== undefined;
 // A vonat elejének helye a megálláskor, menetirány szerint mérve az élen
 const stopHead = (E, tr) => (tr.dir > 0 ? PLATFORM_MID[E.id] : E.len - PLATFORM_MID[E.id]) + tr.len / 2;
@@ -1109,7 +1133,11 @@ for (const route of ROUTES) {
   ROUTE[route.id] = route;
 }
 
+// A vágányút jelzőtől jelzőig tart, az állomás határán (a bejárati jelzőnél) véget ér.
+// A nyílt vonali térköz a kijárati vágányútban csak irányítva és lezárva van, fehéren nem világít.
+const LINE_SECS = new Set(Object.values(LINES).flatMap(L => L.secs));
 function edgeRouteLocked(edge) {
+  if (LINE_SECS.has(edge.sec)) return false;
   const routeId = SEC[edge.sec].lock;
   return !!routeId && ROUTE[routeId].edges.has(edge.id);
 }
@@ -1546,6 +1574,10 @@ const trains = TIMETABLE.map(d => {
     nextSig: null, nextSigDist: 1e9, waitMsg: null, spawnWaitMsg: false, srWarn: false,
     departurePermission: null, awaitDispatch: false, dispatchAt: null, dispatchOrder: null,
   });
+  if (tr.kind === 'S') {   // a személyvonatok Dunaharaszti-alsón is megállnak: a menetrend ezzel az idővel hosszabb
+    tr.haltStop = true; tr.haltDone = false;
+    if (tr.dir > 0) tr.exit += HALT_EXTRA[1]; else tr.enter -= HALT_EXTRA[-1];
+  }
   if (tr.kind === 'G') {
     tr.freightConsist = Math.floor(Number(tr.no) / 2) % FREIGHT_CONSISTS.length;
   } else {
@@ -1560,7 +1592,7 @@ const originLine = train => train.dir > 0 ? 'W' : 'E';
 const destinationLine = train => train.dir > 0 ? 'E' : 'W';
 
 function nextReception(line) {
-  if (tutor.on) return null;
+  if (tutor.on) { const t = tutor.phone && tT(); return t && t.state === 'pending' && originLine(t) === line ? t : null; }
   const pending = trains.filter(t => t.state === 'pending' && originLine(t) === line && now >= t.enter - OFFER_LEAD);
   return pending.find(t => t.receiveAt != null) || pending.find(readyForCrossingApproach) || pending[0];
 }
@@ -1600,7 +1632,7 @@ function stationStop(tr) {
   return tr.state === 'run' && tr.v === 0 && tr.lineDepartAt == null && tr.depAt == null && stationExit(tr) !== null;
 }
 function canAskDeparture(tr) {
-  return stationStop(tr) && (tr.dwell || tr.awaitDispatch) && tr.dispatchAt == null && !tutor.on;
+  return stationStop(tr) && (tr.dwell || tr.awaitDispatch) && tr.dispatchAt == null && (!tutor.on || tutor.phone);
 }
 function dispatchReady(tr) {
   return tr.awaitDispatch && tr.dispatchAt == null && stationStop(tr) && !tr.dwell;
@@ -1614,7 +1646,7 @@ function dispatchSignalProblem(tr) {
 }
 function dispatchProblem(tr) {
   if (!dispatchReady(tr)) return 'A vonat még nem áll indulásra készen.';
-  if (tr.departurePermission !== true && !tutor.on) return 'Kérj indulási engedélyt a célállomástól.';
+  if (tr.departurePermission !== true && (!tutor.on || tutor.phone)) return 'Kérj indulási engedélyt a célállomástól.';
   if (tr.dispatchOrder != null && now < tr.dispatchOrder) return `Írásbeli rendelkezés alapján ${fmt(tr.dispatchOrder)}-ig vár.`;
   return dispatchSignalProblem(tr);
 }
@@ -1722,6 +1754,10 @@ function allowedSpeed(tr) {
       const d = dStart + stopHead(E, tr);
       if (d > -3) cons(d, 0, { t: 'stop' });
     }
+    if (tr.haltStop && !tr.haltDone && E.id === HALT.edge) {
+      const d = dStart + haltHead(E, tr);
+      if (d > -3) cons(d, 0, { t: 'halt' });
+    }
     const dEnd = dStart + E.len;
     const node = tr.dir > 0 ? E.b : E.a;
     const sid = SIGAT[node + '|' + tr.dir];
@@ -1777,12 +1813,15 @@ function onNode(tr, node, fromE, toE) {
 function moveTrain(tr, dt) {
   if (tr.dwell) {
     if (!tr.dwell.closing && now >= tr.dwell.until) { tr.dwell.closing = true; tr.dwell.until = now + 6; }
-    else if (tr.dwell.closing && now >= tr.dwell.until) { tr.dwell = null; tr.stopPending = false; tr.awaitDispatch = true; }
+    else if (tr.dwell.closing && now >= tr.dwell.until) {
+      if (tr.dwell.halt) { tr.dwell = null; tr.haltDone = true; }   // megállóhely: nincs menesztés, a vonat magától indul
+      else { tr.dwell = null; tr.stopPending = false; tr.awaitDispatch = true; }
+    }
   }
   if (dispatchReady(tr)) {
     if (autoMode && tr.departurePermission == null && !dispatchSignalProblem(tr) && !departureCallPending(tr) &&
         canOfferPhoneTrain(destinationLine(tr), tr)) tr.departurePermission = true;
-    if (autoMode || tutor.on || tr.dispatchOrder != null) issueDispatch(tr);
+    if (autoMode || (tutor.on && !tutor.phone) || tr.dispatchOrder != null) issueDispatch(tr);
   }
   const permittedSpeed = allowedSpeed(tr);
   const vA = tr.awaitDispatch && tr.dispatchAt == null ? 0 : permittedSpeed;
@@ -1801,6 +1840,10 @@ function moveTrain(tr, dt) {
     else { tr.s = E.len; tr.v = 0; break; }
   }
   const HE = EDGE[tr.trail[0]];
+  if (tr.haltStop && !tr.haltDone && !tr.dwell && HE.id === HALT.edge && tr.v === 0 && Math.abs(haltHead(HE, tr) - tr.s) < 4) {
+    tr.dwell = { until: now + HALT.dwell, closing: false, halt: true };
+    msg(`${tr.cat} ${tr.no} megállt ${HALT.name} megállóhelyen.`, 'info');
+  }
   if (!tr.stops && stationStop(tr) && tr.dispatchAt == null &&
       (tr.by?.t === 'plannedStop' || tr.by?.t === 'crossing' || tr.by?.id === stationExit(tr))) tr.awaitDispatch = true;
   if (tr.stopPending && !tr.dwell && isStopEdge(HE.id, tr.dir) && tr.v === 0 && Math.abs(stopHead(HE, tr) - tr.s) < 4) {
@@ -1987,6 +2030,20 @@ function destTargets() {
   const set = new Set();
   if (selStart) for (const r of ROUTES) if (r.start === selStart) r.dest.forEach(d => set.add(d));
   return set;
+}
+// Javítás: a foglaltság a teljes szigetelt szakaszra vonatkozik. A vonat által leérintett élekből kiindulva
+// a szakaszon belül a beállított váltóállás szerint összefüggő élek is pirosan világítanak.
+function occupiedSectionEdges() {
+  const lit = new Set(), queue = [];
+  for (const e of EDGES) if (e.occ) { lit.add(e.id); queue.push(e); }
+  while (queue.length) {
+    const E = queue.pop();
+    for (const dir of [1, -1]) {
+      const n = nextEdge(E, dir);
+      if (n.edge && n.edge.sec === E.sec && !lit.has(n.edge.id)) { lit.add(n.edge.id); queue.push(n.edge); }
+    }
+  }
+  return lit;
 }
 function inactiveEdges() {
   const trimFor = {};
@@ -2389,9 +2446,11 @@ function drawCrossing(c, cm, x, name, closed, barrier, k, hits, id) {
       const cabinetX = centerX - normalX * cabinetOffset;
       const cabinetY = centerY - normalY * cabinetOffset;
       drawCrossingCabinet(c, cabinetX, cabinetY, scale);
-      const closedLength = cabinetOffset + 1.5 * scale;
+      // Lezárva a kar pontosan 90°-ot fordul: függőlegesből vízszintesbe, a vágánnyal párhuzamosan keresztben az úton.
+      const roadX = rx + (cabinetY - ry) * slope;               // az út tengelye a szekrény magasságában
+      const closedLength = Math.abs(roadX - cabinetX) + 1.5 * scale;
       const openLength = Math.max(closedLength, 35 * scale);
-      const closedAngle = Math.atan2(normalY, normalX);
+      const closedAngle = roadX >= cabinetX ? 0 : Math.PI;
       const openAngle = -Math.PI / 2;
       const delta = Math.atan2(Math.sin(closedAngle - openAngle), Math.cos(closedAngle - openAngle));
       drawCrossingBoom(c, cabinetX, cabinetY - 2.3 * scale, openAngle + delta * progress,
@@ -3675,7 +3734,7 @@ function drawPult(c, cm) {
   pText(c, 'Soroksár', ...W2S(cm, 530, -60), fs(19), '#f4f0df', 'left');
   pText(c, 'Taksony', ...W2S(cm, 1670, -60), fs(19), '#f4f0df', 'right');
   // vágánycsíkok (fekete horony, benne fénycsík)
-  const trimFor = inactiveEdges();
+  const trimFor = inactiveEdges(), occLit = occupiedSectionEdges();
   for (const e of EDGES) {
     let pts = e.ppts;
     if (e.id === 'wl2') pts = [[500, 0], [600, 0]]; else if (e.id === 'el2') pts = [[1600, 0], [1700, 0]];
@@ -3686,8 +3745,8 @@ function drawPult(c, cm) {
     strokePoly(c, p, '#0d0b08', 7 * z + 1);
     const s = SEC[e.sec];
     if (e.sec === 'T4' && !s.occ) { strokePoly(c, pp, '#2b2620', 3.5 * z, [10 * z, 4 * z]); continue; }
-    // A vágánycsík a vonat által leérintett ágakat követi, a reteszelés továbbra is a teljes szigetelt szakaszra vonatkozik.
-    const col = e.occ ? '#ff2a1a' : edgeRouteLocked(e) ? '#f4f0df' : null;
+    // A foglaltság és a reteszelés is a teljes szigetelt szakaszt mutatja, a beállított váltóállás szerinti ágon.
+    const col = occLit.has(e.id) ? '#ff2a1a' : edgeRouteLocked(e) ? '#f4f0df' : null;
     if (col) { c.shadowColor = col; c.shadowBlur = 2 * pultGlow; strokePoly(c, pp, col, 3.6 * z, [10 * z, 3 * z]); c.shadowBlur = 0; }
     else strokePoly(c, pp, '#26221b', 3.6 * z, [10 * z, 3 * z]);
   }
@@ -3871,13 +3930,19 @@ const signalExamples = [...document.querySelectorAll('.signal-example canvas')].
 }));
 let sigViewId = null, lastSignalDrawing = '', lastExamplesPhase = null;
 
+let swViewId = null;
 function openSigView(id) {
-  sigViewId = id;
+  sigViewId = id; swViewId = null;
+  lastSignalDrawing = '';
+  $('#sigWrap').classList.add('open');
+}
+function openSwView(id) {
+  swViewId = id; sigViewId = null; autoWin.sig = false;
   lastSignalDrawing = '';
   $('#sigWrap').classList.add('open');
 }
 function closeSigView() {
-  sigViewId = null;
+  sigViewId = null; swViewId = null;
   $('#sigWrap').classList.remove('open');
 }
 sv.onclick = () => { if (autoMode) autoWin.sigDismissed = sigViewId; autoWin.sig = false; closeSigView(); };
@@ -3918,6 +3983,7 @@ function signalTextLines(c, text, x, y, maxWidth, lineHeight) {
 function drawSigView() {
   const litPhase = blink % 1 < 0.5;
   drawSignalExamples(litPhase);
+  if (swViewId) { drawSwView(litPhase); return; }
   if (!sigViewId) return;
 
   const id = sigViewId, { kind, aspect } = signalDisplay(id);
@@ -3984,6 +4050,69 @@ function drawSigView() {
   c.fillStyle = '#9eb2a5';
   c.font = '10px ui-monospace, monospace';
   c.fillText('Jelzési ismeretek · F1–22–25.', 14, 364);
+}
+
+/* Váltó közelkép: a jelző-közelképpel azonos méretű és stílusú ablak */
+function drawSwView(litPhase) {
+  const id = swViewId, w = SW[id], sec = SEC[w.sec], local = LOCAL_SWITCHES.has(id);
+  const key = ['sw', id, w.pos, w.target, w.moving, w.moving && litPhase, sec.lock, sec.occ, w.keyOut].join('|');
+  if (lastSignalDrawing === key) return;
+  lastSignalDrawing = key;
+  const title = w.moving ? 'Állítás alatt' : w.pos === 'N' ? 'Egyenes állás' : 'Kitérő állás';
+  const description = w.moving ? 'A váltó átáll, addig nem járható.'
+    : w.pos === 'N' ? `Az út ${SW_INFO[id][0]} vezet.` : `Az út ${SW_INFO[id][1]} vezet, legfeljebb 40 km/h-val.`;
+  const status = local ? (w.keyOut ? 'Helyszíni kezelés: a kulcs kivéve.' : 'Helyszíni kezelésű váltó.')
+    : sec.occ ? 'Foglalt, nem állítható.' : sec.lock ? 'Vágányúthoz lezárva.' : 'Szabad, állítható.';
+  const type = local ? 'Rakodóváltó' : 'Váltó';
+  sv.setAttribute('aria-label', `${id}. sz. ${type.toLowerCase()}. ${title}. ${description} ${status} Bezárás.`);
+
+  const c = svx, W = 210, H = 380, x = 56;
+  c.setTransform(2, 0, 0, 2, 0, 0);
+  const bg = c.createLinearGradient(0, 0, W, H);
+  bg.addColorStop(0, '#263634'); bg.addColorStop(1, '#131d1e');
+  c.fillStyle = bg; c.fillRect(0, 0, W, H);
+  c.fillStyle = '#111c1d'; c.fillRect(0, 0, W, 57);
+  c.fillStyle = '#dae6d7'; c.textBaseline = 'alphabetic'; c.textAlign = 'left';
+  c.font = '700 17px system-ui, sans-serif'; c.fillText(`${id} · ${type}`, 14, 34);
+  c.font = '16px system-ui, sans-serif'; c.fillStyle = '#a1b7aa'; c.textAlign = 'right'; c.fillText('×', W - 13, 33);
+
+  c.strokeStyle = '#778f832e'; c.lineWidth = 1; c.beginPath();
+  for (let y = 63; y < 334; y += 18) { c.moveTo(10, y); c.lineTo(97, y); }
+  for (let xGrid = 16; xGrid < 97; xGrid += 18) { c.moveTo(xGrid, 63); c.lineTo(xGrid, 334); }
+  c.stroke();
+
+  // váltójelző oszlopon
+  const s = 4.2, B = 13 * s, signTop = 96;
+  c.fillStyle = '#c8c4b4'; c.fillRect(x - 3, signTop + B / 2, 6, 236 - signTop - B / 2);
+  c.fillStyle = '#8a9590'; c.fillRect(x - 22, 236, 44, 5);
+  drawSwitchSign(c, x, signTop + B / 2 + 7 * s, s, id, w, !!sec.lock);
+
+  // kis vágányvázlat: a beállított ág világos, a másik sötét
+  const R = EDGE[w.R], other = R.a === w.node ? R.b : R.a, right = P[other][0] > P[w.node][0];
+  const ox = right ? 16 : 96, dx = right ? 1 : -1, sy = w.below ? 262 : 302, by = sy + (w.below ? 28 : -28);
+  const active = w.moving ? null : w.pos;
+  c.lineCap = 'round';
+  c.lineWidth = 4; c.strokeStyle = '#0d0b08';
+  c.beginPath(); c.moveTo(ox, sy); c.lineTo(ox + 76 * dx, sy); c.moveTo(ox + 26 * dx, sy); c.lineTo(ox + 62 * dx, by); c.stroke();
+  c.lineWidth = 2.4;
+  const lit = sec.occ ? '#ff4a3a' : sec.lock ? '#f4f0df' : '#d6cfae';
+  c.strokeStyle = '#3a372e';
+  c.beginPath(); c.moveTo(ox + 26 * dx, sy); c.lineTo(ox + 76 * dx, sy); c.moveTo(ox + 26 * dx, sy); c.lineTo(ox + 62 * dx, by); c.stroke();
+  c.strokeStyle = lit;
+  c.beginPath(); c.moveTo(ox, sy); c.lineTo(ox + 26 * dx, sy);
+  if (active === 'N') c.lineTo(ox + 76 * dx, sy); else if (active === 'R') c.lineTo(ox + 62 * dx, by);
+  c.stroke(); c.lineCap = 'butt';
+
+  c.textAlign = 'left'; c.fillStyle = '#f4ead5'; c.font = '700 16px system-ui, sans-serif';
+  let ty = signalTextLines(c, title, 108, 119, 88, 20) + 8;
+  c.fillStyle = '#c9d6cd'; c.font = '12px system-ui, sans-serif';
+  ty = signalTextLines(c, description, 108, ty, 88, 17) + 6;
+  c.fillStyle = sec.occ ? '#ff9a8a' : sec.lock ? '#9fe0b0' : '#a1b7aa';
+  signalTextLines(c, status, 108, ty, 88, 17);
+
+  c.fillStyle = '#111c1d'; c.fillRect(0, 340, W, 40);
+  c.fillStyle = '#9eb2a5'; c.font = '10px ui-monospace, monospace';
+  c.fillText(local ? 'Váltójelző · helyszíni kezelés' : 'Váltójelző · Dominó 55', 14, 364);
 }
 
 /* ---------- [8] Bevitel ---------- */
@@ -4059,7 +4188,7 @@ function mapClick(el, mods) {
     }
     return;
   }
-  if (el.type === 'switch') { if (!selStart) openInfo({ kind: 'sw', id: el.id, w: S2W(cam, el.x, el.y) }); else selStart = null; }
+  if (el.type === 'switch') { if (!selStart) { openSwView(el.id); openInfo({ kind: 'sw', id: el.id, w: S2W(cam, el.x, el.y) }); } else selStart = null; }
 }
 function setupCanvasInput(c, cm, isMap) {
   let down = null;
@@ -4189,7 +4318,7 @@ window.addEventListener('keydown', e => {
   if (e.key === 'Escape' && !phonePanel.hidden) { closePhone(); return; }
   if (e.key === 'Escape') {
     selStart = null; armed = null; pStart = null; closeInfo();
-    if (sigViewId) closeSigView();
+    if (sigViewId || swViewId) closeSigView();
   } else if (e.key === ' ' && !e.target.closest('button')) {
     e.preventDefault();
     setSpeed(speed ? 0 : 1);
@@ -4361,11 +4490,7 @@ function queuePhoneCall(line, type, train) {
 }
 
 function phoneTick() {
-  for (const line of Object.keys(phoneLines)) {
-    const pending = phoneLines[line].call;
-    if (pending?.type === 'request' && pending.stage === 'answer' &&
-        (now >= (pending.answerAt ?? 0) || performance.now() >= (pending.answerReal ?? 0))) answerDepartureCall(line, pending, true);
-  }
+  phoneAutoTick();
   for (const line of Object.keys(phoneLines)) {
     // A fel nem vett felajánlást indulás után az indulási időközlés váltja fel.
     phoneLines[line].queue = phoneLines[line].queue.filter(item =>
@@ -4379,6 +4504,28 @@ function phoneTick() {
   renderPhone();
 }
 
+// A szomszéd automatikus válasza az engedélykérésre, és az automatikus indulási időközlés.
+function phoneAutoTick() {
+  for (const line of Object.keys(phoneLines)) {
+    const pending = phoneLines[line].call;
+    if (pending?.type === 'request' && pending.stage === 'answer' &&
+        (now >= (pending.answerAt ?? 0) || performance.now() >= (pending.answerReal ?? 0))) answerDepartureCall(line, pending, true);
+  }
+  // Az indulási időközlést (a vonat kihaladt a kijárati jelzőn) a játék automatikusan leadja a célállomásnak.
+  for (const train of trains) {
+    if (train.lineDepartAt == null) continue;
+    const line = destinationLine(train), connection = phoneLines[line];
+    if (connection.sent.has(`report-${train.no}`) || connection.call || now < train.lineDepartAt + 4) continue;
+    connection.sent.add(`report-${train.no}`);
+    const words = departureWords(train, 'Dunaharaszti', train.lineDepartAt);
+    phoneMessage(line, 'system', `Indulási időközlés (automatikus) · ${LINES[line].name}`);
+    phoneMessage(line, 'player', words);
+    phoneMessage(line, 'neighbor', words);
+    phoneMessage(line, 'player', 'Az indulási időközlést vettem.');
+    phoneMessage(line, 'system', 'Vonal bontva');
+    msg(`Indulási időközlés leadva ${LINES[line].name} felé: ${train.cat} ${train.no}, ${fmt(train.lineDepartAt, false)}.`, 'ok');
+  }
+}
 function canOfferPhoneTrain(line, train) {
   const section = LINES[line];
   return (section.dir === 0 || section.dir === train.dir) &&
@@ -4423,6 +4570,19 @@ function openDepartureCall(train) {
   renderPhone(true);
 }
 
+// Engedély megkapása / megadása után a hívás magától bont, és a telefonpanel bezárul (kis késleltetéssel, hogy a válasz olvasható legyen).
+function autoClosePhone(line, delay = 1600) {
+  if (autoMode) return;
+  setTimeout(() => {
+    const c = phoneLines[line].call;
+    if (c && c.stage !== 'done') return;          // közben új hívás indult ezen a vonalon
+    if (c) finishPhoneCall(line);
+    if (phonePanel.hidden) return;
+    if (Object.values(phoneLines).some(l => l.call && l.call.stage !== 'done')) return;
+    closePhone();
+    renderGuide();
+  }, delay);
+}
 function answerDepartureCall(line, call, grant) {
   const train = call.train, operator = phoneLines[line].operator;
   if (!canAskDeparture(train)) {
@@ -4433,6 +4593,7 @@ function answerDepartureCall(line, call, grant) {
     const words = train.departurePermission ? permissionWords(train, LINES[line].name, operator)
       : `A ${train.no} sz. vonatot ${grant && !free ? 'foglalt állomásköz miatt ' : ''}nem fogadom. ${operator}.`;
     phoneMessage(line, 'neighbor', words);
+    if (train.departurePermission) autoClosePhone(line);
   }
   call.stage = 'done';
   recordSnap();
@@ -4497,7 +4658,7 @@ function callChoices(line, call) {
     if (train.receiveAt != null)
       return [reply(permissionWords(train, 'Dunaharaszti', 'Kovács'), true, '', () => {
         phoneMessage(line, 'neighbor', `A ${train.no} sz. vonat Dunaharaszti állomásra jöhet. Vettem, ${connection.operator}.`);
-        complete();
+        complete(); autoClosePhone(line);
       })];
     return [
       { label: permissionWords(train, 'Dunaharaszti', 'Kovács'), correct: !receptionProblem(train), run() {
@@ -4505,21 +4666,13 @@ function callChoices(line, call) {
         if (problem || !authorizeReception(train)) { phoneMessage(line, 'system', problem || 'A fogadási engedély most nem adható meg.'); return; }
         phoneMessage(line, 'player', permissionWords(train, 'Dunaharaszti', 'Kovács'));
         phoneMessage(line, 'neighbor', `A ${train.no} sz. vonat Dunaharaszti állomásra jöhet. Vettem, ${connection.operator}.`);
-        complete(); recordSnap(); renderTT(); renderGuide();
+        complete(); recordSnap(); renderTT(); renderGuide(); autoClosePhone(line);
       } },
       reply('Várjon a fogadási engedélyre.', true, '', () => finishPhoneCall(line)),
     ];
   }
   if (type === 'receive') {
-    const hint = 'Olvasd vissza a vonatszámot, az indulási állomást és a közölt időt.';
-    return [
-      reply('Az indulási időközlést vettem.', false, hint),
-      reply(departureWords(train, station, train.enterAt + 60), false, hint),
-      reply(departureWords(train, station, train.enterAt), true, '', () => {
-        phoneMessage(line, 'neighbor', 'Az indulási időközlést vettem.');
-        complete();
-      }),
-    ];
+    return [reply('Az indulási időközlést vettem.', true, '', () => { complete(); recordSnap(); renderGuide(); autoClosePhone(line, 1200); })];
   }
   if (stage === 'repeat') {
     return [
@@ -4561,7 +4714,7 @@ function renderPhone(focusChoice = false) {
   phoneTrigger.classList.toggle('phone-ringing', Boolean(ringing));
   phoneTrigger.setAttribute('aria-label', ringing ? `Telefon, bejövő hívás – ${LINES[ringing].name}` :
     needsPermission ? `Telefon, fogadási engedély – ${LINES[needsPermission].name}` : 'Telefon');
-  $('#pgPhone').classList.toggle('ring', !tutor.on && Boolean(ringing || needsPermission));
+  $('#pgPhone').classList.toggle('ring', (!tutor.on || tutor.phone) && Boolean(ringing || needsPermission));
   if (phonePanel.hidden) return;
   const line = phoneLine;
   const { call, queue } = phoneLines[line];
@@ -4611,6 +4764,7 @@ phoneReceiveGrant.onclick = () => {
   if (!authorizeReception(tr)) { renderPhoneReception(); return; }
   const connection = phoneLines[phoneLine];
   if (!connection.call) phoneMessage(phoneLine, 'system', `A(z) ${tr.no} sz. vonat fogadási engedélye megadva.`);
+  autoClosePhone(phoneLine, 1200);
   renderPhone();
   renderTT();
   renderGuide();
@@ -4629,7 +4783,7 @@ function statusOf(tr) {
     if (tr.dispatchOrder != null) {
       return ['wait', now < tr.dispatchOrder ? `Késleltetve · ${fmt(tr.dispatchOrder)}` : dispatchSignalProblem(tr) || 'Késleltetett indulás'];
     }
-    if (tr.departurePermission !== true && !tutor.on) {
+    if (tr.departurePermission !== true && (!tutor.on || tutor.phone)) {
       return ['wait', departureCallPending(tr) ? 'A célállomás válaszára vár' : tr.departurePermission === false ? 'Indulási engedély megtagadva' : 'Indulási engedélyre vár'];
     }
     const problem = dispatchSignalProblem(tr);
@@ -4663,8 +4817,10 @@ function renderPhoneReception() {
   phoneReceiveKey = key;
   $('#phoneReceiveStation').textContent = LINES[phoneLine].name + ' felől';
   const passes = tr.kind === 'EC' || (tr.kind === 'G' && tr.arr === tr.dep);
-  $('#phoneReceiveRow').innerHTML = `<tr><td>${timetableTrain(tr)}</td><td>${fmt(tr.arr)}</td><td>${passes ? '–' : fmt(tr.dep)}</td><td>${ROMAN[tr.track]}</td></tr>`;
-  $('#phoneReceiveState').textContent = granted ? 'Engedély megadva' : problem || 'Engedélyre vár';
+  const compactTrain = timetableTrain(tr).replace(/<div class="act">[\s\S]*?<\/div>/g, '');
+  $('#phoneReceiveRow').innerHTML = `<tr><td>${compactTrain}</td><td>${fmt(tr.arr)}</td><td>${passes ? '–' : fmt(tr.dep)}</td><td>${ROMAN[tr.track]}</td></tr>`;
+  $('#phoneReceiveState').textContent = granted ? '' : problem || '';
+  $('#phoneReceiveState').hidden = granted || !problem;
   phoneReceiveGrant.dataset.no = tr.no;
   phoneReceiveGrant.disabled = granted || Boolean(problem);
   phoneReceiveGrant.textContent = granted ? 'Engedélyezve' : 'Fogadási engedély megadása';
@@ -4790,6 +4946,16 @@ function guideItems() {
     // 1) Fogadás: bejárati vágányút
     if (t.actualTrack == null) {
       const r = activeFrom[entry];
+      // A bejárati vágányutat és jelzőt a szomszéd állomás indulási időközlése után kell állítani.
+      const origin = originLine(t), noticed = phoneLines[origin].sent.has(`receive-${t.no}`);
+      if (!autoMode && !tutor.on && !noticed && !(r && (r.sigReq || r.train))) {
+        if (t.enterAt == null) items.push({ level: 'wait', t, title: `${name}: várd meg az indulási időközlést`,
+          why: `A fogadási engedélyt megadtad. ${LINES[origin].name} a vonat indulása után telefonon közli az indulási időt (menetrend szerint ${fmt(t.enter, false)}). A bejárati vágányutat és a(z) ${entry} jelzőt ezután állítsd.` });
+        else items.push({ level: 'action', urgent: !!stuck, t, title: `Vedd fel a telefont: ${name} indulási időközlése`,
+          why: `A vonat elindult ${LINES[origin].name} felől. Vedd az indulási időközlést, utána állíts bejárati vágányutat és szabad jelzést a(z) ${entry} jelzőn.`,
+          plan: { kind: 'phone' }, act: { label: 'Felveszem', run: () => openPhone(origin) } });
+        continue;
+      }
       if (!r) {
         const tracks = t.crossing ? [t.track] : [t.track, ...['2', '3', '1'].filter(k => k !== t.track)];
         const options = tracks.map(k => ROUTE[`${entry}-${k}`]).filter(Boolean);
@@ -4855,7 +5021,7 @@ function guideItems() {
   if (!KS.KS1.on || !KS.KS2.on) items.push({ level: 'warn', title: 'Kisiklasztó saru levéve', why: 'A rakodóvágányról így kocsi gurulhat az I. vágányra, ezért az I. vágányra nem állítható vágányút. Visszahelyezés: Közös áll. + KS1/KS2.' });
   if (SR.manual) items.push({ level: 'info', title: 'SR2 sorompó kézzel lezárva', why: 'Az útátjáró a közúti forgalom elől le van zárva. Felnyitás: Közös áll. + SR2.' });
   const ring = ringingLine();
-  if (ring) items.push({ level: 'info', title: `Csörög a telefon – ${LINES[ring].name}`, why: 'A szomszéd állomás vonatot ajánl fel vagy indulási időt közöl.', plan: { kind: 'phone' }, act: { label: 'Felveszem', run: () => openPhone(ring) } });
+  if (ring && !items.some(it => it.title.startsWith('Vedd fel a telefont'))) items.push({ level: 'info', title: `Csörög a telefon – ${LINES[ring].name}`, why: 'A szomszéd állomás vonatot ajánl fel vagy indulási időt közöl.', plan: { kind: 'phone' }, act: { label: 'Felveszem', run: () => openPhone(ring) } });
   const rank = it => (it.urgent ? 0 : 10) + ({ action: 0, warn: 1, info: 2, wait: 3 })[it.level];
   items.sort((a, b) => rank(a) - rank(b) || (a.t ? a.t.enter : 1e9) - (b.t ? b.t.enter : 1e9));
   return items;
@@ -4945,7 +5111,7 @@ function infoData() {
     const formation = PASSENGER_FORMATIONS[tr.formation];
     const freight = FREIGHT_CONSISTS[tr.freightConsist];
     const canAsk = canAskDeparture(tr);
-    const ready = dispatchReady(tr) && !tutor.on;
+    const ready = dispatchReady(tr) && (!tutor.on || tutor.phone);
     return { title: trainName(tr), stateLabel: 'Vonattípus',
       state: freight ? FREIGHT_LOCOMOTIVE.label : formation?.label || 'Tehervonat', mean: tr.type,
       why: freight ? `${freight.label} · ${freight.breakdown}` : '',
@@ -5091,7 +5257,7 @@ function drawPultHands(c, hits, z) {
 }
 
 /* ---------- [9g] Oktató: a Dominó 55 kezelése lépésről lépésre, vonatok nélküli tanpályán ---------- */
-const tutor = { on: false, li: 0, si: 0, okAt: 0, save: null, speed: 0, train: null, key: '', finished: false, done: new Set() };
+const tutor = { on: false, li: 0, si: 0, okAt: 0, save: null, speed: 0, train: null, key: '', finished: false, done: new Set(), phone: false, phoneAt: 0 };
 try { for (const i of JSON.parse(localStorage.getItem('dunaharaszti-tutor') || '[]')) tutor.done.add(i); } catch (err) { /* nincs tárhely */ }
 const tT = () => tutor.train && TRAIN[tutor.train];
 const K = { KA: 'pCommon:KA', JA: 'pCommon:JA', TO: 'pCommon:TO' };
@@ -5130,7 +5296,48 @@ const LESSONS = [
     { do: `Jelzőt szabadra: ${pb('Jelzőáll.')} + ${pb('V2')}.`, why: 'A tanpályán a menesztés automatikus. Szolgálatban az álló vonat adatlapjáról kérsz engedélyt és menesztesz.', keys: [K.JA, 'pSig:V2'], done: () => ASP.V2 !== 'VOROS' || !activeFrom.V2 || !!activeFrom.V2.train },
     { do: 'A vonat elindul, és elhagyja az állomást.', why: 'Ennyi a szolgálat lényege: bejárat, jelző, kijárat, jelző. Élesben a Segítő mindig megmutatja a következő lépést.', wait: true, rate: 4, done: () => !tT() || tT().exiting || tT().state === 'done' },
   ] },
+  { title: 'Telefon és menesztés', sub: 'Engedélyek, időközlés, menesztés', phone: true, steps: [
+    { do: 'Csörög a telefon: Soroksár vonatot ajánl fel. Nyisd meg a <b>Telefon</b>t, vedd fel, jelentkezz be, és add meg a fogadási engedélyt („…jöhet!”).', why: 'Vonat csak a te engedélyeddel indulhat feléd. Az engedély megadása után a vonal magától bont, és az ablak bezárul. A Vonatfogadás sor gombjával hívás nélkül is megadhatod.', enter: tutorOfferTrain, done: () => !tT() || tT().receiveAt != null },
+    { do: 'A vonat elindult Soroksárról, és Soroksár telefonon közli az indulási időt. Vedd fel, és nyugtázd: „Az indulási időközlést vettem.”', why: 'A bejárati vágányutat és jelzőt csak az indulási időközlés után állítod. A Segítő is csak ekkor javasolja.', enter: tutorDepartTrain, done: () => !tT() || phoneLines.W.sent.has(`receive-${tT().no}`) },
+    { do: `Bejárat a II. vágányra: ${pb('A')} + ${pb('V2')}.`, why: 'Most már tudod, hogy a vonat úton van, ideje utat állítani neki.', keys: ['pSig:A', 'pSig:V2'], done: () => !!activeFrom.A || !!(tT() && tT().arrAt != null) },
+    { do: `Jelzőt szabadra: ${pb('Jelzőáll.')} + ${pb('A')}.`, why: 'Amikor a vonat rálép a lezárt bejárati vágányútra, a pult mélyen, hosszan csörög.', keys: [K.JA, 'pSig:A'], done: () => ASP.A !== 'VOROS' || !activeFrom.A || !!activeFrom.A.train },
+    { do: 'A vonat bejár a II. vágányra, és megáll a peronnál.', why: 'Utascsere közben már kérheted az indulási engedélyt.', wait: true, rate: 4, done: () => !tT() || tT().arrAt != null },
+    { do: 'Kérj indulási engedélyt Taksonytól: kattints a vonatra a térképen (vagy a Menetrend sorára), és az adatlapon nyomd meg az <b>Engedélykérés telefonon</b> gombot.', why: 'A szomszéd szolgálattevő magától válaszol. Ha szabad az állomásköz, megadja az engedélyt, és a telefon magától bezárul.', done: () => !tT() || tT().departurePermission === true },
+    { do: `Kijárat Taksony felé: ${pb('V2')} + a jobb oldali ${pb('zöld')} célgomb.`, why: 'A kijárati vágányút a kijárati jelzőtől az állomás határáig, a túlsó bejárati jelzőig világít. A nyílt vonalat csak a menetirány nyila jelzi.', keys: ['pSig:V2', 'pTarget:cE'], done: () => !!activeFrom.V2 },
+    { do: `Jelzőt szabadra: ${pb('Jelzőáll.')} + ${pb('V2')}.`, why: 'Engedély és szabad kijárati jelző kell a menesztéshez.', keys: [K.JA, 'pSig:V2'], done: () => ASP.V2 !== 'VOROS' || !activeFrom.V2 || !!activeFrom.V2.train },
+    { do: 'Meneszd a vonatot: a vonat adatlapján nyomd meg a <b>Menesztés</b> gombot, majd a megjelenő <b>Menesztés</b>t.', why: 'A Menesztés gomb az utascsere (ajtózárás) végén jelenik meg. Menesztéskor megszólal a forgalmi szolgálattevő sípja, és a vonat elindul.', rate: 3, done: () => !tT() || tT().dispatchAt != null },
+    { do: 'A vonat elhagyja az állomást. Kihaladás után az indulási időközlést a játék automatikusan leadja Taksonynak.', why: 'Nem kell külön telefonálnod. A beszélgetés a telefon naplójában a Taksony fülön visszanézhető.', wait: true, rate: 4, done: () => !tT() || phoneLines.E.sent.has(`report-${tT().no}`) },
+  ] },
+  { title: 'Terepasztal, megállóhely, hang', sub: 'Közelképek, Dunaharaszti-alsó, hangok', steps: [
+    { do: 'Kattints a térképen egy jelzőre, például az <b>A</b> bejárati jelzőre.', why: 'Megnyílik a jelző közelképe: mutatja a fényeket és a jelzés jelentését. A jobb alsó sarkánál átméretezhető, kattintásra bezárul.', enter: () => { closeSigView(); fit('station'); }, done: () => sigViewId != null },
+    { do: 'Kattints a térképen egy váltóra, például a <b>2</b>-es váltóra.', why: 'A váltó közelképe a váltójelzőt mutatja, egy kis vázlattal a beállított ágról, és azt, hogy szabad, lezárt vagy foglalt. Mellette nyílik az adatlap az állítógombbal.', enter: () => { closeSigView(); selStart = null; }, done: () => swViewId != null },
+    { do: 'Ez Dunaharaszti-alsó megállóhely, Taksony felé a nyílt vonalon.', why: 'A személyvonatok itt is megállnak, utascserével, a biztosítóberendezéstől függetlenül: nincs jelző, engedély vagy menesztés. A menetrend ezzel számol.', enter: tutorShowHalt },
+    { do: 'A pult foglaltságjelzése a teljes szigetelt szakaszt mutatja, a beállított váltóállás szerint.', why: 'Ha a vonat a vágány egyik végén áll, az egész vágány piros, nem csak az a darab, amelyen a vonat van. Így egy pillantással látod, melyik szakasz foglalt.', enter: () => { camHoldUntil = 0; fit('station'); } },
+    { do: 'Fent a <b>Hang</b> gombbal állíthatod a hangerőt: külön a pultét, a vonatokét, a környezetét és a telefonét. Az <b>N</b> billentyű némít.', why: 'A pult csak halkan kattan, és mélyen csörög, amikor vonat lép a bejárati vágányútra. A vonatok hangja mozdonytípusonként más, a terep hangjai a kamerához igazodnak.' },
+  ] },
 ];
+// Telefonos gyakorlóvonat: Soroksár felajánlja, a fogadási engedély után indul.
+function tutorOfferTrain() {
+  const tr = trains.find(t => t.state === 'pending' && t.dir > 0 && t.kind === 'S') || trains.find(t => t.state === 'pending' && t.dir > 0);
+  tutor.train = null;
+  if (!tr) return;
+  Object.assign(tr, { crossing: null, receiveAt: null, enter: now + 60, arr: now, dep: now, exit: now + 1200, track: '2', departurePermission: null, dispatchAt: null });
+  tutor.train = tr.no;
+  for (const l in phoneLines) { phoneLines[l].queue.length = 0; phoneLines[l].call = null; }
+  phoneNotified.delete(`offer-${tr.no}`); phoneNotified.delete(`receive-${tr.no}`);
+  queuePhoneCall('W', 'offer', tr);
+  renderPhone();
+}
+function tutorDepartTrain() {
+  const tr = tT(); if (!tr || tr.state !== 'pending') return;
+  if (tr.receiveAt == null) authorizeReception(tr);
+  if (trySpawn(tr)) { phoneNotified.delete(`receive-${tr.no}`); queuePhoneCall('W', 'receive', tr); renderPhone(); }
+}
+function tutorShowHalt() {
+  closeInfo(); closeSigView(); selStart = null;
+  follow = null; setViewButton(null); camHold();   // a követő kamera most ne vigye el a nézetet
+  cam.x = 7375; cam.y = ym(7375); cam.z = Math.max(cam.z, 1.1);
+}
 function tutorTrain() {
   const tr = trains.find(t => t.state === 'pending' && t.dir > 0 && t.kind === 'S') || trains.find(t => t.state === 'pending' && t.dir > 0);
   tutor.train = null;
@@ -5151,7 +5358,8 @@ function tutorLesson(i) {
     document.body.classList.add('tutoring');
   }
   restore(baseSnap); logEl.replaceChildren();
-  tutor.li = i; tutor.si = 0; tutor.finished = false; tutor.train = null;
+  tutor.li = i; tutor.si = 0; tutor.finished = false; tutor.train = null; tutor.phone = !!LESSONS[i].phone;
+  closePhone(); closeSigView();
   if (deskTab !== 'tutor' || $('#tt').classList.contains('closed')) selectDeskTab('tutor');
   if (document.body.classList.contains('paged')) setPage('pult'); else setDeskOpen('pult', true);
   msg(`Tanpálya: ${i + 1}. lecke – ${LESSONS[i].title}.`, 'info');
@@ -5166,7 +5374,7 @@ function tutorNext() {
 }
 function stopTutor() {
   if (!tutor.on) return;
-  tutor.on = false; tutor.finished = false; tutor.train = null;
+  tutor.on = false; tutor.finished = false; tutor.train = null; tutor.phone = false;
   document.body.classList.remove('tutoring');
   restore(tutor.save); tutor.save = null;
   logEl.replaceChildren(); msg('Tanpálya vége: a szolgálat ott folytatódik, ahol abbahagytad.', 'info');
@@ -5190,6 +5398,7 @@ function tutorSim(real) {
 }
 function tutorTick() {
   if (!tutor.on || tutor.finished) return;
+  if (tutor.phone && performance.now() - tutor.phoneAt > 300) { tutor.phoneAt = performance.now(); phoneAutoTick(); renderPhone(); }
   const st = tStep();
   if (!st.done) return;
   if (!tutor.okAt) { if (st.done()) { tutor.okAt = performance.now(); renderTutor(true); } }
@@ -5219,13 +5428,13 @@ function renderTutor(force) {
   if (!force && key === tutor.key) return;
   tutor.key = key;
   if (!tutor.on) {
-    body.innerHTML = `<div class="tu-intro"><h3>Dominó 55 oktató</h3><p>Hat rövid lecke az alapoktól: melyik gombot mikor és miért nyomod meg. A tanpályán nincs forgalom, nyugodtan gyakorolhatsz. Kilépéskor a szolgálat ott folytatódik, ahol abbahagytad.</p></div>
+    body.innerHTML = `<div class="tu-intro"><h3>Dominó 55 oktató</h3><p>Nyolc rövid lecke az alapoktól: melyik gombot mikor és miért nyomod meg. A tanpályán nincs forgalom, nyugodtan gyakorolhatsz. Kilépéskor a szolgálat ott folytatódik, ahol abbahagytad.</p></div>
       <ol class="tu-lessons">${LESSONS.map((l, i) => `<li><button type="button" data-lesson="${i}"><span class="tu-no">${i + 1}</span><span class="tu-t"><b>${l.title}</b><small>${l.sub}</small></span>${tutor.done.has(i) ? '<i class="tu-stamp">Kész</i>' : ''}</button></li>`).join('')}</ol>`;
     return;
   }
   if (tutor.finished) {
     body.innerHTML = `<div class="tu-head"><span>Tanpálya</span><b>Vége az oktatónak</b></div>
-      <div class="tu-step"><p class="tu-do">Ismered a pult alapjait: vágányút, jelzőállítás, törlés, váltó, sorompó.</p><p class="tu-why">Élesben a <b>Segítő</b> fül mindig megmutatja a következő teendőt és az okát. Ha elakadsz, az <b>Automata</b> megmutatja, hogyan kell.</p></div>
+      <div class="tu-step"><p class="tu-do">Ismered a pult alapjait (vágányút, jelzőállítás, törlés, váltó, sorompó), a telefonos engedélyeket, a menesztést és a terepasztal közelképeit.</p><p class="tu-why">Élesben a <b>Segítő</b> fül mindig megmutatja a következő teendőt és az okát. Ha elakadsz, az <b>Automata</b> megmutatja, hogyan kell.</p></div>
       <div class="tu-actions"><button type="button" class="on" data-act="exit">Vissza a szolgálatba</button><button type="button" data-lesson="0">Újra az elejéről</button></div>`;
     return;
   }
@@ -5643,7 +5852,7 @@ function autoWindows(real) {
   const near = list.find(tr => tr.nextSig && tr.nextSigDist < 900);
   if (near) {
     autoWin.sigIdle = 0;
-    if (autoWin.sigDismissed !== near.nextSig && (autoWin.sig || sigViewId == null) && sigViewId !== near.nextSig) {
+    if (autoWin.sigDismissed !== near.nextSig && (autoWin.sig || (sigViewId == null && swViewId == null)) && sigViewId !== near.nextSig) {
       openSigView(near.nextSig); autoWin.sig = true;
     }
   } else if ((autoWin.sigIdle += dt) > 2) {
@@ -5779,7 +5988,7 @@ function phoneTalkTick(timestamp) {
 }
 
 /* ---------- [10] Főciklus ---------- */
-let mapMode = 'station';
+let mapMode = 'start';   // nyitókép: közelebbi nézet a peronokra (az „Állomás” gomb továbbra is a teljes állomást mutatja)
 let lastScaleZoom = -1, lastRoutePrompt;
 function setViewButton(mode) {
   if (mapMode === mode) return;
@@ -5791,6 +6000,11 @@ function setViewButton(mode) {
 function fit(mode) {
   follow = null;
   setViewButton(mode);
+  if (mode === 'start') {   // kb. 1550 m széles sáv a peronok és a felvételi épület körül
+    cam.x = 4070; cam.y = 122;
+    cam.z = Math.max(Math.min(cam.w / 1545, cam.h / 250), cam.h / (modelBottom - modelTop));
+    return;
+  }
   cam.x = mode === 'line' ? MAPW / 2 : 4079;
   cam.y = mode === 'building' ? 171 : 156;
   if (mode === 'line') cam.z = cam.w / (MAPW + 100);
@@ -5928,4 +6142,656 @@ window.SIM = { ym, cam, pcam, W2S, NODES, COMMON, SWBTN, TARGETS, step, setRoute
 </script>
 
 
+<script>
+/* ==========================================================================
+   [11] HANGMOTOR – Dominó 55 pult, vonatok, környezet, szolgálati telefon
+   Minden hang valós időben, Web Audio szintézissel készül (nincs hangfájl).
+   A játék állapotát képkockánként figyeli, és az állapotváltozásokra szól:
+   - pult: nyomógombok, relék (vágányút-lezárás „befutása”, feloldás,
+     sínáramkör-relék), jelzőrelé, számlálószerkezetek, hibajelző berregő
+   - terep: váltóállító gépek, sorompócsengők, vonatok mozdonytípus szerint
+     (V43 Szili, 414 Hernyó, 415 FLIRT, BR 232 Ludmilla), gördülés,
+     kerékcsattogás a váltókon, fékcsikorgás, kürt a sorompók előtt,
+     ajtózárás / vonatkísérő síp, madarak / tücskök, szél, M0 forgalom
+   - telefon: csengés (magyar ütemezés 1,25 s / 3,75 s, 425 Hz hívásjelző),
+     kagyló fel/le, vonalzaj, a szomszéd beszédhangja
+   ========================================================================== */
+const SND = (() => {
+  const LS = 'dunaharaszti-hang';
+  const defaults = { master: 0.7, pult: 0.9, train: 0.8, env: 0.55, phone: 0.9, muted: false };
+  let cfg = { ...defaults };
+  try { Object.assign(cfg, JSON.parse(localStorage.getItem(LS) || '{}')); } catch (err) { /* nincs tárhely */ }
+  const save = () => { try { localStorage.setItem(LS, JSON.stringify(cfg)); } catch (err) { /* nincs tárhely */ } };
+
+  let ac = null, out = null, bus = {}, noiseBuf = null, pinkBuf = null, brownBuf = null, ready = false;
+  const rnd = (a, b) => a + Math.random() * (b - a);
+  const clamp01 = v => Math.max(0, Math.min(1, v));
+
+  function makeNoise(kind) {
+    const len = ac.sampleRate * 3, b = ac.createBuffer(1, len, ac.sampleRate), d = b.getChannelData(0);
+    let b0 = 0, b1 = 0, b2 = 0, last = 0;
+    for (let i = 0; i < len; i++) {
+      const w = Math.random() * 2 - 1;
+      if (kind === 'pink') { b0 = 0.997 * b0 + w * 0.029591; b1 = 0.985 * b1 + w * 0.032534; b2 = 0.95 * b2 + w * 0.048056; d[i] = (b0 + b1 + b2 + w * 0.05) * 2.2; }
+      else if (kind === 'brown') { last = (last + 0.02 * w) / 1.02; d[i] = last * 3.5; }
+      else d[i] = w;
+    }
+    return b;
+  }
+
+  function init() {
+    if (ac) { if (ac.state === 'suspended') ac.resume(); return; }
+    const AC = window.AudioContext || window.webkitAudioContext;
+    if (!AC) return;
+    ac = new AC();
+    const comp = ac.createDynamicsCompressor();
+    comp.threshold.value = -14; comp.knee.value = 10; comp.ratio.value = 4; comp.attack.value = 0.004; comp.release.value = 0.2;
+    out = ac.createGain(); out.connect(comp); comp.connect(ac.destination);
+    for (const k of ['pult', 'train', 'env', 'phone']) { bus[k] = ac.createGain(); bus[k].connect(out); }
+    bus.staff = ac.createGain(); bus.staff.gain.value = 8; bus.staff.connect(bus.env);   // peroni hangok (síp)
+    // a pult hangjai a relészekrény felől kicsit tompítva, kis szobavisszhanggal
+    bus.relay = ac.createBiquadFilter(); bus.relay.type = 'lowpass'; bus.relay.frequency.value = 5200; bus.relay.connect(bus.pult);
+    const room = ac.createConvolver(), ir = ac.createBuffer(2, ac.sampleRate * 0.35, ac.sampleRate);
+    for (let ch = 0; ch < 2; ch++) { const d = ir.getChannelData(ch); for (let i = 0; i < d.length; i++) d[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / d.length, 3.2); }
+    room.buffer = ir; const roomGain = ac.createGain(); roomGain.gain.value = 0.16;
+    bus.pult.connect(room); room.connect(roomGain); roomGain.connect(out);
+    noiseBuf = makeNoise('white'); pinkBuf = makeNoise('pink'); brownBuf = makeNoise('brown');
+    applyVolumes(); ready = true;
+    startAmbience();
+  }
+  function applyVolumes() {
+    if (!ac) return;
+    const t = ac.currentTime;
+    out.gain.setTargetAtTime(cfg.muted ? 0 : cfg.master * cfg.master, t, 0.05);
+    const BAL = { pult: 5, train: 1.3, env: 1.6, phone: 3.5 };   // kategóriák egymáshoz mért alapszintje
+    for (const k of ['pult', 'train', 'env', 'phone']) bus[k].gain.setTargetAtTime(cfg[k] * cfg[k] * BAL[k], t, 0.05);
+  }
+
+  // ---------- építőkockák ----------
+  function noiseSrc(buf = noiseBuf, loop = true) { const s = ac.createBufferSource(); s.buffer = buf; s.loop = loop; s.loopStart = rnd(0, 2); return s; }
+  function env(g, t, a, peak, d, end = 0.0001) {
+    g.gain.cancelScheduledValues(t); g.gain.setValueAtTime(0.0001, t);
+    g.gain.exponentialRampToValueAtTime(Math.max(peak, 0.0002), t + a);
+    g.gain.exponentialRampToValueAtTime(end, t + a + d);
+  }
+  function panner(dst, pan) {
+    if (!ac.createStereoPanner) return dst;
+    const p = ac.createStereoPanner(); p.pan.value = Math.max(-1, Math.min(1, pan || 0)); p.connect(dst); return p;
+  }
+  // rövid zajimpulzus szűrővel – kattanások, csattanások alapja
+  function burst(dst, t, { f = 3000, q = 1.5, type = 'bandpass', dur = 0.02, gain = 0.5, pan = 0, attack = 0.0008 } = {}) {
+    const s = noiseSrc(noiseBuf, false), fl = ac.createBiquadFilter(), g = ac.createGain();
+    fl.type = type; fl.frequency.value = f; fl.Q.value = q;
+    s.connect(fl); fl.connect(g); g.connect(panner(dst, pan));
+    env(g, t, attack, gain, dur); s.start(t, rnd(0, 2)); s.stop(t + attack + dur + 0.05);
+  }
+  function tone(dst, t, { f = 440, f2 = null, type = 'sine', dur = 0.2, gain = 0.3, attack = 0.005, pan = 0, release = null } = {}) {
+    const o = ac.createOscillator(), g = ac.createGain();
+    o.type = type; o.frequency.setValueAtTime(f, t); if (f2) o.frequency.exponentialRampToValueAtTime(f2, t + dur);
+    o.connect(g); g.connect(panner(dst, pan));
+    if (release == null) env(g, t, attack, gain, dur);
+    else { g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(gain, t + attack); g.gain.setValueAtTime(gain, t + dur); g.gain.exponentialRampToValueAtTime(0.0001, t + dur + release); }
+    o.start(t); o.stop(t + dur + (release || 0) + 0.05);
+    return o;
+  }
+
+  // ---------- PULT: relék, gombok, számlálók, berregő ----------
+  // Telefonrelé-szerű kis jelfogó: horgony-csattanás + érintkező-pattogás
+  function relay(t, strength = 1, pan = 0, drop = false) {
+    const d = bus.relay, f = drop ? rnd(1500, 2400) : rnd(2300, 3600);
+    burst(d, t, { f, q: 2.2, dur: 0.012, gain: 0.32 * strength, pan });
+    burst(d, t + rnd(0.003, 0.006), { f: f * 1.6, q: 3, dur: 0.008, gain: 0.14 * strength, pan });
+    tone(d, t, { f: drop ? 95 : 140, f2: 60, dur: 0.03, gain: 0.12 * strength, pan });
+  }
+  // vágányút-lezáráskor a relélánc „befut”: sok relé egymás után, kis szórással
+  function relayCascade(n = 14, span = 1.4, strength = 1) {
+    const t0 = ac.currentTime + 0.03;
+    for (let i = 0; i < n; i++) {
+      const t = t0 + (i / n) * span + rnd(-0.04, 0.06);
+      relay(t, strength * rnd(0.55, 1), rnd(-0.6, 0.6), false);
+      if (Math.random() < 0.35) relay(t + rnd(0.015, 0.05), strength * 0.6, rnd(-0.6, 0.6));
+    }
+  }
+  // jelzőrelé (nagyobb, mélyebb csattanás) – a jelző szabadra / Megállj!-ra váltásakor
+  function signalRelay(clear) {
+    const t = ac.currentTime + 0.02;
+    burst(bus.relay, t, { f: clear ? 1400 : 1100, q: 1.4, dur: 0.03, gain: 0.45 });
+    tone(bus.relay, t, { f: clear ? 120 : 90, f2: 55, dur: 0.06, gain: 0.22 });
+    relay(t + 0.05, 0.7, 0.2);
+  }
+  // Dominó nyomógomb: lenyomás (kemény kattanás) és felengedés
+  function button(kind = 'normal') {
+    const t = ac.currentTime + 0.005, heavy = kind === 'common';
+    burst(bus.pult, t, { f: heavy ? 1300 : 1700, q: 1.6, dur: 0.016, gain: heavy ? 0.09 : 0.07 });
+    tone(bus.pult, t, { f: heavy ? 180 : 220, f2: 110, dur: 0.03, gain: 0.04 });
+    burst(bus.pult, t + rnd(0.11, 0.16), { f: 2200, q: 2, dur: 0.01, gain: 0.035 });
+  }
+  // mechanikus számlálószerkezet: a görgő egy fogat lép (elektromágnes + kilincs)
+  function counter() {
+    const t = ac.currentTime + 0.05;
+    tone(bus.pult, t, { f: 180, f2: 70, dur: 0.05, gain: 0.25 });
+    burst(bus.pult, t, { f: 4200, q: 5, dur: 0.02, gain: 0.35 });
+    tone(bus.pult, t + 0.005, { f: 2480, dur: 0.12, gain: 0.05 });
+    burst(bus.pult, t + 0.09, { f: 3000, q: 4, dur: 0.012, gain: 0.2 });
+  }
+  // hibás kezelés: rövid berregés (váltakozó áramú berregő)
+  let lastBuzz = 0;
+  function buzzer() {
+    if (ac.currentTime - lastBuzz < 0.4) return; lastBuzz = ac.currentTime;
+    const t = ac.currentTime + 0.02, o = ac.createOscillator(), lfo = ac.createOscillator(), lg = ac.createGain(), g = ac.createGain(), fl = ac.createBiquadFilter();
+    o.type = 'square'; o.frequency.value = 100; lfo.type = 'square'; lfo.frequency.value = 50; lg.gain.value = 0.5;
+    fl.type = 'bandpass'; fl.frequency.value = 900; fl.Q.value = 0.8;
+    const am = ac.createGain(); am.gain.value = 0.5;   // 50 Hz-es lüktetés külön fokozaton
+    lfo.connect(lg); lg.connect(am.gain); o.connect(fl); fl.connect(am); am.connect(g); g.connect(bus.pult);
+    g.gain.setValueAtTime(0.0001, t); g.gain.linearRampToValueAtTime(0.09, t + 0.01); g.gain.setValueAtTime(0.09, t + 0.32); g.gain.linearRampToValueAtTime(0.0001, t + 0.36);
+    o.start(t); lfo.start(t); o.stop(t + 0.4); lfo.stop(t + 0.4);
+  }
+  // figyelmeztető csengő a pulton (pl. vonat közeledik a térközbe)
+  // vágányútra lépés: mély hangú, hosszan szóló váltóáramú csengő (kalapácsos „csörgő”) a pulton
+  function routeBell(dur = 3.2) {
+    const t0 = ac.currentTime + 0.03, rate = 15, n = Math.round(dur * rate);
+    const fade = i => Math.min(1, (n - i) / (rate * 0.6));
+    for (let i = 0; i < n; i++) {
+      const t = t0 + i / rate + rnd(-0.004, 0.004), a = 0.075 * fade(i) * (i % 2 ? 0.85 : 1);
+      for (const [m, g, d] of [[1, 1, 0.5], [2.01, 0.42, 0.32], [2.76, 0.3, 0.24], [4.1, 0.12, 0.14]])
+        tone(bus.pult, t, { f: 560 * m, dur: d, gain: a * g, attack: 0.002 });
+      burst(bus.pult, t, { f: 1600, q: 2, dur: 0.012, gain: a * 0.5 });   // kalapács ütése
+    }
+    // a csengő tekercsének zümmögése
+    const o = ac.createOscillator(), g = ac.createGain(), fl = ac.createBiquadFilter();
+    o.type = 'sawtooth'; o.frequency.value = 100; fl.type = 'lowpass'; fl.frequency.value = 400;
+    o.connect(fl); fl.connect(g); g.connect(bus.pult);
+    g.gain.setValueAtTime(0.0001, t0); g.gain.linearRampToValueAtTime(0.012, t0 + 0.05); g.gain.setValueAtTime(0.012, t0 + dur - 0.3); g.gain.linearRampToValueAtTime(0.0001, t0 + dur);
+    o.start(t0); o.stop(t0 + dur + 0.05);
+  }
+  // forgalmi szolgálattevő sípja menesztéskor: egy határozott, rövid fújás golyós síppal
+  function dispatchWhistle() {
+    const t = ac.currentTime + 0.02, dur = 0.75, f = rnd(2850, 3050);
+    const o = ac.createOscillator(), o2 = ac.createOscillator(), lfo = ac.createOscillator(), lfo2 = ac.createOscillator();
+    const fm = ac.createGain(), am = ac.createGain(), amDepth = ac.createGain(), g = ac.createGain(), g2 = ac.createGain();
+    o.type = 'sine'; o.frequency.setValueAtTime(f * 0.94, t); o.frequency.exponentialRampToValueAtTime(f, t + 0.06);
+    o2.type = 'sine'; o2.frequency.setValueAtTime(f * 2 * 0.94, t); o2.frequency.exponentialRampToValueAtTime(f * 2, t + 0.06);
+    lfo.frequency.value = rnd(26, 32); fm.gain.value = f * 0.045;          // a golyó pörgése: frekvencia-trilla
+    lfo2.frequency.value = lfo.frequency.value; amDepth.gain.value = 0.35; am.gain.value = 0.65;   // és amplitúdó-lüktetés
+    lfo.connect(fm); fm.connect(o.frequency); fm.connect(o2.frequency);
+    lfo2.connect(amDepth); amDepth.connect(am.gain);
+    g2.gain.value = 0.18; o.connect(am); o2.connect(g2); g2.connect(am); am.connect(g); g.connect(bus.staff);
+    g.gain.setValueAtTime(0.0001, t); g.gain.linearRampToValueAtTime(0.11, t + 0.03); g.gain.linearRampToValueAtTime(0.09, t + 0.25);
+    g.gain.setValueAtTime(0.09, t + dur - 0.08); g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+    for (const n of [o, o2, lfo, lfo2]) { n.start(t); n.stop(t + dur + 0.05); }
+    // fújás levegőzaja és a nyelvvel indított „tü-” kezdet
+    burst(bus.staff, t, { f: 3200, q: 0.8, dur: dur * 0.9, gain: 0.025, attack: 0.03 });
+    burst(bus.staff, t, { f: 2200, q: 1.5, dur: 0.03, gain: 0.08 });
+  }
+  function deskBell(times = 2) {
+    for (let i = 0; i < times; i++) bell(bus.pult, ac.currentTime + 0.05 + i * 0.32, 0.04, 0, 1900);
+  }
+
+  // ---------- harang / csengő ----------
+  function bell(dst, t, gain = 0.3, pan = 0, base = 1150) {
+    for (const [m, g, d] of [[1, 1, 0.9], [2.32, 0.5, 0.55], [3.9, 0.3, 0.35], [5.4, 0.16, 0.25]])
+      tone(dst, t, { f: base * m, dur: d, gain: gain * g, attack: 0.002, pan });
+    burst(dst, t, { f: 5000, q: 1, dur: 0.01, gain: gain * 0.4, pan });
+  }
+
+  // ---------- TÉRBELI (terep) hangforrások ----------
+  // hangerő és panoráma a kamera középpontjától mérve; közelebbi nagyításnál hangosabb
+  function spatial(x, y) {
+    if (typeof cam === 'undefined') return { g: 0, pan: 0 };
+    const half = Math.max(200, cam.w / 2 / cam.z);
+    const dx = x - cam.x, dy = (y - cam.y) * 1.5, d = Math.hypot(dx, dy);
+    const near = 1 / (1 + Math.pow(d / (half * 1.1), 2));
+    const zoom = Math.max(0.35, Math.min(1.25, cam.z / 0.6));
+    return { g: near * zoom, pan: Math.max(-0.9, Math.min(0.9, dx / half * 0.9)) };
+  }
+  function spatialOneShot(x, y, fn) {
+    const { g, pan } = spatial(x, y);
+    if (g < 0.02) return;
+    const gn = ac.createGain(); gn.gain.value = g; gn.connect(panner(bus.env, pan));
+    fn(gn, ac.currentTime + 0.02);
+  }
+  // váltóállító gép: villanymotor + hajtómű 3 s-ig, a végén a csúcssín reteszelése
+  function switchMotor(x, y, dur = 3) {
+    spatialOneShot(x, y, (dst, t) => {
+      const m = ac.createOscillator(), m2 = ac.createOscillator(), fl = ac.createBiquadFilter(), g = ac.createGain();
+      m.type = 'sawtooth'; m.frequency.setValueAtTime(40, t); m.frequency.linearRampToValueAtTime(98, t + 0.35);
+      m2.type = 'square'; m2.frequency.setValueAtTime(300, t); m2.frequency.linearRampToValueAtTime(690, t + 0.35);
+      const g2 = ac.createGain(); g2.gain.value = 0.18;
+      fl.type = 'lowpass'; fl.frequency.value = 1300; m.connect(fl); m2.connect(g2); g2.connect(fl); fl.connect(g); g.connect(dst);
+      g.gain.setValueAtTime(0.0001, t); g.gain.linearRampToValueAtTime(0.22, t + 0.25); g.gain.setValueAtTime(0.22, t + dur - 0.3); g.gain.linearRampToValueAtTime(0.0001, t + dur);
+      m.start(t); m2.start(t); m.stop(t + dur + 0.05); m2.stop(t + dur + 0.05);
+      // sín csúszása a csúszólemezeken
+      const s = noiseSrc(pinkBuf), sf = ac.createBiquadFilter(), sg = ac.createGain();
+      sf.type = 'bandpass'; sf.frequency.value = 2500; sf.Q.value = 0.7; s.connect(sf); sf.connect(sg); sg.connect(dst);
+      sg.gain.setValueAtTime(0.0001, t + 0.4); sg.gain.linearRampToValueAtTime(0.05, t + 0.8); sg.gain.linearRampToValueAtTime(0.0001, t + dur - 0.2);
+      s.start(t); s.stop(t + dur);
+      // reteszelés: fém-fém csattanás
+      burst(dst, t + dur - 0.05, { f: 900, q: 1.2, dur: 0.06, gain: 0.55 });
+      tone(dst, t + dur - 0.05, { f: 150, f2: 70, dur: 0.12, gain: 0.25 });
+      bell(dst, t + dur - 0.04, 0.05, 0, 2300);
+    });
+  }
+  // sorompócsengő-pont: ismételt ütések
+  const crossings = new Map();
+  function crossingBell(id, x, y, on, mechanical) {
+    let c = crossings.get(id);
+    if (!c) { c = { next: 0 }; crossings.set(id, c); }
+    if (!on || !simRunning()) return;
+    const t = ac.currentTime;
+    if (t < c.next) return;
+    c.next = t + (mechanical ? 0.36 : 0.52);
+    const { g, pan } = spatial(x, y);
+    if (g < 0.02) return;
+    const gn = ac.createGain(); gn.gain.value = g; gn.connect(panner(bus.env, pan));
+    if (mechanical) bell(gn, t + 0.01, 0.22, 0, 1250);       // állomási sorompó: elektromechanikus csengő
+    else { tone(gn, t + 0.01, { f: 1480, dur: 0.18, gain: 0.12, type: 'triangle' }); tone(gn, t + 0.01, { f: 2960, dur: 0.12, gain: 0.04 }); }   // fénysorompó: elektronikus csengő
+  }
+
+  // ---------- VONATOK ----------
+  const LOCO = {
+    v43:      { kind: 'electric', hum: 100, motor: 1.0, horn: [[330, 0.9]], fans: 0.6 },
+    hernyo:   { kind: 'electric', hum: 100, motor: 0.8, horn: [[311, 0.7], [370, 0.7]], fans: 0.8, growl: true },
+    flirt:    { kind: 'emu', horn: [[392, 0.55], [494, 0.55]] },
+    ludmilla: { kind: 'diesel', horn: [[349, 0.65], [440, 0.8]] },
+  };
+  function locoOf(tr) {
+    if (tr.freightConsist != null || tr.kind === 'G') return 'ludmilla';
+    const f = tr.formation || '';
+    if (f.startsWith('F')) return 'flirt';
+    if (f === 'H') return 'hernyo';
+    return 'v43';
+  }
+  const tsnd = new Map();   // vonat → hangcsomópontok
+  function trainVoice(tr) {
+    let v = tsnd.get(tr);
+    if (v) return v;
+    const type = locoOf(tr), L = LOCO[type];
+    const g = ac.createGain(); g.gain.value = 0;
+    const pan = ac.createStereoPanner ? ac.createStereoPanner() : null;
+    if (pan) { g.connect(pan); pan.connect(bus.train); } else g.connect(bus.train);
+    v = { type, L, g, pan, nodes: [], prevV: 0, prevAcc: 0, nextNotch: 0, notch: 0, nextComp: rnd(20, 60), passed: new Set(), horned: new Set(), dwellClosing: false, dwelling: false };
+    const add = n => { v.nodes.push(n); return n; };
+    // gördülési zaj (sín–kerék)
+    const roll = add(noiseSrc(pinkBuf)), rollF = ac.createBiquadFilter(), rollG = ac.createGain();
+    rollF.type = 'lowpass'; rollF.frequency.value = 300; roll.connect(rollF); rollF.connect(rollG); rollG.connect(g); rollG.gain.value = 0;
+    const rumble = add(noiseSrc(brownBuf)), rumG = ac.createGain(); rumble.connect(rumG); rumG.connect(g); rumG.gain.value = 0;
+    Object.assign(v, { rollF, rollG, rumG });
+    if (L.kind === 'diesel') {
+      // 16 hengeres, négyütemű 5D49: gyújtási frekvencia = ford/perc / 60 × 8
+      const fire = add(ac.createOscillator()), sub = add(ac.createOscillator()), fF = ac.createBiquadFilter(), eg = ac.createGain();
+      fire.type = 'sawtooth'; sub.type = 'square'; fF.type = 'lowpass'; fF.frequency.value = 380; fF.Q.value = 2.5;
+      const subG = ac.createGain(); subG.gain.value = 0.35;
+      fire.connect(fF); sub.connect(subG); subG.connect(fF); fF.connect(eg); eg.connect(g); eg.gain.value = 0.3;
+      const exh = add(noiseSrc(brownBuf)), xF = ac.createBiquadFilter(), xG = ac.createGain();
+      xF.type = 'bandpass'; xF.frequency.value = 140; xF.Q.value = 1.2; exh.connect(xF); xF.connect(xG); xG.connect(g); xG.gain.value = 0.25;
+      const turbo = add(ac.createOscillator()), tG = ac.createGain(); turbo.type = 'sine'; turbo.connect(tG); tG.connect(g); tG.gain.value = 0;
+      Object.assign(v, { fire, sub, fF, eg, xF, xG, turbo, tG, rpm: 350 });
+    } else if (L.kind === 'electric') {
+      // transzformátor-búgás (100 Hz + felharmonikusok), vontatómotorok, szellőzők
+      const hum = add(ac.createOscillator()), hum2 = add(ac.createOscillator()), hG = ac.createGain(), h2G = ac.createGain();
+      hum.type = 'sine'; hum.frequency.value = L.hum; hum2.type = 'triangle'; hum2.frequency.value = L.hum * 3; h2G.gain.value = 0.25;
+      hum.connect(hG); hum2.connect(h2G); h2G.connect(hG); hG.connect(g); hG.gain.value = 0.09;
+      const mot = add(ac.createOscillator()), mG = ac.createGain(), mF = ac.createBiquadFilter();
+      mot.type = L.growl ? 'sawtooth' : 'triangle'; mF.type = 'lowpass'; mF.frequency.value = 900; mot.connect(mF); mF.connect(mG); mG.connect(g); mG.gain.value = 0;
+      const fan = add(noiseSrc(pinkBuf)), fF = ac.createBiquadFilter(), fG = ac.createGain();
+      fF.type = 'bandpass'; fF.frequency.value = 520; fF.Q.value = 0.6; fan.connect(fF); fF.connect(fG); fG.connect(g); fG.gain.value = 0.05 * L.fans;
+      Object.assign(v, { hG, mot, mG, fG });
+    } else {
+      // FLIRT: IGBT-áramirányító jellegzetes, lépcsőzetesen emelkedő sípolása + segédüzemi zúgás
+      const inv = add(ac.createOscillator()), inv2 = add(ac.createOscillator()), iG = ac.createGain(), i2G = ac.createGain();
+      inv.type = 'sine'; inv2.type = 'sine'; i2G.gain.value = 0.5; inv.connect(iG); inv2.connect(i2G); i2G.connect(iG); iG.connect(g); iG.gain.value = 0;
+      const aux = add(noiseSrc(pinkBuf)), aF = ac.createBiquadFilter(), aG = ac.createGain();
+      aF.type = 'bandpass'; aF.frequency.value = 800; aF.Q.value = 0.9; aux.connect(aF); aF.connect(aG); aG.connect(g); aG.gain.value = 0.035;
+      const hv = add(ac.createOscillator()), hvG = ac.createGain(); hv.type = 'sine'; hv.frequency.value = 50; hv.connect(hvG); hvG.connect(g); hvG.gain.value = 0.03;
+      Object.assign(v, { inv, inv2, iG });
+    }
+    // fékcsikorgás
+    const sq = add(ac.createOscillator()), sqG = ac.createGain(), sqL = add(ac.createOscillator()), sqLG = ac.createGain();
+    sq.type = 'sine'; sq.frequency.value = rnd(2600, 3400); sqL.frequency.value = rnd(5, 9); sqLG.gain.value = 60;
+    sqL.connect(sqLG); sqLG.connect(sq.frequency); sq.connect(sqG); sqG.connect(g); sqG.gain.value = 0;
+    v.sqG = sqG;
+    for (const n of v.nodes) n.start();
+    tsnd.set(tr, v);
+    return v;
+  }
+  function dropTrain(tr) {
+    const v = tsnd.get(tr); if (!v) return;
+    const t = ac.currentTime; v.g.gain.setTargetAtTime(0, t, 0.3);
+    setTimeout(() => { for (const n of v.nodes) try { n.stop(); } catch (err) { /* már leállt */ } v.g.disconnect(); }, 1500);
+    tsnd.delete(tr);
+  }
+  function horn(tr, v, x, y, long = true) {
+    const { g, pan } = spatial(x, y); if (g < 0.03) return;
+    const gn = ac.createGain(); gn.gain.value = g; gn.connect(panner(bus.train, pan));
+    const t = ac.currentTime + 0.02, dur = long ? 1.4 : 0.5;
+    for (const [f, a] of v.L.horn) {
+      for (const [mult, amp] of [[1, 1], [2, 0.45], [3, 0.25], [4, 0.12]]) {
+        const o = ac.createOscillator(), og = ac.createGain(), fl = ac.createBiquadFilter();
+        o.type = 'sawtooth'; o.frequency.setValueAtTime(f * mult * 0.97, t); o.frequency.linearRampToValueAtTime(f * mult, t + 0.08);
+        fl.type = 'lowpass'; fl.frequency.value = 2400; o.connect(fl); fl.connect(og); og.connect(gn);
+        og.gain.setValueAtTime(0.0001, t); og.gain.linearRampToValueAtTime(0.06 * a * amp, t + 0.06); og.gain.setValueAtTime(0.06 * a * amp, t + dur); og.gain.linearRampToValueAtTime(0.0001, t + dur + 0.12);
+        o.start(t); o.stop(t + dur + 0.2);
+      }
+    }
+  }
+  // kerékcsattogás a váltó szívcsúcsán / sínillesztésen: tengelyenként egy-egy ütés
+  function axleClicks(x, y, speed, lenM, gainMul = 1) {
+    if (speed < 0.5) return;
+    const { g, pan } = spatial(x, y); if (g < 0.03) return;
+    const gn = ac.createGain(); gn.gain.value = g * gainMul; gn.connect(panner(bus.train, pan));
+    const t0 = ac.currentTime + 0.02, cars = Math.max(1, Math.round(lenM / 20)), maxT = 9;
+    for (let c = 0; c < cars; c++) for (const bogie of [2.5, 17.5]) for (const ax of [0, 2.6]) {
+      const dt = (c * 20 + bogie + ax) / speed; if (dt > maxT) return;
+      const t = t0 + dt;
+      burst(gn, t, { f: rnd(700, 1100), q: 1.3, dur: 0.035, gain: 0.32 });
+      tone(gn, t, { f: 85, f2: 50, dur: 0.06, gain: 0.18 });
+    }
+  }
+  function doorChime(x, y, type) {
+    spatialOneShot(x, y, (dst, t) => {
+      if (type === 'flirt') for (let i = 0; i < 6; i++) tone(dst, t + i * 0.42, { f: 1650, dur: 0.18, gain: 0.12, type: 'square', release: 0.02 });
+      else if (type === 'hernyo') { const o = tone(dst, t, { f: 400, dur: 1.4, gain: 0.07, type: 'square', release: 0.05 }); }
+      else {
+        // vonatkísérő síp (golyós síp: trilla)
+        const o = ac.createOscillator(), lfo = ac.createOscillator(), lg = ac.createGain(), g = ac.createGain();
+        o.frequency.value = 2900; lfo.frequency.value = 23; lg.gain.value = 260; lfo.connect(lg); lg.connect(o.frequency); o.connect(g); g.connect(dst);
+        g.gain.setValueAtTime(0.0001, t); g.gain.linearRampToValueAtTime(0.09, t + 0.04); g.gain.setValueAtTime(0.09, t + 0.9); g.gain.linearRampToValueAtTime(0.0001, t + 1.0);
+        o.start(t); lfo.start(t); o.stop(t + 1.05); lfo.stop(t + 1.05);
+      }
+    });
+  }
+  function doorAir(x, y) {   // ajtónyitás: sűrített levegő szisszenése
+    spatialOneShot(x, y, (dst, t) => { burst(dst, t, { f: 4200, q: 0.5, dur: 0.6, gain: 0.12, attack: 0.02 }); burst(dst, t + 0.5, { f: 600, q: 1, dur: 0.05, gain: 0.25 }); });
+  }
+
+  function updateTrains(real, running) {
+    const live = new Set();
+    for (const tr of trains) {
+      if (tr.state !== 'run') continue;
+      const pos = trainCenter(tr); if (!pos) continue;
+      live.add(tr);
+      const v = trainVoice(tr), t = ac.currentTime;
+      const sp = spatial(pos[0], pos[1]);
+      const speedMs = tr.v || 0, vn = Math.min(1, speedMs / 33);
+      const acc = real > 0 ? (speedMs - v.prevV) / Math.max(real * Math.max(speed, 0.1), 1e-3) : 0;
+      const accel = acc > 0.02, braking = acc < -0.05;
+      v.prevV = speedMs;
+      v.g.gain.setTargetAtTime(running ? sp.g * 0.9 : 0, t, 0.15);
+      if (v.pan) v.pan.pan.setTargetAtTime(sp.pan, t, 0.1);
+      v.rollG.gain.setTargetAtTime(0.25 * Math.pow(vn, 0.8), t, 0.2);
+      v.rollF.frequency.setTargetAtTime(200 + vn * 1500, t, 0.2);
+      v.rumG.gain.setTargetAtTime(0.35 * vn, t, 0.2);
+      if (v.L.kind === 'diesel') {
+        const load = accel ? 1 : speedMs > 1 && !braking ? 0.55 : 0;
+        const target = 350 + load * 650;
+        v.rpm += (target - v.rpm) * Math.min(1, real * (target > v.rpm ? 0.6 : 0.9));
+        const fire = v.rpm / 60 * 8;
+        v.fire.frequency.setTargetAtTime(fire, t, 0.05); v.sub.frequency.setTargetAtTime(v.rpm / 60 * 0.5, t, 0.05);
+        v.fF.frequency.setTargetAtTime(260 + load * 500, t, 0.2);
+        v.eg.gain.setTargetAtTime(0.22 + load * 0.25, t, 0.2);
+        v.xF.frequency.setTargetAtTime(fire * 1.5, t, 0.2); v.xG.gain.setTargetAtTime(0.2 + load * 0.35, t, 0.2);
+        v.turbo.frequency.setTargetAtTime(2200 + (v.rpm - 350) * 4.5, t, 0.4); v.tG.gain.setTargetAtTime(0.004 + load * 0.02, t, 0.5);
+      } else if (v.L.kind === 'electric') {
+        const load = accel ? 1 : speedMs > 1 && !braking ? 0.4 : 0;
+        // fokozatkapcsoló: gyorsításkor kb. 1,2 s-onként egy fokozat (csattanás + búgás-erősödés)
+        if (accel && running && t >= v.nextNotch && v.notch < 32) {
+          v.notch++; v.nextNotch = t + 1.2 / Math.max(1, speed);
+          if (sp.g > 0.05) { burst(v.g, t + 0.01, { f: 650, q: 1.6, dur: 0.05, gain: 0.35 }); tone(v.g, t + 0.01, { f: 110, f2: 60, dur: 0.08, gain: 0.2 }); }
+        }
+        if (!accel && speedMs < 0.5) v.notch = 0;
+        v.hG.gain.setTargetAtTime(0.06 + load * 0.05 + v.notch * 0.002, t, 0.3);
+        v.mot.frequency.setTargetAtTime(30 + speedMs * (v.type === 'hernyo' ? 28 : 36), t, 0.1);
+        v.mG.gain.setTargetAtTime(speedMs > 0.3 ? 0.04 + load * 0.06 : 0, t, 0.2);
+        v.fG.gain.setTargetAtTime((speedMs > 0.2 || accel ? 0.09 : 0.04) * v.L.fans, t, 0.6);
+      } else {
+        // FLIRT: indításkor 3 lépcsőben emelkedő hang, utána a sebességgel arányos motorhang
+        const f = speedMs < 3 ? 520 + speedMs * 110 : speedMs < 8 ? 300 + speedMs * 75 : 140 + speedMs * 48;
+        v.inv.frequency.setTargetAtTime(f, t, 0.08); v.inv2.frequency.setTargetAtTime(f * 2.02, t, 0.08);
+        v.iG.gain.setTargetAtTime(speedMs > 0.2 && (accel || braking) ? 0.05 : speedMs > 0.2 ? 0.015 : 0, t, 0.2);
+      }
+      // fékcsikorgás kis sebességnél
+      v.sqG.gain.setTargetAtTime(braking && speedMs > 0.3 && speedMs < 7 ? 0.012 * (1 - speedMs / 7) + 0.004 : 0, t, 0.15);
+      // kompresszor néha, álló vonatnál
+      if (running && speedMs < 0.3 && now > v.nextComp && v.L.kind !== 'emu') {
+        v.nextComp = now + rnd(60, 140);
+        spatialOneShot(pos[0], pos[1], (dst, t0) => { for (let i = 0; i < 40; i++) burst(dst, t0 + i * 0.11, { f: 240, q: 2, dur: 0.06, gain: 0.08 }); });
+      }
+      // váltók: a vonateleje áthalad a váltó csúcsán → kerékcsattogás végig a vonaton
+      if (running) {
+        const head = trainHead(tr);
+        for (const id in SW) {
+          const n = NODES[SW[id].node], key = 'sw' + id;
+          if (!head || v.passed.has(key)) continue;
+          if (Math.abs(head[0] - n[0]) < 12 && Math.abs(head[1] - n[1]) < 30) { v.passed.add(key); axleClicks(n[0], n[1], speedMs, tr.len || 100, 1); }
+        }
+        // kürt a nyíltvonali útátjárók előtt (kb. 300 m-rel, „Figyelj!” jelzés)
+        if (head) for (const a of AS) {
+          const d = (a.x - head[0]) * tr.dir;
+          if (d > 400 && d < 700 && !v.horned.has(a.id + a.x) && speedMs > 4) { v.horned.add(a.id + a.x); horn(tr, v, head[0], head[1], true); }
+        }
+        // ajtók
+        const dwelling = !!tr.dwell, closing = !!tr.dwell?.closing;
+        if (dwelling && !v.dwelling) doorAir(pos[0], pos[1]);
+        if (closing && !v.dwellClosing) doorChime(pos[0], pos[1], v.type);
+        v.dwelling = dwelling; v.dwellClosing = closing;
+      }
+    }
+    for (const tr of [...tsnd.keys()]) if (!live.has(tr)) dropTrain(tr);
+  }
+
+  // ---------- KÖRNYEZET ----------
+  let amb = null;
+  function startAmbience() {
+    const wind = noiseSrc(pinkBuf), wF = ac.createBiquadFilter(), wG = ac.createGain();
+    wF.type = 'lowpass'; wF.frequency.value = 500; wind.connect(wF); wF.connect(wG); wG.connect(bus.env); wG.gain.value = 0;
+    const road = noiseSrc(brownBuf), rF = ac.createBiquadFilter(), rG = ac.createGain();
+    rF.type = 'lowpass'; rF.frequency.value = 420; road.connect(rF); rF.connect(rG); rG.connect(bus.env); rG.gain.value = 0;
+    const tyre = noiseSrc(pinkBuf), tyF = ac.createBiquadFilter(), tyG = ac.createGain();
+    tyF.type = 'bandpass'; tyF.frequency.value = 1100; tyF.Q.value = 0.6; tyre.connect(tyF); tyF.connect(tyG); tyG.connect(bus.env); tyG.gain.value = 0;
+    // az irodai háttér: a pult transzformátorának halk búgása
+    const mains = ac.createOscillator(), mG = ac.createGain(); mains.frequency.value = 100; mains.connect(mG); mG.connect(bus.pult); mG.gain.value = 0;
+    for (const n of [wind, road, tyre, mains]) n.start();
+    amb = { wG, wF, rG, tyG, nextBird: 0, nextCricket: 0, windPhase: Math.random() * 10 };
+  }
+  function m0Pos() { const xs = modelM0.map(p => p[0]); return [xs.reduce((a, b) => a + b, 0) / xs.length, 175]; }
+  function updateAmbience(real, running) {
+    if (!amb) return;
+    const t = ac.currentTime, night = document.documentElement.dataset.theme === 'dark';
+    amb.windPhase += real * 0.13;
+    const zoomOut = typeof cam !== 'undefined' ? Math.max(0.3, Math.min(1, cam.z / 0.6)) : 1;
+    amb.wG.gain.setTargetAtTime(running ? (0.05 + 0.04 * Math.sin(amb.windPhase) + 0.02 * Math.sin(amb.windPhase * 2.7)) : 0, t, 0.5);
+    amb.wF.frequency.setTargetAtTime(380 + 220 * Math.sin(amb.windPhase * 1.3), t, 0.5);
+    const [mx, my] = m0Pos(), s = spatial(mx, my);
+    amb.rG.gain.setTargetAtTime(running ? 0.03 + s.g * 0.45 : 0, t, 0.3);
+    amb.tyG.gain.setTargetAtTime(running ? s.g * 0.09 : 0, t, 0.3);
+    if (!running) return;
+    if (!night && t > amb.nextBird) {           // madarak (nappal)
+      amb.nextBird = t + rnd(1.5, 6);
+      const pan = rnd(-0.8, 0.8), g = 0.03 * zoomOut, base = rnd(2600, 4200), n = Math.floor(rnd(2, 6));
+      for (let i = 0; i < n; i++) tone(bus.env, t + i * rnd(0.09, 0.16), { f: base * rnd(0.9, 1.15), f2: base * rnd(1.1, 1.5), dur: rnd(0.05, 0.11), gain: g, pan });
+    }
+    if (night && t > amb.nextCricket) {         // tücskök (éjjel)
+      amb.nextCricket = t + rnd(0.6, 1.4);
+      const pan = rnd(-0.9, 0.9), f = rnd(4300, 4800);
+      for (let i = 0; i < 3; i++) tone(bus.env, t + i * 0.055, { f, dur: 0.03, gain: 0.012 * zoomOut, pan });
+    }
+  }
+
+  // ---------- TELEFON ----------
+  let ph = { ringNext: 0, ringOn: false, line: null, hiss: null, rbNext: 0, lastMsgs: 0 };
+  function phoneRing() {   // elektromechanikus csengő: két harang, kb. 20 Hz-es kalapács
+    const t = ac.currentTime + 0.02, dur = 1.25;
+    for (let i = 0; i < dur * 20; i++) {
+      const tt = t + i / 20, base = i % 2 ? 1320 : 1180;
+      tone(bus.phone, tt, { f: base, dur: 0.12, gain: 0.07, attack: 0.001 });
+      tone(bus.phone, tt, { f: base * 2.7, dur: 0.06, gain: 0.025, attack: 0.001 });
+    }
+  }
+  function handset(up) {
+    const t = ac.currentTime + 0.01;
+    burst(bus.phone, t, { f: up ? 1800 : 900, q: 1.2, dur: up ? 0.03 : 0.05, gain: up ? 0.3 : 0.45 });
+    tone(bus.phone, t, { f: up ? 260 : 140, f2: 80, dur: 0.06, gain: 0.2 });
+    burst(bus.phone, t + (up ? 0.12 : 0.05), { f: 3200, q: 3, dur: 0.01, gain: 0.15 });   // villa érintkező
+  }
+  function lineHiss(on) {
+    if (on && !ph.hiss) {
+      const s = noiseSrc(pinkBuf), f1 = ac.createBiquadFilter(), f2 = ac.createBiquadFilter(), g = ac.createGain();
+      f1.type = 'highpass'; f1.frequency.value = 300; f2.type = 'lowpass'; f2.frequency.value = 3400;
+      s.connect(f1); f1.connect(f2); f2.connect(g); g.connect(bus.phone);
+      g.gain.setValueAtTime(0.0001, ac.currentTime); g.gain.linearRampToValueAtTime(0.012, ac.currentTime + 0.2);
+      s.start(); ph.hiss = { s, g };
+    } else if (!on && ph.hiss) {
+      const h = ph.hiss; ph.hiss = null; h.g.gain.setTargetAtTime(0, ac.currentTime, 0.05); setTimeout(() => { try { h.s.stop(); } catch (err) { /* */ } }, 400);
+    }
+  }
+  // a szomszéd szolgálattevő beszéde a kagylóban (érthetetlen, telefonsávú „hanghordozás”)
+  function voice(text, female) {
+    const t0 = ac.currentTime + 0.05, syl = Math.min(18, Math.max(3, Math.round((text || '').length / 4.5)));
+    const f0 = female ? 200 : 115;
+    for (let i = 0; i < syl; i++) {
+      const t = t0 + i * 0.16 + rnd(0, 0.04), d = rnd(0.08, 0.15), p = f0 * rnd(0.85, 1.2);
+      const o = ac.createOscillator(), g = ac.createGain(), fa = ac.createBiquadFilter(), fb = ac.createBiquadFilter(), hp = ac.createBiquadFilter();
+      o.type = 'sawtooth'; o.frequency.setValueAtTime(p, t); o.frequency.linearRampToValueAtTime(p * rnd(0.9, 1.08), t + d);
+      fa.type = 'bandpass'; fa.frequency.value = rnd(450, 900); fa.Q.value = 4; fb.type = 'bandpass'; fb.frequency.value = rnd(1100, 2400); fb.Q.value = 5;
+      hp.type = 'highpass'; hp.frequency.value = 320;
+      o.connect(fa); o.connect(fb); fa.connect(hp); fb.connect(hp); hp.connect(g); g.connect(bus.phone);
+      g.gain.setValueAtTime(0.0001, t); g.gain.linearRampToValueAtTime(0.22, t + 0.02); g.gain.linearRampToValueAtTime(0.0001, t + d);
+      o.start(t); o.stop(t + d + 0.02);
+      if (i % 5 === 4) i += 0.6;   // rövid szünet a szavak között
+    }
+  }
+  function updatePhone() {
+    const t = ac.currentTime;
+    const ringing = typeof ringingLine === 'function' ? ringingLine() : null;
+    // bejövő hívás: csengés, amíg fel nem veszik (magyar ütem: 1,25 s csengés, 3,75 s szünet)
+    if (ringing != null && (!tutor.on || tutor.phone)) { if (t >= ph.ringNext) { phoneRing(); ph.ringNext = t + 5; } }
+    else ph.ringNext = 0;
+    // kimenő hívás: hívásjelző hang (425 Hz) a szomszéd jelentkezéséig
+    const calling = Object.values(phoneLines).find(l => l.call?.type === 'request' && l.call.stage === 'answer');
+    if (calling && !phonePanel.hidden) { if (t >= ph.rbNext) { tone(bus.phone, t + 0.02, { f: 425, dur: 1.0, gain: 0.05, release: 0.03 }); ph.rbNext = t + 5; } }
+    else ph.rbNext = 0;
+    const inCall = Object.values(phoneLines).some(l => l.call) && !phonePanel.hidden;
+    lineHiss(inCall);
+  }
+
+  // ---------- állapotfigyelés ----------
+  let prev = null, lastNow = null, eventsThisSec = 0, secT = 0;
+  const simRunning = () => typeof speed !== 'undefined' && speed > 0 && !document.hidden;
+  function snapState() {
+    return {
+      sw: Object.fromEntries(Object.values(SW).map(w => [w.id, w.moving ? 'm' + w.target : w.pos])),
+      asp: { ...ASP },
+      lock: Object.fromEntries(Object.values(SEC).map(s => [s.id, s.lock])),
+      occ: Object.fromEntries(Object.values(SEC).map(s => [s.id, s.occ])),
+      cnt: { ...COUNT }, ks: KS.KS1.on + '' + KS.KS2.on, sr: SR.state,
+      lineDir: LINES.W.dir + ',' + LINES.E.dir,
+    };
+  }
+  const budget = () => { if (eventsThisSec > 14) return false; eventsThisSec++; return true; };
+  function diffState(s) {
+    if (!prev) return;
+    // A Dominó pult csendes berendezés: relé-, jelző- és számlálóhangot nem ad. Csak a terepen hallatszik a váltóállító gép.
+    for (const id in s.sw) if (s.sw[id] !== prev.sw[id] && s.sw[id][0] === 'm' && budget()) {
+      const n = NODES[SW[id].node]; switchMotor(n[0], n[1], 3 / Math.max(1, speed));
+    }
+    // a vonat rálép a lezárt vágányútra (a vágányút első szakasza foglalttá válik): hosszú, mély csörgés
+    for (const r of active) {
+      if (SIGS[r.def.start]?.kind !== 'entry') continue;   // csak bejáratnál csörög, kihaladáskor (kijárati vágányút) nem
+      const first = r.def.secs[0];
+      if (s.occ[first] && !prev.occ[first] && prev.lock[first] === r.id && budget()) { routeBell(); break; }
+    }
+  }
+
+  function tick(real) {
+    if (!ready || ac.state !== 'running') return;
+    const t = ac.currentTime;
+    if (t - secT > 1) { secT = t; eventsThisSec = 0; }
+    const s = snapState();
+    // időugrás (tekerés) vagy nagyon gyors szimuláció: az állapotot csendben szinkronizáljuk
+    const jumped = lastNow != null && Math.abs(now - lastNow) > Math.max(3, real * speed * 3 + 1);
+    if (!jumped && speed <= 10) diffState(s);
+    prev = s; lastNow = now;
+    const running = simRunning();
+    updateTrains(real, running && speed <= 10);
+    updateAmbience(real, running);
+    // sorompók: csengőhang nincs (kérésre kivéve)
+    updatePhone();
+  }
+
+  // ---------- kezelőfelület: hangerő ----------
+  function buildUI() {
+    const btn = document.createElement('button');
+    btn.id = 'btnSound'; btn.type = 'button'; btn.setAttribute('aria-haspopup', 'dialog'); btn.setAttribute('aria-expanded', 'false');
+    btn.title = 'Hangerő és hangok (N: némítás)';
+    const label = () => { btn.textContent = cfg.muted ? 'Hang: ki' : 'Hang'; btn.setAttribute('aria-pressed', String(!cfg.muted)); };
+    label();
+    const help = document.getElementById('btnHelp'); help.parentNode.insertBefore(btn, help);
+    const pop = document.createElement('div');
+    pop.id = 'soundPanel'; pop.hidden = true; pop.setAttribute('role', 'dialog'); pop.setAttribute('aria-label', 'Hangerő');
+    const rows = [['master', 'Fő hangerő'], ['pult', 'Pult'], ['train', 'Vonatok'], ['env', 'Környezet'], ['phone', 'Telefon']];
+    pop.innerHTML = `<header><b>Hangerő</b><button type="button" data-act="close" aria-label="Bezárás">×</button></header>
+      ${rows.map(([k, n]) => `<label><span>${n}</span><input type="range" min="0" max="100" step="1" data-k="${k}" value="${Math.round(cfg[k] * 100)}"><output>${Math.round(cfg[k] * 100)}</output></label>`).join('')}
+      <label class="snd-mute"><input type="checkbox" data-k="muted" ${cfg.muted ? 'checked' : ''}> Némítás</label>
+      <p>Minden hang a játékban készül (Web Audio). A terep hangjai a kamera helyéhez igazodnak: közelebb nagyítva hangosabbak.</p>`;
+    document.body.appendChild(pop);
+    const place = () => { const r = btn.getBoundingClientRect(); pop.style.top = (r.bottom + 6) + 'px'; pop.style.left = Math.max(8, Math.min(window.innerWidth - 268, r.right - 260)) + 'px'; };
+    const toggle = open => { pop.hidden = !open; btn.setAttribute('aria-expanded', String(open)); if (open) { init(); place(); } };
+    btn.onclick = () => toggle(pop.hidden);
+    pop.addEventListener('input', e => {
+      const k = e.target.dataset.k; if (!k) return;
+      if (k === 'muted') cfg.muted = e.target.checked; else { cfg[k] = e.target.value / 100; e.target.nextElementSibling.textContent = e.target.value; }
+      if (k !== 'muted' && cfg.muted && k === 'master') { cfg.muted = false; pop.querySelector('[data-k=muted]').checked = false; }
+      label(); applyVolumes(); save();
+      if (k === 'pult' && ready) button(); else if (k === 'phone' && ready) handset(true); else if (k === 'train' && ready) axleClicks(cam.x, cam.y, 15, 20);
+    });
+    pop.addEventListener('click', e => { if (e.target.closest('[data-act=close]')) toggle(false); });
+    document.addEventListener('pointerdown', e => { if (!pop.hidden && !pop.contains(e.target) && e.target !== btn) toggle(false); }, true);
+    window.addEventListener('resize', () => { if (!pop.hidden) place(); });
+    document.addEventListener('keydown', e => {
+      if (e.ctrlKey || e.metaKey || e.altKey || e.target.closest('input,select,textarea')) return;
+      if (e.key.toLowerCase() === 'n') { cfg.muted = !cfg.muted; const c = pop.querySelector('[data-k=muted]'); if (c) c.checked = cfg.muted; label(); applyVolumes(); save(); }
+      if (e.key === 'Escape' && !pop.hidden) toggle(false);
+    });
+    SND.setMuted = m => { cfg.muted = m; label(); applyVolumes(); save(); };
+  }
+
+  // a böngésző csak felhasználói művelet után engedi a hangot
+  for (const ev of ['pointerdown', 'keydown', 'touchend']) window.addEventListener(ev, () => init(), { capture: true, passive: true });
+
+  return {
+    init, tick, buildUI, button, buzzer, dispatchWhistle, handset, voice, counter, relay, relayCascade,
+    get ready() { return ready && ac && ac.state === 'running'; }, cfg: () => cfg,
+    meter() { if (!ac) return null; const a = ac.createAnalyser(); a.fftSize = 2048; out.connect(a); return a; },   // hibakereséshez
+  };
+})();
+
+// ---- bekötés a játék eseményeibe ----
+{
+  const wrap = (name, fn) => { const orig = window[name]; if (typeof orig !== 'function') return; window[name] = fn(orig); };
+  // pult nyomógombok
+  wrap('pultClick', orig => function (el) { if (el && SND.ready) SND.button(el.type === 'pCommon' ? 'common' : 'normal'); return orig.apply(this, arguments); });
+  // menesztés gomb → forgalmi síp (csak a játékos gombnyomására, az automata/tekerés közben nem)
+  let whistleArmed = 0;
+  document.addEventListener('click', e => { if (e.target.closest?.('[data-act=dispatch-now], [data-act=dispatch]')) whistleArmed = performance.now(); }, true);
+  wrap('issueDispatch', orig => function () { const ok = orig.apply(this, arguments); if (ok && SND.ready && performance.now() - whistleArmed < 600) SND.dispatchWhistle(); return ok; });
+  // hibás kezelés → berregő
+  // (a pult hibás kezelésnél sem ad hangot)
+  // telefon: kagyló fel/le, a szomszéd beszéde
+  wrap('openPhone', orig => function () { const was = phonePanel.hidden; const r = orig.apply(this, arguments); if (was && SND.ready) SND.handset(true); return r; });
+  wrap('closePhone', orig => function () { const was = !phonePanel.hidden; const r = orig.apply(this, arguments); if (was && SND.ready) SND.handset(false); return r; });
+  wrap('phoneMessage', orig => function (line, side, words) {
+    if (SND.ready && !phonePanel.hidden && speed <= 10) {
+      if (side === 'neighbor') SND.voice(words, false);
+      else if (side === 'system' && /bontva/i.test(words || '')) SND.handset(false);
+    }
+    return orig.apply(this, arguments);
+  });
+  SND.buildUI();
+  // a főciklus után futó hangfrissítés
+  let sndLast = performance.now();
+  const sndLoop = t => { const real = Math.min(0.1, (t - sndLast) / 1000); sndLast = t; try { SND.tick(real); } catch (err) { console.warn('hang:', err); } requestAnimationFrame(sndLoop); };
+  requestAnimationFrame(sndLoop);
+}
+
+</script>
 </body></html>
