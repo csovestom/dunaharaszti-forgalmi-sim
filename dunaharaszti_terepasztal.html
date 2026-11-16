@@ -33,6 +33,21 @@
 html,body{margin:0;height:100%;color:var(--text);background:var(--grain),var(--bg);font:13px/1.45 var(--sans);overflow:hidden}
 body{height:100dvh;display:flex;flex-direction:column}
 [hidden]{display:none!important}
+/* Ablakok be- és kiúsztatása */
+@keyframes win-in{from{opacity:0;translate:0 8px;scale:.96}}
+@keyframes win-out{to{opacity:0;translate:0 8px;scale:.96}}
+@keyframes win-fade-in{from{opacity:0}}
+@keyframes win-fade-out{to{opacity:0}}
+.win-in{animation:win-in .22s cubic-bezier(.2,.85,.25,1)}
+@keyframes slide-out-left{to{translate:calc(-100% - 40px) 0;opacity:0}}
+@keyframes slide-in-left{from{translate:calc(-100% - 40px) 0;opacity:0}}
+.win-out{animation:win-out .2s cubic-bezier(.5,0,.75,.4) forwards;pointer-events:none}
+.modal.win-in{animation:win-fade-in .22s ease-out}.modal.win-in>*{animation:win-in .26s cubic-bezier(.2,.85,.25,1)}
+.modal.win-out{animation:win-fade-out .2s ease-in forwards}.modal.win-out>*{animation:win-out .2s ease-in forwards}
+#infoCard.slide-out,#sigWrap.slide-out{animation:slide-out-left .3s cubic-bezier(.55,0,.8,.45) forwards!important;pointer-events:none}
+#infoCard.slide-in,#sigWrap.slide-in{animation:slide-in-left .34s cubic-bezier(.2,.85,.25,1)!important}
+@media(prefers-reduced-motion:reduce){#infoCard.slide-out,#sigWrap.slide-out,#infoCard.slide-in,#sigWrap.slide-in{animation:none!important}}
+@media(prefers-reduced-motion:reduce){.win-in,.win-out,.modal.win-in>*,.modal.win-out>*{animation:none}}
 button{cursor:pointer;font:600 12px/1 var(--sans);color:var(--text);border:1px solid #0c110c;border-radius:var(--r);min-height:31px;padding:7px 11px;white-space:nowrap;
   background:var(--grain),linear-gradient(#3b4835,#28331f);box-shadow:inset 0 1px 0 #ffffff26,inset 0 -2px 0 #0005,0 1px 2px #0006;text-shadow:0 1px 0 #0008}
 button:hover{background:var(--grain),linear-gradient(#475641,#2f3b28)}
@@ -66,6 +81,11 @@ kbd{font:700 11px var(--mono);padding:1px 5px;border-radius:3px;background:#fffa
 .tb-custom input{width:58px;padding:4px 6px;border-radius:3px;border:1px solid #000;background:#0b0f0a;color:#ffb648;font:700 13px var(--mono);box-shadow:inset 0 2px 4px #000}
 .tb-track{flex:1;min-width:min(220px,100%);display:flex;align-items:center;gap:8px;color:var(--muted);font:700 12px var(--mono)}
 #tbNow{color:#ffb648;min-width:44px}
+.tb-track{position:relative}
+#slideTip{position:absolute;bottom:calc(100% + 4px);z-index:30;translate:-50% 0;padding:3px 7px;border-radius:3px;background:#11160f;border:1px solid #6d5a2a;
+  color:#ffd27a;font:700 11.5px/1.2 var(--mono);white-space:nowrap;pointer-events:none;box-shadow:0 2px 6px #0009}
+#slideTip::after{content:"";position:absolute;left:50%;top:100%;translate:-50% 0;border:5px solid transparent;border-top-color:#6d5a2a}
+#slideTip i{font-style:normal;color:#c9c09a;margin-left:6px}
 #timeSlider{flex:1;min-width:0;height:22px;margin:0;cursor:pointer;appearance:none;-webkit-appearance:none;background:transparent}
 #timeSlider::-webkit-slider-runnable-track{height:8px;border-radius:2px;border:1px solid #000;background:linear-gradient(90deg,#c58a1e 0 var(--rec,0%),#2a3326 var(--rec,0%));box-shadow:inset 0 1px 3px #000a}
 #timeSlider::-moz-range-track{height:8px;border-radius:2px;border:1px solid #000;background:linear-gradient(90deg,#c58a1e 0 var(--rec,0%),#2a3326 var(--rec,0%))}
@@ -131,6 +151,15 @@ table{border-collapse:collapse;width:100%;min-width:470px;white-space:nowrap}
 th,td{padding:6px 8px;text-align:left;vertical-align:top;border-bottom:1px solid color-mix(in srgb,var(--rule) 25%,transparent);font-variant-numeric:tabular-nums}
 td:nth-child(3),td:nth-child(4),td:nth-child(6){font-family:var(--mono);font-weight:700}
 th{position:sticky;top:0;background:var(--fibre),var(--paper-2);color:var(--ink);border-bottom:2px solid var(--rule);font:700 10px/1.3 var(--serif);text-transform:uppercase;letter-spacing:.06em}
+td.tt-last{position:relative;padding-right:30px}
+.tt-phone{position:absolute;right:5px;top:5px;display:flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:50%;
+  background:#26301f;color:#e9dfb8;font-size:13px;line-height:1;cursor:pointer;box-shadow:inset 0 0 0 1px #4d5b44}
+.tt-phone i{position:absolute;right:-3px;bottom:-3px;font:700 9px/1 var(--sans);font-style:normal;background:#2f5f2a;color:#fff;border-radius:6px;padding:1px 2px}
+.tt-phone.wait i{background:#8a6a20}.tt-phone.ok{color:#bfe6a8}
+.tt-phone button{position:absolute;right:26px;top:50%;translate:6px -50%;min-height:26px;padding:4px 10px;font-size:11.5px;white-space:nowrap;
+  opacity:0;pointer-events:none;transition:opacity .15s,translate .15s;z-index:2}
+.tt-phone:hover button,.tt-phone.open button,.tt-phone:focus-within button{opacity:1;pointer-events:auto;translate:0 -50%}
+.tt-phone:hover{background:#3a4a30}
 tr.row{cursor:pointer}tr.row:hover,tr.row.sel,tr.row:focus-visible{background:var(--row-hover)}
 #ttBody .row[data-lamp=moving]{--tt-lamp:#ffd152;--tt-glow:.24}
 #ttBody.tt-lamps-lit .row[data-lamp=moving]{--tt-glow:1}
@@ -417,7 +446,7 @@ button.on,button[aria-pressed=true]{background:var(--grain),#e3b14f;border-color
 th{font-family:var(--mono)}
 
 /* Állapotkártya a terepasztalon */
-#infoCard{position:absolute;z-index:6;width:min(270px,calc(100% - 16px));max-height:calc(100% - 54px);overflow:auto;overscroll-behavior:contain;
+#infoCard{position:absolute;z-index:6;width:min(var(--info-w,214px),calc(100% - 16px));max-height:calc(100% - 54px);overflow:auto;resize:both;min-width:170px;min-height:90px;overscroll-behavior:contain;
   color:var(--ink);background:var(--fibre),var(--paper);border:1px solid var(--rule);
   box-shadow:inset 0 0 0 3px var(--paper),inset 0 0 0 4px color-mix(in srgb,var(--rule) 45%,transparent),3px 5px 0 #0008;padding:0 0 10px;font-size:12.5px;line-height:1.45}
 #infoCard[hidden]{display:none}
@@ -434,6 +463,26 @@ th{font-family:var(--mono)}
 #infoCard p{margin:0 13px 6px;color:var(--ink-body)}
 #infoCard .ic-why{font-size:11.5px;color:var(--ink-soft)}
 #infoCard>button{margin:4px 13px 0;width:calc(100% - 26px)}
+#infoCard{font-size:11.5px;line-height:1.38}
+#infoCard header{cursor:move;padding:4px 4px 4px 8px!important}
+#infoCard header b{font-size:10px!important}
+#infoCard .ic-state{margin:6px 9px 4px;padding-bottom:5px;gap:8px}
+#infoCard .ic-state strong{font-size:14px}
+#infoCard p{margin:0 9px 4px}
+#infoCard .ic-crew{font-size:10.5px;color:var(--ink-soft)}
+#infoCard>button{margin:3px 9px 0;width:calc(100% - 18px)}
+#infoCard .ic-controls{margin:5px 9px 0;padding-top:5px}
+#infoCard{transition:left .32s cubic-bezier(.2,.85,.25,1),top .32s cubic-bezier(.2,.85,.25,1)}
+#infoCard.no-slide,#infoCard.dragging{transition:none}
+.ic-live{display:flex;gap:5px;align-items:stretch;margin:5px 9px 5px;padding:4px;background:#1b1f1a;border:1px solid #0b0d0a;box-shadow:inset 0 1px 3px #000a}
+.ic-front{width:44%;aspect-ratio:216/200;height:auto;flex:none;border-radius:2px;background:linear-gradient(#5d7f99,#a9c2cf 62%,#6f7a5f 63%,#4f5a43)}
+.ic-front.ready{cursor:pointer;box-shadow:0 0 0 2px #7cc46a,0 0 8px #7cc46a88}
+.ic-gauges{flex:1;display:flex;flex-direction:column;justify-content:space-between;min-width:0}
+.ic-speedo{width:100%;max-width:120px;aspect-ratio:228/148;height:auto;align-self:center}
+.ic-brake{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:5px;color:#e9e1c4;font:700 9.5px/1 var(--mono);letter-spacing:.06em}
+.ic-brake b{font:700 11px/1 var(--mono);min-width:38px;text-align:right}
+.ic-bar{height:8px;background:#0b0d0a;border:1px solid #3b4237;border-radius:1px;overflow:hidden}
+.ic-bar i{display:block;height:100%;width:0;background:#7cc46a;transition:background .3s}
 .ic-controls{display:grid;gap:6px;margin:8px 13px 0;padding-top:8px;border-top:1px solid var(--rule)}
 #infoCard .ic-controls p{margin:0}
 .ic-controls button{white-space:normal;text-align:left}
@@ -627,6 +676,8 @@ body.paged #sigWrap{top:46px;left:6px}
 #phoneReceiveState[hidden]{display:none}
 .period-pick{display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px;margin:10px 0 0;font-size:13px}
 .period-pick label{font:700 11px/1 var(--mono,monospace);letter-spacing:.08em;text-transform:uppercase}
+.period-pick input{font:600 13px var(--sans,system-ui);padding:5px 8px;border:1px solid #000;border-radius:3px;background:var(--card,#f4ead5);color:inherit;width:min(220px,100%)}
+#playerNameNote{font-size:11.5px;opacity:.75}
 .period-pick select{font:600 13px var(--sans,system-ui);padding:5px 8px;border:1px solid #000;border-radius:3px;background:var(--card,#f4ead5);color:inherit;max-width:100%}
 #periodNote{font-size:11.5px;color:var(--ink-soft,#666)}
 </style>
@@ -683,6 +734,7 @@ body.paged #sigWrap{top:46px;left:6px}
   <div class="tb-track">
     <span id="tbNow">08:36</span>
     <input id="timeSlider" type="range" min="30960" max="38160" step="5" value="22200" aria-label="Idősáv: húzással előre és hátra tekerhető" style="--rec: 0.12%;">
+    <span id="slideTip" hidden></span>
     <span id="tbEnd">10:36</span>
   </div>
 </div>
@@ -935,6 +987,7 @@ body.paged #sigWrap{top:46px;left:6px}
     <details class="help-more"><summary>Billentyűk és egér</summary>
       <p class="help-kbd"><kbd>Szóköz</kbd> állj · <kbd>1</kbd> <kbd>2</kbd> <kbd>5</kbd> <kbd>0</kbd> sebesség · <kbd>H</kbd> segítő · <kbd>O</kbd> oktató · <kbd>M</kbd> menetrend · <kbd>P</kbd> pult · <kbd>A</kbd> automata · <kbd>K</kbd> követés · <kbd>D</kbd> napszak · <kbd>Esc</kbd> kijelölés törlése. Húzás: mozgatás, görgő: nagyítás. Jelzőre kattintva, majd a célvágányra: gyors vágányút; jobb kattintás a jelzőn: törlés.</p>
     </details>
+    <p class="period-pick"><label for="playerName">Neved</label> <input id="playerName" type="text" maxlength="40" autocomplete="name" placeholder="pl. Kovács János" aria-describedby="playerNameNote"> <span id="playerNameNote">Telefonon a vezetékneveddel nyugtázol.</span></p>
     <p class="period-pick"><label for="periodSel">Menetrend</label> <select id="periodSel"></select> <span id="periodNote"></span></p>
     <p class="box-foot"><button id="btnStartTutor">Oktató indítása</button> <button id="btnStart" class="on">Kezdés</button></p>
   </div>
@@ -1627,12 +1680,12 @@ function buildTimetable(t0, t1) {
 }
 const TIMETABLE = buildTimetable(START, START + SHIFT_LEN);
 const ROMAN = { '1': 'I.', '2': 'II.', '3': 'III.' };
-const trains = TIMETABLE.map(d => {
+function makeTrain(d) {
   const tr = Object.assign({}, KINDS[d.kind], d, {
     state: 'pending', v: 0, s: 0, trail: [], cover: [], exiting: false, restrict: null, stopPending: false,
     dwell: null, receiveAt: null, enterAt: null, arrAt: null, depAt: null, lineDepartAt: null, exitAt: null, actualTrack: null, by: null,
     nextSig: null, nextSigDist: 1e9, waitMsg: null, spawnWaitMsg: false, srWarn: false,
-    departurePermission: null, permAfter: null, awaitDispatch: false, dispatchAt: null, dispatchOrder: null,
+    departurePermission: null, permAfter: null, brake: 0, awaitDispatch: false, dispatchAt: null, dispatchOrder: null,
   });
   if (tr.kind === 'S') {   // a személyvonatok Dunaharaszti-alsón is megállnak: a menetrend ezzel az idővel hosszabb
     tr.haltStop = true; tr.haltDone = false;
@@ -1646,8 +1699,29 @@ const trains = TIMETABLE.map(d => {
     tr.len = PASSENGER_FORMATIONS[tr.formation].len;
   }
   return tr;
-});
+}
+const trains = TIMETABLE.map(makeTrain);
 const TRAIN = {}; for (const t of trains) TRAIN[t.no] = t;
+// A szolgálat a végéhez közeledve magától meghosszabbodik (újabb 2 óra), így az idősáv és a forgalom folytatódik.
+const TRAIN_INIT = [];   // a később felvett vonatok kezdőállapota (visszatekeréshez)
+function extendShift() {
+  const newEnd = TEND + SHIFT_LEN;
+  const extra = buildTimetable(T0, newEnd).filter(d => !TRAIN[d.no] && d.enter > now + 30);
+  const fresh = new Set(extra.map(d => d.no));
+  for (const d of extra) {
+    if (d.crossing && !fresh.has(d.crossing)) d.crossing = null;   // a kereszt partnere már lement
+    const tr = makeTrain(d);
+    TRAIN_INIT[trains.length] = structuredClone(tr);
+    trains.push(tr); TRAIN[tr.no] = tr;
+  }
+  TEND = newEnd;
+  $('#timeSlider').max = TEND;
+  renderTT.over = false;
+  $('#shiftLabel').textContent = `Dunaharaszti · ${PERIOD.label.split(' · ')[0]} · ${fmt(T0, false)}–${fmt(TEND, false)}`;
+  $('#tbEnd') && ($('#tbEnd').textContent = fmt(TEND, false));
+  msg(`A szolgálat meghosszabbodott ${fmt(TEND, false)}-ig (${extra.length} újabb vonat).`, 'info');
+  renderTT(); syncTimebar(true);
+}
 const OFFER_LEAD = 180;
 const originLine = train => train.dir > 0 ? 'W' : 'E';
 const destinationLine = train => train.dir > 0 ? 'E' : 'W';
@@ -1931,6 +2005,9 @@ function moveTrain(tr, dt) {
   if (vA >= v) v = Math.min(vA, v + tr.acc * dt);
   else v = Math.max(vA, v - (vA < v - 2 ? tr.emerg : tr.dec * 1.6) * dt);
   if (vA === 0 && v < 0.15) v = 0;
+  // Fékkihasználás %-ban (üzemi fékezés ~40–55 %, vészfékezés 100 %, álló vonat rögzítve ~60 %), kisimítva
+  const brakeTarget = v === 0 && tr.v === 0 ? 60 : vA < tr.v ? (vA < tr.v - 2 ? 100 : Math.round(tr.dec * 1.6 / tr.emerg * 60)) : 0;
+  tr.brake = (tr.brake || 0) + (brakeTarget - (tr.brake || 0)) * Math.min(1, dt * 1.5);
   tr.v = v;
   tr.s += v * dt;
   while (!tr.exiting) {
@@ -3984,8 +4061,32 @@ function drawPult(c, cm) {
   $('#pultHint').textContent = armed ? ARM_TEXT[armed] + ' …' : pStart ? `Kezdőgomb: ${pStart} – nyomd meg a célgombot` : 'Kezdőgomb → célgomb';
 }
 
-function pultClick(el) {
-  if (!el) { armed = null; pStart = null; return; }
+// A pult sematikus koordinátájából a terepasztal megfelelő pontja (a csomópontok közt lineárisan).
+const PULT_X_PAIRS = [...new Map(Object.keys(P).map(k => [P[k][0], NDEF[k][0]])).entries()].sort((a, b) => a[0] - b[0]);
+function pultToWorld(px, py) {
+  const pr = PULT_X_PAIRS;
+  let wx;
+  if (px <= pr[0][0]) wx = pr[0][1];
+  else if (px >= pr[pr.length - 1][0]) wx = pr[pr.length - 1][1];
+  else {
+    let i = 1; while (pr[i][0] < px) i++;
+    const [x0, w0] = pr[i - 1], [x1, w1] = pr[i];
+    wx = w0 + (w1 - w0) * (px - x0) / (x1 - x0);
+  }
+  return [wx, ym(wx) + clamp(py / 80, -2, 3) * TS];
+}
+let camGlide = null;
+function glideMapTo(wx, wy) {
+  if (isPaged() && page !== 'map') setPage('map');
+  follow = null; setViewButton(null); camHold();
+  camGlide = { x: wx, y: wy, z: clamp(cam.z, 0.9, 3) };
+}
+function pultClick(el, at) {
+  if (!el) {
+    const hadArm = armed || pStart; armed = null; pStart = null;
+    if (!hadArm && at) glideMapTo(...pultToWorld(at[0], at[1]));   // üres pultfelület: a terepasztal odaúszik
+    return;
+  }
   if (el.type === 'pSig') openSigView(el.id);
   if (el.type === 'pCommon') {
     pStart = null;
@@ -4003,6 +4104,10 @@ function pultClick(el) {
     if (pStart && pStart !== el.id) {
       const def = ROUTES.find(r => r.start === pStart && r.end === el.id);
       if (def) { pStart = null; return setRoute(def); }
+      // Kijárati jelző után a vonal felőli bejárati jelző gombja is célgombként működik (K… → A: Soroksár, V… → B: Taksony).
+      const lineTarget = SIGS[pStart]?.kind === 'exit' && ((el.id === 'A' && SIGS[pStart].dir < 0) || (el.id === 'B' && SIGS[pStart].dir > 0)) ? (el.id === 'A' ? 'cW' : 'cE') : null;
+      const viaLine = lineTarget && ROUTES.find(r => r.start === pStart && r.dest.includes(lineTarget));
+      if (viaLine) { pStart = null; return setRoute(viaLine); }
     }
     if (pStart === el.id) { pStart = null; return; }
     pStart = el.id; pStartAt = performance.now(); return;
@@ -4063,19 +4168,64 @@ const signalExamples = [...document.querySelectorAll('.signal-example canvas')].
 let sigViewId = null, lastSignalDrawing = '', lastExamplesPhase = null;
 
 let swViewId = null;
+// A bal oldali hely egyszerre egy ablaké: a jelzőablak és a vonat-adatlap egymást kiúsztatja a vászon bal szélén.
+const SLIDE_MS = 300;
+function slideClass(el, cls) { el.classList.remove('slide-in', 'slide-out'); void el.offsetWidth; el.classList.add(cls);
+  clearTimeout(el._slideT); if (cls === 'slide-in') el._slideT = setTimeout(() => el.classList.remove('slide-in'), SLIDE_MS + 60); }
+function slideOutSig() {
+  const sw = $('#sigWrap');
+  if (!sw.classList.contains('open') || sw.classList.contains('slide-out')) return;
+  const ids = [sigViewId, swViewId];
+  autoWin.sig = false;
+  slideClass(sw, 'slide-out');
+  clearTimeout(sw._slideT);
+  sw._slideT = setTimeout(() => {
+    sw.classList.remove('slide-out');
+    if (sigViewId === ids[0] && swViewId === ids[1]) { sigViewId = swViewId = null; clearTimeout(sw._winTimer); sw.classList.remove('open', 'win-out', 'win-in'); }
+  }, SLIDE_MS);
+}
+function slideOutInfo() {
+  if (infoSel?.kind !== 'train' || infoCard.hidden || infoCard.classList.contains('slide-out')) return;
+  const sel = infoSel;
+  slideClass(infoCard, 'slide-out');
+  clearTimeout(infoCard._slideT);
+  infoCard._slideT = setTimeout(() => {
+    if (infoSel === sel) { closeInfo(); setTimeout(() => infoCard.classList.remove('slide-out'), 260); }
+    else infoCard.classList.remove('slide-out');
+  }, SLIDE_MS);
+}
+let sigSeenAt = 0;
+function sigViewRelevant() {
+  if ($('#sigWrap').matches(':hover')) return true;
+  if (sigViewId) {
+    if (activeFrom[sigViewId] && !activeFrom[sigViewId].train) return true;             // lezárt, még fel nem használt vágányút
+    if (SIGS[sigViewId].hivoUntil > now) return true;
+    return trains.some(t => t.state === 'run' && t.nextSig === sigViewId && t.nextSigDist < 900);
+  }
+  if (swViewId) return SW[swViewId].moving;
+  return false;
+}
+function sigAutoHide() {
+  const sw = $('#sigWrap');
+  if (!sw.classList.contains('open') || (autoMode && autoWin.sig)) { sigSeenAt = performance.now(); return; }
+  if (sigViewRelevant()) sigSeenAt = performance.now();
+  else if (performance.now() - sigSeenAt > 4000) { if (autoMode) autoWin.sigDismissed = sigViewId; closeSigView(); }
+}
 function openSigView(id) {
+  sigSeenAt = performance.now();
   sigViewId = id; swViewId = null;
   lastSignalDrawing = '';
-  $('#sigWrap').classList.add('open');
+  winOpen($('#sigWrap'));
 }
 function openSwView(id) {
+  sigSeenAt = performance.now();
   swViewId = id; sigViewId = null; autoWin.sig = false;
   lastSignalDrawing = '';
-  $('#sigWrap').classList.add('open');
+  winOpen($('#sigWrap'));
 }
 function closeSigView() {
   sigViewId = null; swViewId = null;
-  $('#sigWrap').classList.remove('open');
+  winClose($('#sigWrap'));
 }
 sv.onclick = () => { if (autoMode) autoWin.sigDismissed = sigViewId; autoWin.sig = false; closeSigView(); };
 sv.onkeydown = e => {
@@ -4287,7 +4437,7 @@ function mapClick(el, mods) {
   if (!el) { selStart = null; closeInfo(); return; }
   if (el.type === 'train') {
     $('#tip').style.display = 'none';
-    openInfo({ kind: 'train', id: el.id, w: S2W(cam, el.x, el.y) });
+    focusTrain(TRAIN[el.id], true);                 // a vonatra kattintás kijelöli (a kamera követi), az adatlap addig kint marad
     return;
   }
   if (el.type === 'signal' || el.type === 'pre') openSigView(el.id);
@@ -4338,7 +4488,7 @@ function setupCanvasInput(c, cm, isMap) {
     if (down && down.moved) {
       cm.x = down.cx - (x - down.x) / cm.z;
       cm.y = down.cy - (y - down.y) / cm.z;
-      hover = null; if (isMap) { follow = null; setViewButton(null); camHold(); }
+      hover = null; if (isMap) { follow = null; camGlide = null; setViewButton(null); camHold(); }
       $('#tip').style.display = 'none';
       c.style.cursor = 'grabbing';
       return;
@@ -4356,7 +4506,7 @@ function setupCanvasInput(c, cm, isMap) {
     const [x, y] = pos(e);
     if (d.moved || x < 0 || y < 0 || x > cm.w || y > cm.h) return;
     const el = hitTest(c, cm, x, y, isMap, isMap && !e.shiftKey && !selStart);
-    if (isMap) mapClick(el, { shift: e.shiftKey }); else pultClick(el);
+    if (isMap) mapClick(el, { shift: e.shiftKey }); else pultClick(el, S2W(cm, x, y));
   });
   c.addEventListener('contextmenu', e => {
     e.preventDefault();
@@ -4376,7 +4526,7 @@ function showTip(e, el) {
   if (el.type === 'train') {
     if (infoSel?.kind !== 'train' || infoSel.id !== el.id) {
       const tr = TRAIN[el.id];
-      html = `<b>${trainName(tr)}</b><br>${canAskDeparture(tr) || dispatchReady(tr) ? 'Kattintás az indulási műveletekhez' : 'Kattintás a vonat adatlapjához'}`;
+      html = `<b>${trainName(tr)}</b><br>${dispatchReady(tr) ? 'Kattintás az indulási műveletekhez' : 'Kattintás a vonat adatlapjához'}`;
     }
   } else if (el.type === 'signal') {
     const s = SIGS[el.id], r = activeFrom[el.id];
@@ -4428,10 +4578,10 @@ $('#btnGuide').onclick = () => isPaged() ? setPage('guide') : selectDeskTab('gui
 $('#btnTutor').onclick = () => isPaged() ? setPage('tutor') : selectDeskTab('tutor', true);
 $('#btnPult').onclick = () => isPaged() ? setPage('pult') : setDeskOpen('pult');
 function closeHelp() {
-  $('#helpModal').classList.remove('open');
+  winClose($('#helpModal'));
   $('#btnHelp').focus();
 }
-$('#btnHelp').onclick = () => { $('#helpModal').classList.add('open'); $('#btnStart').focus(); };
+$('#btnHelp').onclick = () => { winOpen($('#helpModal')); $('#btnStart').focus(); };
 $('#btnStart').onclick = closeHelp;
 $('#btnStartTutor').onclick = () => { closeHelp(); if (isPaged()) setPage('tutor'); else selectDeskTab('tutor'); };
 $('#helpModal').addEventListener('click', e => { if (e.target.id === 'helpModal') closeHelp(); });
@@ -4681,6 +4831,20 @@ function departureCallPending(train) {
   return call?.type === 'request' && call.train === train && call.stage === 'answer';
 }
 
+// A játékos neve: a kezdőablakban adható meg, a böngésző megjegyzi. A telefonban a vezetéknév (első szó) szerepel.
+let playerFullName = (() => { try { return localStorage.getItem('dunaharaszti-name') || ''; } catch (err) { return ''; } })();
+function playerSurname() { return playerFullName.trim().split(/\s+/)[0] || 'Kovács'; }
+{
+  const inp = document.getElementById('playerName');
+  if (inp) {
+    inp.value = playerFullName;
+    inp.addEventListener('input', () => {
+      playerFullName = inp.value.replace(/[<>&"]/g, '').slice(0, 40);
+      try { localStorage.setItem('dunaharaszti-name', playerFullName); } catch (err) { /* nincs tárolás */ }
+    });
+    inp.addEventListener('keydown', e => { e.stopPropagation(); if (e.key === 'Enter') document.getElementById('btnStart')?.click(); });
+  }
+}
 function requestWords(train, station, time, operator) {
   const length = train.kind === 'G' ? ` A vonat hossza ${train.len} méter.` : '';
   return `Mehet-e kb. ${phoneClock(time)} a ${train.no} sz. vonat ${station} állomásra?${length} ${operator}.`;
@@ -4698,7 +4862,7 @@ function startDepartureCall(train) {
   const line = destinationLine(train), connection = phoneLines[line];
   // Javítás: a szomszéd szolgálattevő néhány másodperc múlva magától válaszol
   connection.call = { type: 'request', train, stage: 'answer', answerAt: now + 6, answerReal: performance.now() + 2200 };
-  phoneMessage(line, 'player', requestWords(train, LINES[line].name, Math.max(now, train.dep), 'Kovács'));
+  phoneMessage(line, 'player', requestWords(train, LINES[line].name, Math.max(now, train.dep), playerSurname()));
   recordSnap();
 }
 
@@ -4773,13 +4937,13 @@ function beginPhoneCall(line, call) {
     ? 'Hívás fogadva' : `${LINES[line].name} vonala kapcsolva`);
   phoneMessage(line, 'neighbor', `${LINES[line].name}, ${connection.operator} szolgálattevő.`);
   // A bejelentkezést nem kell külön kiválasztani.
-  phoneMessage(line, 'player', 'Dunaharaszti, Kovács szolgálattevő.');
+  phoneMessage(line, 'player', `Dunaharaszti, ${playerSurname()} szolgálattevő.`);
   const train = call.train;
   if (call.type === 'offer') {
     call.stage = 'exchange';
     phoneMessage(line, 'neighbor', requestWords(train, 'Dunaharaszti', Math.max(now, train.enter), connection.operator));
     if (train.receiveAt != null) {   // az engedélyt már megadtad (pl. a Vonatfogadás gombbal): csak visszaigazolás
-      phoneMessage(line, 'player', permissionWords(train, 'Dunaharaszti', 'Kovács'));
+      phoneMessage(line, 'player', permissionWords(train, 'Dunaharaszti', playerSurname()));
       phoneMessage(line, 'neighbor', `A ${train.no} sz. vonat Dunaharaszti állomásra jöhet. Vettem, ${connection.operator}.`);
       connection.sent.add(`offer-${train.no}`); call.stage = 'done'; autoClosePhone(line, 1400);
     }
@@ -4819,8 +4983,8 @@ function callChoices(line, call) {
   if (stage === 'greet') {
     return [
       reply('Halló, itt a forgalmi iroda.', false, 'A bejelentkezésben mondd be az állomás nevét és a szolgálattevő nevét.'),
-      reply('Dunaharaszti, Kovács szolgálattevő.', true, '', exchange),
-      reply(`${station}, Kovács szolgálattevő.`, false, 'A saját állomásod nevét mondd be.'),
+      reply(`Dunaharaszti, ${playerSurname()} szolgálattevő.`, true, '', exchange),
+      reply(`${station}, ${playerSurname()} szolgálattevő.`, false, 'A saját állomásod nevét mondd be.'),
     ];
   }
   if (type === 'offer') {
@@ -4829,15 +4993,15 @@ function callChoices(line, call) {
       finishPhoneCall(line);
     } }];
     if (train.receiveAt != null)
-      return [reply(permissionWords(train, 'Dunaharaszti', 'Kovács'), true, '', () => {
+      return [reply(permissionWords(train, 'Dunaharaszti', playerSurname()), true, '', () => {
         phoneMessage(line, 'neighbor', `A ${train.no} sz. vonat Dunaharaszti állomásra jöhet. Vettem, ${connection.operator}.`);
         complete(); autoClosePhone(line);
       })];
     return [
-      { label: permissionWords(train, 'Dunaharaszti', 'Kovács'), correct: !receptionProblem(train), run() {
+      { label: permissionWords(train, 'Dunaharaszti', playerSurname()), correct: !receptionProblem(train), run() {
         const problem = receptionProblem(train);
         if (problem || !authorizeReception(train)) { phoneMessage(line, 'system', problem || 'A fogadási engedély most nem adható meg.'); return; }
-        phoneMessage(line, 'player', permissionWords(train, 'Dunaharaszti', 'Kovács'));
+        phoneMessage(line, 'player', permissionWords(train, 'Dunaharaszti', playerSurname()));
         phoneMessage(line, 'neighbor', `A ${train.no} sz. vonat Dunaharaszti állomásra jöhet. Vettem, ${connection.operator}.`);
         complete(); recordSnap(); renderTT(); renderGuide(); autoClosePhone(line);
       } },
@@ -4939,7 +5103,7 @@ phoneReceiveGrant.onclick = () => {
   const queued = connection.queue.findIndex(item => item.type === 'offer' && item.train === tr);
   if (queued >= 0) connection.queue.splice(queued, 1);
   if (connection.call?.type === 'offer' && connection.call.train === tr && connection.call.stage !== 'done') {
-    phoneMessage(phoneLine, 'player', permissionWords(tr, 'Dunaharaszti', 'Kovács'));
+    phoneMessage(phoneLine, 'player', permissionWords(tr, 'Dunaharaszti', playerSurname()));
     phoneMessage(phoneLine, 'neighbor', `A ${tr.no} sz. vonat Dunaharaszti állomásra jöhet. Vettem, ${connection.operator}.`);
     connection.call.stage = 'done';
   } else phoneMessage(phoneLine, 'system', `A(z) ${tr.no} sz. vonat fogadási engedélye megadva.`);
@@ -5032,7 +5196,7 @@ function renderTT() {
       <td style="text-align:center">${trk}</td>
       <td>${pass ? '–' : fmtS(tr.dep - tr.arr)}</td>
       <td class="st ${sc}">${st}</td>
-      <td class="${dc}"><b>+${Math.max(0, d)}p</b></td></tr>`;
+      <td class="${dc} tt-last"><b>+${Math.max(0, d)}p</b>${timetablePhone(tr)}</td></tr>`;
   }).join('');
   if (rows !== timetableRows) {
     const focus = ttBody.contains(document.activeElement) ? document.activeElement.dataset.no : null;
@@ -5046,15 +5210,52 @@ function renderTT() {
   $('#stats').innerHTML = `leközlekedett: <b>${done.length}/${trains.length}</b> · pontos: <b>${ontime}</b> · késés: <b>${total} perc</b>`;
   if (done.length === trains.length && !renderTT.over) { renderTT.over = true; msg(`Szolgálat vége. Összes késés: ${total} perc, pontos vonatok: ${ontime}/${trains.length}.`, total ? 'warn' : 'ok'); }
 }
+// Még meg nem jelent vonat: az indulási engedély kérése a menetrendben, a vonat sora alatti kiegészítő sorban.
+// Indulási engedély a menetrendből: a sor jobb szélén egy kis telefon ikon, ráhúzott egérre kinyílik a lehetőség.
+let ttPhoneHover = null;
+function timetablePhone(tr) {
+  if (tr.state === 'done' || tr.lineDepartAt != null || tr.dispatchAt != null) return '';
+  const station = LINES[destinationLine(tr)].name;
+  if (tr.departurePermission === true) {
+    const after = tr.permAfter && TRAIN[tr.permAfter];
+    const cond = after && after.actualTrack == null && after.state !== 'done' ? ` – a ${after.no} sz. vonat beérkezése után` : '';
+    return `<span class="tt-phone ok" title="Indulási engedély megvan (${station})${cond}">☎︎<i>✓</i></span>`;
+  }
+  if (departureCallPending(tr)) return `<span class="tt-phone wait" title="${station} válaszára vár…">☎︎<i>…</i></span>`;
+  if (!canAskDeparture(tr)) return '';
+  return `<span class="tt-phone${ttPhoneHover === tr.no ? ' open' : ''}">☎︎<button type="button" data-ask="${tr.no}">${tr.departurePermission === false ? 'Újra: ' : ''}Engedélykérés · ${station}</button></span>`;
+}
+function askFromTimetable(tr) {
+  const line = destinationLine(tr), call = phoneLines[line].call;
+  if (!canAskDeparture(tr) || tr.departurePermission === true || departureCallPending(tr)) return;
+  if (call && call.stage !== 'done') { msg(`${LINES[line].name} vonalán hívás van folyamatban, előbb azt fejezd be.`, 'warn'); return; }
+  startDepartureCall(tr);
+  renderPhone(); renderTT();
+}
 function timetableClick(e) {
+  const ask = e.target.closest('[data-ask]');
+  if (ask) { askFromTimetable(TRAIN[ask.dataset.ask]); return; }
+  const ph = e.target.closest('.tt-phone');
+  if (ph) { ttPhoneHover = ph.classList.toggle('open') ? ph.closest('tr').dataset.no : null; return; }   // érintőképernyőn koppintásra nyílik
   const row = e.target.closest('tr.row'); if (!row) return;
   const tr = TRAIN[row.dataset.no];
   if (tr.state === 'run') focusTrain(tr);
-  else if (canAskDeparture(tr) || (tr.state === 'pending' && tr.departurePermission === true))
-    openInfo({ kind: 'train', id: tr.no, w: [cam.x, cam.y] });   // még meg nem jelent vonat: indulási engedély előre
+  else if (tr.state === 'pending') {            // még nincs a pályán: a térkép a bejárati jelzőhöz úszik, ahol érkezni fog
+    const n = NODES[tr.dir > 0 ? 'A' : 'B'];
+    glideMapTo(n[0] - tr.dir * 250, n[1]);
+    return;
+  }
   else msg(`${tr.no} jelenleg nincs a pályán.` + (tr.state === 'pending' ? ' Indulási engedélyt a megjelenése előtt legfeljebb 30 perccel kérhetsz.' : ''), 'info');
 }
 ttBody.addEventListener('click', timetableClick);
+ttBody.addEventListener('pointerover', e => {
+  if (e.pointerType === 'touch') return;
+  const ph = e.target.closest('.tt-phone');
+  ttPhoneHover = ph ? ph.closest('tr').dataset.no : null;
+  ttBody.querySelectorAll('.tt-phone.open').forEach(x => { if (x !== ph) x.classList.remove('open'); });
+  if (ph) ph.classList.add('open');
+});
+ttBody.addEventListener('pointerleave', () => { ttPhoneHover = null; ttBody.querySelectorAll('.tt-phone.open').forEach(x => x.classList.remove('open')); });
 ttBody.addEventListener('keydown', e => {
   if (e.key !== 'Enter' && e.key !== ' ') return;
   e.preventDefault();
@@ -5256,6 +5457,31 @@ const SW_INFO = { '2': ['a II. és a III. vágány felé', 'az I. vágány felé
   '5': ['az I. vágányon tovább', 'a rakodóvágányra'], '3': ['a II. vágányra', 'a III. vágányra'], '1': ['a II. és a III. vágány felé', 'az I. vágány felé'] };
 let infoSel = null, infoKey = '';
 const infoCard = $('#infoCard');
+queueMicrotask(() => {                                     // a LAYOUT később jön létre ugyanebben a szkriptben
+  if (LAYOUT.infoW) infoCard.style.width = LAYOUT.infoW + 'px';
+  if (LAYOUT.infoH) infoCard.style.height = LAYOUT.infoH + 'px';
+});
+infoCard.addEventListener('pointerdown', e => {
+  const head = e.target.closest('header');
+  if (!head || e.target.closest('button') || e.button !== 0) {      // méretezés a jobb alsó sarokban: a felengedéskor mentjük
+    const w0 = infoCard.offsetWidth, h0 = infoCard.offsetHeight;
+    const up = () => { removeEventListener('pointerup', up);
+      if (infoCard.offsetWidth !== w0 || infoCard.offsetHeight !== h0) { LAYOUT.infoW = infoCard.offsetWidth; LAYOUT.infoH = infoCard.offsetHeight; saveLayout(); } };
+    addEventListener('pointerup', up); return;
+  }
+  e.preventDefault();
+  const ox = e.clientX - infoCard.offsetLeft, oy = e.clientY - infoCard.offsetTop;
+  head.setPointerCapture(e.pointerId);
+  infoCard.classList.add('dragging');
+  const move = ev => { LAYOUT.info = { x: ev.clientX - ox, y: ev.clientY - oy }; placeInfo(); };
+  const up = () => { head.removeEventListener('pointermove', move); head.removeEventListener('pointerup', up); infoCard.classList.remove('dragging'); saveLayout(); };
+  head.addEventListener('pointermove', move); head.addEventListener('pointerup', up);
+});
+infoCard.addEventListener('dblclick', e => {               // dupla kattintás a fejlécre: vissza az alaphelyre és -méretre
+  if (!e.target.closest('header') || e.target.closest('button')) return;
+  delete LAYOUT.info; delete LAYOUT.infoW; delete LAYOUT.infoH; saveLayout();
+  infoCard.style.width = infoCard.style.height = ''; placeInfo();
+});
 const srPanel = $('#srPanel'), srLamp = $('#srLamp').getContext('2d');
 const srLock = $('#srLock'), srUnlock = $('#srUnlock');
 let srPanelKey = '', srLampKey = '';
@@ -5293,7 +5519,14 @@ function closeSRPanel() { srPanel.hidden = true; }
 srLock.onclick = () => setSRManual(true);
 srUnlock.onclick = () => setSRManual(false);
 $('#srClose').onclick = closeSRPanel;
-function openInfo(sel) { closeSRPanel(); infoSel = sel; infoKey = ''; renderInfo(); placeInfo(); }
+function openInfo(sel) {
+  closeSRPanel();
+  const wasHidden = infoCard.hidden;
+  infoSel = sel; infoKey = ''; renderInfo();
+  if (wasHidden) infoCard.classList.add('no-slide');      // megnyitáskor azonnal a helyére kerül, csak utána csúszik
+  placeInfo();
+  if (wasHidden) requestAnimationFrame(() => infoCard.classList.remove('no-slide'));
+}
 function closeInfo() { infoSel = null; infoCard.hidden = true; }
 function infoData() {
   const s = infoSel;
@@ -5304,8 +5537,10 @@ function infoData() {
     const canAsk = canAskDeparture(tr);
     const ready = dispatchReady(tr) && (!tutor.on || tutor.phone);
     return { title: trainName(tr), stateLabel: 'Vonattípus',
-      state: freight ? freightLocoOf(tr).label : formation?.label || 'Tehervonat', mean: tr.type,
-      why: freight ? `${freight.label} · ${freight.breakdown}` : '',
+      state: freight ? freightLocoOf(tr).label : formation?.label || 'Tehervonat',
+      mean: tr.type + (freight ? ` · <span title="${freight.breakdown}">${freight.label}</span>` : '') +
+        `<br><small class="ic-crew">Mozdonyvezető: ${driverName(tr)}${freight ? '' : ` · kb. ${passengerEstimate(tr)} utas`}</small>`, why: '',
+      live: tr.state === 'run',
       departure: canAsk || ready ? {
         station: LINES[destinationLine(tr)].name, permission: tr.departurePermission, pending: departureCallPending(tr),
         ready, order: tr.dispatchOrder, problem: ready && tr.dispatchOrder == null ? dispatchProblem(tr) : null,
@@ -5373,23 +5608,175 @@ function renderInfo() {
   const scroll = infoCard.scrollTop;
   infoCard.innerHTML = `<header><b>${d.title}</b><button type="button" data-act="close" aria-label="Bezárás">×</button></header>
     <div class="ic-state" data-tone="${d.tone || ''}">${d.sign ? '<canvas width="44" height="62" aria-hidden="true"></canvas>' : d.tone ? '<i class="ic-lamp"></i>' : ''}<div><small>${d.stateLabel || 'Aktuális állás'}</small><strong>${d.state}</strong></div></div>
+    ${d.live ? `<div class="ic-live"><canvas class="ic-front" data-act="cab" width="216" height="200" aria-label="A mozdony szemből – kattintásra menesztés"></canvas><div class="ic-gauges"><canvas class="ic-speedo" width="228" height="148" aria-hidden="true"></canvas><div class="ic-brake"><span>FÉK</span><div class="ic-bar"><i></i></div><b>0 %</b></div></div></div>` : ''}
     <p>${d.mean}</p>${d.why ? `<p class="ic-why">${d.why}</p>` : ''}${d.act ? `<button type="button" data-act="do">${d.act}</button>` : ''}
     ${d.departure ? renderDepartureControls(d.departure) : ''}${d.keyLock ? renderKeyControls(d.keyLock) : ''}`;
   infoCard.hidden = false;
   if (scroll) infoCard.scrollTop = scroll;
   if (focusAction) infoCard.querySelector(`[data-act="${focusAction}"]:not(:disabled)`)?.focus({ preventScroll: true });
-  const cv = infoCard.querySelector('canvas');
+  if (d.live) drawInfoLive(true);
+  const cv = infoCard.querySelector('.ic-state canvas');
   if (cv) { const w = SW[infoSel.id]; drawSwitchSign(cv.getContext('2d'), 22, 38, 3, infoSel.id, w, SEC[w.sec].lock); }
 }
+// Kitalált mozdonyvezető (a vonatszámból, mindig ugyanaz) és becsült utasszám (szerelvény, napszak, irány szerint).
+const DRIVER_FIRST = ['Gábor', 'László', 'Zoltán', 'Attila', 'Tamás', 'Péter', 'István', 'Csaba', 'Norbert', 'Krisztián', 'Ferenc', 'József', 'Balázs', 'Róbert', 'Szilvia', 'Andrea'];
+const DRIVER_LAST = ['Kovács', 'Szabó', 'Tóth', 'Varga', 'Kiss', 'Molnár', 'Németh', 'Farkas', 'Balogh', 'Papp', 'Takács', 'Juhász', 'Lakatos', 'Mészáros', 'Oláh', 'Simon', 'Rácz', 'Fekete'];
+const trainHash = (tr, salt) => { let h = 2166136261 ^ salt; for (const ch of String(tr.no)) h = Math.imul(h ^ ch.charCodeAt(0), 16777619); return (h >>> 0) / 4294967296; };
+function driverName(tr) {
+  return `${DRIVER_LAST[Math.floor(trainHash(tr, 7) * DRIVER_LAST.length)]} ${DRIVER_FIRST[Math.floor(trainHash(tr, 13) * DRIVER_FIRST.length)]}`;
+}
+const SEATS = { F1: 200, F2: 400, H: 240, L2: 160, L4: 320, L7: 560, I: 380, G: 230 };
+function passengerEstimate(tr) {
+  const seats = SEATS[tr.formation] ?? 250, hour = ((tr.arr ?? now) / 3600) % 24;
+  const toBudapest = tr.dir < 0;
+  let load = hour < 4.5 ? 0.08 : hour < 5.5 ? 0.3 : 0.35;
+  if (hour >= 5.5 && hour < 8.5) load = toBudapest ? 0.85 : 0.3;
+  else if (hour >= 15 && hour < 18.5) load = toBudapest ? 0.35 : 0.8;
+  else if (hour >= 21) load = 0.15;
+  if (tr.kind === 'EC') load *= 0.9;
+  return Math.max(3, Math.round(seats * load * (0.8 + 0.4 * trainHash(tr, 29)) / 5) * 5);
+}
+// ---- Vonat-adatlap élő része: mozdony szemből, sebességmérő, fékkihasználás ----
+function frontTypeOf(tr) {
+  if (tr.freightConsist != null || tr.kind === 'G') return freightLocoOf(tr).id;
+  const f = tr.formation || '', form = PASSENGER_FORMATIONS[f];
+  if (f.startsWith('F')) return 'flirt';
+  if (f === 'H') return 'hernyo';
+  if (form?.cabFirstNorthbound && tr.dir < 0) return 'bdt';
+  return 'v43';
+}
+const FRONT_STYLE = {
+  v43:    { label: 'V43 Szili', body: '#2b5fae', nose: '#f0bf2a', win: '#a8c8e0', roof: '#59636b', panto: false, shape: 'box' },
+  v63:    { label: 'V63 Gigant', body: '#2c62b4', nose: '#f5c518', win: '#a9c7e2', roof: '#66717a', panto: false, shape: 'box', grille: true },
+  br232:  { label: 'BR 232 Ludmilla', body: '#b3332b', nose: '#d9d4c6', win: '#9fbcd2', roof: '#3d3f3f', panto: false, shape: 'hood' },
+  flirt:  { label: '415 FLIRT', body: '#f1f0ea', lower: '#1f4fa0', nose: '#f0bf2a', win: '#1b232b', roof: '#9aa3a8', panto: false, shape: 'round' },
+  hernyo: { label: '414 Hernyó', body: '#2b5ca8', lower: '#e8e6dc', nose: '#f0bf2a', win: '#1d2630', roof: '#5f6870', panto: false, shape: 'wedge' },
+  bdt:    { label: 'BDt vezérlőkocsi', body: '#2b5fae', nose: '#f0bf2a', win: '#a8c8e0', roof: '#59636b', panto: false, shape: 'box' },
+};
+// Szembőli rajzok (a felhasználó PDF-jéből, áramszedő nélkül): V63 Gigant, Ludmilla, V43 Szili, FLIRT, BDVmot Hernyó. BDt: rajzolt kép.
+const FRONT_IMAGES = { v63: formationImage('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'), br232: formationImage('UklGRpAhAABXRUJQVlA4WAoAAAAQAAAA2gAAxwAAQUxQSN4HAAABsIb/nyFJ0u8fEdk9Wtu2bdu2bdu2bdu27R3s3a3dO2a7K/B7UV31zFVFRL7bJyImACmV1ss/2UwUyqjCguRb0CVlgT7/cnmxfOVfE0m1qVv3W+iFLV/VLbp/U7dU541SyhSmEEz9WSxfwP9RClMYpSQ3RIzRGjULUxQDt9t5p51r7vr8m9VvvflR4Lg333qz3xd227nmTjtvN6goTIGaWhsjkgnKaPQ7z2KLHHzppZd+0PZXW9tINvbItra/2j689NJLD1l4sYHo12iVOtFaATBz7nj06691sW5n63W1yeBq23od6/7x9ad22GFOASBGJUxpAFjktPv/nMj+XcVWnPfeBzZ28N57V7EVx/4n/eeSnRcGACNp0gooNrv9vUCS1joXGEfvnLUkGd47fikAWtKjFLDwJX+SpLU+MLbBVzzJ3k/PmB3QkhYxwNovB9I7x3g7R3LsJfMAOiUaWOUlktYz8sFbctKls0MkGQazXTyZ3jGJwZLjzgN0GkRj++9Jx2QGS34+F0wKRGE/0gamNFj+sS+K+AmKp+g8U+vIA1HETsygl+iYYO94AEzkDK5nH5McHA+EiZrG/pVKSBOD4wbQEVNYlgxMtfc/zKtVrMQULcPomW7L59GqIwVgb1qm3Np1EGfBkC0eHB9C0oKffP4qkAgZXMU8vBI6Ro+4npC80Bf2i9PRdEy/54ox0liWPn3Bty8FFaMVbQY4fgGFCCv1JV0GDJU4YXgGWJ4OEyONK2kz4Ig4GRyYAb5vI+gYaexkXeoCpwyCxEgwaCJD8sZNH6vp2pNneY8YRFnrx+mSdz8iZXAXbeJc2Ac6VifQJc5z+VhpLE2ftuA7l4aK1YoucY6fQSHOyugv6BL3LYxESIwG8E3iLM8UQBuJitIawDzz41raxB2ClTQArSUOoowAmGGv58aPXWjXxLnK6htz6OV7zQRAG5FmUwYAltnj4TEkue2GzqUssANHkeTYR/aYEwCMaiYRQJY9+ZNAkpM/OhVDJjAkbcK0s575XjdJjnl+zxkBiDQPsMz5n3eT5N+P7z0bgGnbk2Z5jwKw6MlfWpIc++X5y6BplVr9M1ZPeGyHmQHAaP0EXdLuRWEAYLkdHh3P6jfmNao5WnAfKx3DLtp7ZgDKiMDgNtqEOe4PDSgjAGbZ+9F/fB8fgpFmECz7eeXvqwYCMFpQrXESXcI8l6kCoLQBMPgiV/lyG0ET6uJiy8AwZh9doKbCkgwp664FQFr0NZN8IL+YQ1SjKcxHetLzp1YldawQEub4CRRqa2xNkqGXD8A0WoETXIVkCOMHoRZU8QVdwr6pq8BNvkLS+7/R8AXOZj8cPbAufJUwy7Oh67qStoo/N8MZNcbUpXFd0g6EqevqGr82w5lTxWAv2mS5vs2h47arc6kKnNAKiZlg0DiGdE0buyFTkmV5rzKIGbR+ii5ZdyJyBjfTJsrzIOi4aZxKl6jApaDiprAEQ6p6l4nf8qly/BgKcYNq+YIuUV8lAKmyPA86HmdMJY0bk7UfzFT6pRnODjWm0XUZ7EabJFfZErquAebaGr83w4nsCz4EjgbEGKklu/skBU4YIFJDjAJwMSvee2tHNJ6SWTtI0la6b11PAdBaQ7QxkLEMSRpZwBgt0EYDkPVv/L5iWX0BikaDwu7f/902mdXfX37g7Kg52wadIUWeX88/B2rOccAz/2P1P/+0tT0wr6iGg0C1tsy92+0/s7rjmd1WwTQbnftMO5NdaX/2/I2mwSrnPdNOkv6nO7ZsbSla0Jwa/Q7a4Mo3RlqS/P4vpjyw+q/vSdKOeuuMJQejXy1NARERowEscmKft46kczYkiyFY50g66/tOWgSA1iIiaGqlX+plIEnvmX7vSTKw90WtEEHBj3TMTce/IXEYGnx+hEeh4jCc+VHh4TBxGJolJ8bihyw5Pg4Kj9GVFYNDWSkvx2fJcbE4NktOKi0h9C4OVVbYPSMkDsdkyWyxOCFLZo2DwmI9IZQUwfRdzI+uaMySI5XZYjFzfniOnFHKiuUDMIhEZ4Y8FI1ZXWmBGvgJXVkxuIu2vDyYIQ/E44EMeaq8OB4FXV5WiceDGbJePO7LkHViobEJfXlZvcysXWbWyo+wdmnx/F+rIBZrhuwYhnisx+wYHg2FJaaEUFIg+Ia+tMjw7BgWEQzLju/Li+U10GWlwsNh4jE0O46LyffZcWw8NK6mKysGh9BmxjExOSY7jo/J0bkRDiktgV2zQsrLTDE5NjtmjsnBobQIZu1gKC0z5kZnVGbKDTtrafEcPliVFcs7YVBaHozKzN2Z8UBEoM1zdGXF4C7a8nJ/Ztwfl/sy45Hy4rkDdDwKuTczVoqJxsOZsWk8RJknej1z0rXfBxUJjYMYmJlhOag4GDzuK5lhuT50LO6jzQzHtePxQIas86/Z7i8zD+dHWDseN+cHN4iFxlr0meH7loKKA6T1f/RZYXkPNGKBoZlR4WFi4jEsO45HiTn2X9kMz41wfDwMLvY2L3h4PBSWp/MZ4dy4mURiAY1zSWettcmz1lpPHgODeGqcMYH5OGZ3CBpSGtVgrj1vueXWu3oT13P3rbdev8Zc0NKYaPTxDAkLbEdjt0437XQNOv2MM80803yTnE1YxY+Ya5aZZ5ph+uka9YPuzu5G7mHie7p6uht5ybXXWruh17jy5ZAs/8oBa6+7dkMDVlA4IIwZAABQagCdASrbAMgAPlEijkSjoiEUWfaUOAUEpu+F8wDU+T44iHWRyb70/Tfld+QHz/Xb/C/g/47rsnzrmj/Z/cv84f9l/ufaP/bP8B/yfcG/WbzwPWB5g/5B/d/+Z/qveT/3n/G9kv9n9QD+j/6r0xPZP/dD2DP5N/kvTe/bT4Uv7R/xP3I9rD//9YB0//Xn/FfiP4Q/5L8fvQnyNehfaHmBbxfJZ9zv0X909Bv+J4Z/DHUF9d/6jfF9o8wX1r+r/6v/D/kj6g39b6G/Xz2AP5r/SP9T67/6nxT/MvYB/lf9Z/2X9q/LP6aP63/sf6/8vvcx+b/47/u/53+/fIP/J/6X/w/7p/lv2f+bT2S/uD7In63I79wbi+95jJiD3ZIjvR1KHpq3G3e9+tT0h+4OifZ3sk+Y93JUzv/kN7MLyT57jTFteF2mlU9cPlU1DSXa7dNjZRJ5ZVNo6pim+s1qNBoukroYR6kHP8uhHh16bMB00sEY4b7ufjVAmTwn/w5ooQrhuzJLZavLRv/WJ1aH4wrOnjnwV3wWsXfPUwNlAymX7QVFVpP2/1rcDiO7jBWFCudUcdr6UmC/JJ0lOnl3xIlaxxkr6cB9b+2u9RX8Z5QFVs9g8nzW5SSK+ltliR1vXq7y36vRRCQwG0/fQ9R8onqA1b+zrvwhNhko1ZX7henZjWEkhXK/HFu/4jL54nvROZFfzA/IqF/9j6yfLWXc2NWzVoXMbrmPiQHsuygWpEXY/ma3H6LuPsX9VuAEIB4cXSzqKwDvv8zZxM2uMGXGZHdgiCWUG3dYloXdijplPmWfeuAHdAvnhx4MnE3Up5enJLbgLyrIhhXVBZ6En4qlzpGL8ShqETmJDgqg0H6rah180cvKzCVwj27ZuuEIVPyKhaENTaD09R75iWufgrbinwoimemv83GzEH/pJ7dCiWdkv0QqdGMj9jEmnG1ALJAOZ3tfgFzTdTlr9TeYO7il5LXXO1sXGScEWRPEo41mggv62Yvgb1Rje3VAEe34JvrVfTWfxOes8MGBYYsr6ZXhb1AfaZN3IUdiA0Q47CljV696kYq6JqxSBfX9hPzHSmYb1qV9JYEotD3Wmb1u9yFecRwFmHfevQjE8psopN+W+4Bgyk9cOSKT9NJMI6AAAP7+BtAfSiL6hDNSS0BeD1v+f+dR5rVkqwKHRaNxSQsh8ARq2jX6woy30SGEQ4ybE/JZzuaoKB1WMPkt3vDFINLpgNeRAC/9omVfS+2S0Etk7O2zrVeZVmVj/1CHbDCvEcYF03VrreDwsTi07meAt6UWja/4gtxM5KIZbnFUglyboR6IZo7FHCgkmI55z0CP61yAD9+vPdDvmyyk3qN7+f/LTXS5DfVJmVmWD1xS5DpJrK098xEuiEuSvnfqBkAYzRD/GzXXXz8OQF10mgLOQUnjCA0UsTYNxfVOQ90xaVboI4J6UXWFfL8u8HM1LQ4ki4EmJr8f82pgy1DSEWl7+TAS3oIIgsniv/5ZaZH83xUS5O69RpeloVlJ1il7rQqKm1Qx42LC5LUY6BXhFUWVUWWRL9ceVJAM5JKei8dn4vvut4WeADiNIEVbT/F7rnqzpU9Q65JWmFwkfbaZeppWS4WwZFS7iJaWap9c3PehXzx5AB2yl+rOIZHIe9Q4aIlWCisluYHqhH5OKk4y1RFN2sG3+FD0ErPnCcF/z3Z4SdYuDW21tTZ4jhiYcJaPbR97GVA7/ybY2eSzy7VVpfyO3aghPiPm+iL6FAEZtwzR9C9CtgqGw11k+uAQJJ8p6n4P9IKD1naGZvzMhB38sUtMgkmX/6SY0/Au4e1dcGdPf9qQwKh+x73Epn4gqLpRP2QVwwkGasHUqa/aqppX0Y4yK+wmsZFEUuncWsdOtoi3AAmN3ENdj9JYTAqSpkFJk4dS+YLd/3I4etCutD+Ij5VK1mCSA+QW1vKa1mS//VL11qIslhHqw3gU+tdX2cnauydIsVjk/+JQeR1ST9X7CnuOOOZ2PeB0a58bJAMOFZ2im4GwC3pznJIdEZnzzvf64jfKMBTKCP7oQo3MaLe3IyFIyEvx5aS9Sh8MT9FlyqAqRKXuj5JGOKRQiAD1/D7MRdq+kXJda/rY0qZxPEpU/eTmeZeH5pqVNf6WsHsV8W4xMb8KYDqfLa5Zd7XsZit5Y9y/ZsE3yH1Mp15baolkKShy6PWQEr+zlKThZ15Xidr87U6AEHEgTEKWhGY5Akc2MTbdoVwP4jksUyXS51Zz1uiJA2gQ1eWQ1WEN3vmbpTFN1KAKgNUEbtgDVjUMcKkk/mqcr+n29dbmdTLf1qHy/wn5T3bN1pqWyGfdTWe0bMoWpLxFjwhvYBvL2C6KcV0szfPILDKDjtyyALR7zI0kPMLITn97GOOLqSo7i3AzSI1/P2/n5DRow3vvaiey/pzHS89wqNzhYkCldOhFfTZAdNRnj6X99W0yCH7ZuWLC0rMxg4FPaL2XRGTMwLUwxK7FvbyTjDrDSSXQ/5v4kJnIIgl95eH1e4qXrk+MiT7X7Bp2YkKUqFwvX8MXHdsqDFFWM16yaOCujHypGJa1GYEPjarsBDCo0Vt0p0s+Ds4cfX/FM2jrG92P4BB0m4CROMvTiCpSuz/yWVlcqk3Arg/L9t5EMqAkjKJe/PgNr3W/UNk8Vre9O5fNaNFxjqkb0h4yUny4uH1TBuHR6ZPy65aH/Z//0EZ523LkKkyN4eIXWrBPZkOkdxW75w3HqitK5IGeCzjY+a6qcZom3rD0VJXkkKee6qlugzqSj/iuNExZlgohkzxunGaPAVVZkmEmJVJoKu2BVhA1W1gdAQTHNxwUC42CkgGGyDOSVMnmcuAnBz26s7b3VB4AQWvOe52VSX1b3yDj6JxhOtOauuLkpEG+jFta3U1zF4sX6ul8x8pfuOrAmnlrpGPNl2rkPNJEvmzXkJZWbhdWMQYuEuUWV3N4AupLbCOeIIOZxsF8VYwvmw4WEonzomQbo0rc9WOYZn6OIKMZAzIAi9qqVTaBjmTeZyIW1wZLo7nSJUhbvSbaZoRpohyBIFmTlk7lCjAEfx99bH7x4oZt9rozs8H/TJ+8L1HtLndgVHvv4nGtQI9rNgI6myB39+zoWC2Vwfr2fcMM5JR3/hddo5h4oarsvZLgrwdrCq+hPGiy4eq2PtK6wT1L5BOtp0n7/1TdGJXZudRBfZwcI4M+Jjgf8Mgu9pNjl584i2EG/L5f/QpEEbSsL5gw2SvC54k2wC202RH5GKBQpwXdJeCLmmeTi1mq0tc4s3WrSzfy7ZQDAQolG3E8wJ42V5yc6txqnnCsUkDihaMR0OokccxsLJna1qMEyb8jSRKQIEIbDYYv5oPir6bl4mIQBq0qwZKIUmLMR/8pMPZ+tkS3O3bcdh2yf5dDB/1Vb9xqbqnlvn3z4L68oUePtPUCFvV+EiRJkcg2vOlKR5EdY5v7Pc22S7lIPIn8mtTVeCbHl7S5odf3Z+mleJEMI81NovwXqgckgj84vpOyukklv8VO8LzitcraSXQDUWc/ysd0O1+uP5Y4zeZHMuWmBFfIyCKJHvK8Kt0QbG7/UOpzuIG0LSy9wThPZus8xAtlSNsAPh/bCufB19F4wG2/BJR0BKJwpwP8gWwScT+eYqPNBdiwi4teKfhTGGbGkZQCdWNoakB19HbTParx/7aKAWI2FU23iNwd+hTgyzI8bH/lZc5F73RqFL0onquCwj8kgMBD665hTGACRilTS/bev/RkbmELImU/BTf6mzS5yFs1NQFKYZU8/9IC5MAe1/h2djh2wHzaqQ+o5biEp6HID5QAQ8vECQP7sxSsLmqndscGBgC1JVgJduJOl2Lquz2xzKRLfS6CGTWNi7l/OcWdobxhnN52VjTXD5Gj3Y+8ZI/K+zSj1zSuhSnvfsYws3iI6USv3Wn5y2ID1urr0agPiVE9ik7vzlpTmJwxciDAHTO9RMbOQGu+f5zLU4g5kajlD8YRUDuUdoz4cTjAXbyq2ScSsNvD7kca+hdwfrpB1fJpVUZSNFjeEIsqwxq2D1NVssy7se63pOLitPyFNwH1eAarmLHarw0lz1BvSNa50hoaRRE3VnkmOEvn1GhsgeHupkHAA2++sKX5lLR77XobEnRrDfoB02rBJAwGiXmGD3VnHkuo8tK1vaFqxo+To9EvJn3FQPJmToqB1k7puoMdw3jXeWW/bnmkrvC0wfLF3fGEWawhrSilC07i9knIings2o/HA+koBTGjjBbTnmtKTB50yA4OdirAM6BP3Fsa22kxiAyupD/EljGvfPzrU8WbR241UIPIPH5aWjfhch/mZEd5E9UdS/DEUvfPG9ZgQrJJMbD+TDNmdhGcXC2aqwy2+gUor1DmpZlMtA6LXiXsMv0x0l02eXH/S5b7OXj5BsXb/+UAYUUXnHvcEtHXWLQXMpO/hA20GY9mNoWDkhAOAXG+6ooETVomSXJLY2REGcs4YIMtV45+iZ0N0gRWzfTgbFaNWpEYhAuFBn2ocr8xilG2wYiTDNez0I2wZsbwsvNLWVHX73Gs8Kq7t4lkZk2DHv1v17UF0aDtqbpN2zPRZOrTGn1MjMRMB12iPdf/y4TyEqUsHGT4ZcnEsug+TV7k5jtqDRC44KN92YU1L3Bf5E4aJejmNVZXXG3khmR8CJtZ+ybK6XYoPbfrStTjJrg6e/gxbM8YcilcnSeSdpd19ri+WeNS1I8E3AMVsB6Ebpu7GdQ7oeJ1wVMXeS+nIbW0yeRHPNX9b+4Rholucb1JqDYsQGQAdbW3kMv/1yG9LHcYU2JvW7dqpULHTwdf95DmjrxF+0y4wT8WwAT/Kei+DcG5Fa3H6t0shMFsNDtDM+EPuml6LhRlFYe6CrAHueueYMjVht21iL3ddjYHxiSVg7Piz+VddAZxCkLKreI+Pz2EnLOlX57JU8/8bTLRfWNb9t56HOsSakpASCEWH1b4th2XCiD81bNmOxnQ6m5BxcHfktK+ZVZncVUdvxXnh96dntoRqaePNjRgq8C6I+YZrGaU+MQvSmxVvWcD02/zdFNer0quCeFxPlHTGZQQC0hUF3xSd0kLen84P0dS9vbIDGF5/tZnkaUXaDM5j4YTIblYVvi4srPLQCINz8/YHyKUL7p7IUToZcUQVRQpsVCtvMYnOgGQrpe+Wa3pObeRg1j1rTmksPPRilck7wjeuAqDdWE4tVA+/EV7qs/sQe8fHK1l4f3F6/UO1/Mk/xq1M73d0PuXPk59ZhaiuO1j42bXb0+31MOzTJ6ein2iGZWo8/utnigpUDgXc4nEg5EVjwsge7TtyR9Q0Lo3bbZg3MALcCS4iLJuhWJ3tgxco3gTohwmvxRl8/o/yFKFe7z3ldRrDuH5+jkiFHdRu/BcVpiKDb7GdeIaYZUXB0Y9sTsB8QwCm3xCSmq0uEcFVu5i4sbXCK0vNfXtXogrA8P/5s+PCT7B8cT+B6n6CGfZ5ob19LUcghlC1vooi+SsqKV13Q6skUgaLhmAn4RuP+AYQMIXa10tudwTf2teyzKPb34YheRZp7mk8GvrxNfIxv6oH8F9xsIy+mpbD3/Cotd4fNDoFVcIYzQoboOZL1PtDBeRpGCigPbJNe2N8P5qa1CAVyXMTMny7JjYW2xOu9C/auoQfGVwAXlU4AlNgvQsVJUO8aqUDcb/bl9sK1if1bCmlLibf/9nNUaf47HWGVgZCIBGmc9C9N1sSZa/e4rInB9VG5UhPrQLgl/1zhF2qbPaHmHOSgBKlCCkJ8h2K3KyfXUAfsusAA7hAymIaz5d7OUY5V7S88mIlOQd8P65sqKxe91R2JLiG+bKwQVkskKnM2JYjY+eWvCBX3FqO1/QAFpjAndZ2q6PbXeUvBRBsUUZazvkbH4jS3F9atEKKdcPurPqeRtBAVSIRHuZdjayoIwpUlCgKP+OdSvV+XB4Ui/z/ULhPBdqxOFECCjXCm5wSbEVTaKDOIqm0blEp/cmvbKJDvJTySumoOFMXNN851rHTUKvJuIsL6xtukgRfUJttBVObaoPmywx6GNrmE2nluuj2bv0khz7Kn2Ti2x5XzazIjEmt0SL7OCFP2C1ZYqjA772jPvOe/H5qFj9WWHQg4rJCVFzA98d/FoyW+VUztZTzkKTMYSTnED8ge5r3ycAWbEksS0LorGfM0AmL7sTeXMsue+RCN1OBD1enFoYNxeu76jOvx0hAeCHIXO7MOGdstT7tr4SQabKAUt2FSI7C9Gef9AyO9neYaDvfPeToPoFE4a8JL0gfzMhAMr2uirdRjnbpzWK3C7A7vxkMRRjM2GYx/9pbeAhK2wgoHehXZcGHI1dOez+1OZiQvfDODmcUrcb0ZS8Aa9yCctOfaq6f7A+NzJcbjuGRT8Vtte6b+aRHEyWgMqn4gnZi3hLPq/6RTanNYMhMGTA/wohX7j/GSJPPanA4mhNOOKVW9qfi8eYaKKG6Nfu7YDdyeu76hZOHsJQ8h60nx4xJsokJE18cYs7wT7OmrlduXSZGiipnHT9otXyI7svRSi3dJ79BsEd1n0bBTFfuumFPSc01BKsiUP4S7PoAFsgpDVwR0/7TiX7K8razXQjNIvfq6GaN0so1xGpJLXEVQwHOyYFXv8QJRZROJ+uFj1B1ts89x4J/IYekowqyZS7ni099DcHPCu+GQ5rT7bbPIzBfXG2UCBHYBdXg2BfoFISH7peZ27mTD7Zk4Ir5RcDGpoBZKI1pSSPuUB9Gh80LQzZ7898yQrWEu5z9YemEoBX/EQHiReMWknYdIdX00VFhYgIBT/VxiBQU7VnS92V49RD1G+3MB6XV2Zab4FamiV9Ktug5ZYQndtuU0jZvwxfQJFWyzUUtxEa9Bw2tuiBe4SJMXoy1Fl5dT4t3UY/iRZlxeYr/uTDwxnFzoACBdDOQTY2WumXtkaV1RfhcmCQ7ddUnZVEN+aI6OV1bSAEJeKyTDfJ1bgDR4wDhkOkK+Sxr/PCzi3YB+wBKT0qPIRjpGQdSI4GCWlBG8j343wTF2MHNAxTAgKYRYi9OHRgC0fGI52OHZiFFg6Cm8WXQJqZxaYmt4TdN4D5wWhLz+u0cTP1Cw/EA749PTunUCa/akUar12IblMOaQiXH+DKEUjbPsHDBgp0It0Y2gb2S0ZzeiXKwSoSAZd3e0YO+OmllBJjTwFuucv3fPAuyeKxwuAwIv5nz8N0vz7itoSjyyZJci/uPRO67YdDvXhJNHSZFpunYtltqweq7gWvywRuVfdO9UV6WcXVws+Z1wnbI4lLiz9qbfLZ186SQqoS74JtosX/jNrfDckrrCNwkUqX/hcivmhxrXg/tVNPKzo2romPFgjmiwVpukJ8C6O/RwZMUdjyY9njnbRMkMuIDfuQgx4b6Yp20Ocwmbon7OjJ5ps8HbazTtaBsLGJVjTBPVxNz73eihgk0fEJRjlkwYMj/xwmSJxwjDsJKRfJ/MGWFZUlLsa7R5ChVxnwvqTjxonkv8V30CBslnwBBzGQf0VW7r8q1/EJpJASWiVbDP5cMokX/SXDq2orA7yZjHgexPfHsBXVXOGDjvkBs8Qh2YAzlo5H84aCjEW06gUpy5+O9dLosHl6WvilejdsYor6OBXKh73xxeLxeKvCuWsWEqWEfmMxw9pfadyJ45W44y9FDk+hcoi/wq09eG9c3dDM2pB9ba78VeQLZB4q4AEWbrU6wT51kwQdnOjRKWqeIaFybg5YQ1GEcQ8fooP25cOhLDwdAw7nN0z4VuMG57TygpZfpAB7UPUOmeCGhO/1eIted3rK7TZsvPDh7Hljk/VbKQmj8izyz/6Nnc4rJMB4GM4r/a+6usMoLK+n0NwU+9aNagesqN3l0d/nR0RlBBwh3Kd/sR4/PSUWM7Q7V/Ruu79LnGSqf2vL2oTbk7sUF3LbzMS3DFMK2LYptCf97cO5dO0akSjF6XrJHV1E2L/q7bbJkDGEI/OE/a6HzVu5M4vBarMu/MB/Zk5bELJPco76QLQOgiCWYFDjfVwE+D4tiXIGDKVh36VHZIPgWr57a3pB9/N6uayUd+erZq3VfjBEVIewKr3cbi6VC3LPmr10ovUNwYk787/jZD9EPLgqqUiSOnDrIQtJZKVZDKmqLfZKOjn5GIOZi1fSPuUM2B2bBnGTW/SsP9158ebwDti+4qCmiWYqjwU3C4WtmgHuwWu3mTamyXCwtBRElBeXcMpAB2V97OjcytPQVVcGkzLQA37fQi+cU7yggNqyAGkGTeaRy237ecuSAGibCOJGBq/cusNh2StUX61bT6+wyhGAbOiUeNAzuTOIolLgviq3gcXzLWFSIbRGvCM4oc4yK/kJdYq4z7dkdoO5UBgfbBWfeCCy/SNYlZIIf7dj5guIfgD13WN1yPuE56fZAIZDjXyB6PXZkm/kWczJ6WqrHOYjKZPGQr3py8DBwGxKzymkZSEGA8xFdRCxIHBFRDk1ubvkRCLtR6gBeQCS7A4Bk2DBpOLDWBgAhJQYPrI/3MdIW5/L5xJxbp4dRa32rPOMMAZ8HFvXUKCr7md0mardTDqWMxNRdEkG2SZfDKXotU48eD6J4IwhGj5+9Gs8Ak63qORAUAH5wqLZ0OzQCtC0R0Tly8sVVGhtn4vdSDxIlwjlioHpikMOL7NgNwrqjI8v4kjhj5+Q7eK91yj7GOhHzirQUXCld8YYXuN4G4B6cOCm7ZQUAzcxAOjdr0PDFjFdDXjf/HhLdMcjgAA='), v43: formationImage('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'), flirt: formationImage('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'), hernyo: formationImage('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') };
+const frontCache = {};
+function frontImage(type) {
+  if (FRONT_IMAGES[type]) return FRONT_IMAGES[type];
+  if (frontCache[type]) return frontCache[type];
+  const S = FRONT_STYLE[type] || FRONT_STYLE.v43, W = 216, H = 200, cv = document.createElement('canvas');
+  cv.width = W; cv.height = H;
+  const c = cv.getContext('2d');
+  const rr = (x, y, w, h, r) => { c.beginPath(); c.roundRect(x, y, w, h, r); };
+  const L = 40, R = 176, top = S.shape === 'hood' ? 40 : 44, bot = 160;
+  // sínek és talpfa
+  c.fillStyle = '#3a3428'; c.fillRect(20, 184, 176, 8);
+  c.fillStyle = '#8d8f8a'; c.fillRect(56, 178, 10, 8); c.fillRect(150, 178, 10, 8);
+  // forgóváz, kerekek, kotrólemez
+  c.fillStyle = '#1d1f1e'; c.fillRect(L + 6, bot - 2, R - L - 12, 22);
+  c.fillStyle = '#2d302e'; c.fillRect(54, 166, 14, 14); c.fillRect(148, 166, 14, 14);
+  c.fillStyle = '#4a4d4b'; c.beginPath(); c.moveTo(L + 4, 172); c.lineTo(R - 4, 172); c.lineTo(R - 18, 182); c.lineTo(L + 18, 182); c.closePath(); c.fill();
+  // áramszedő
+  if (S.panto) {
+    c.strokeStyle = '#c9cdca'; c.lineWidth = 3;
+    c.beginPath(); c.moveTo(80, top - 2); c.lineTo(108, top - 26); c.lineTo(136, top - 2); c.stroke();
+    c.lineWidth = 4; c.beginPath(); c.moveTo(78, top - 28); c.lineTo(138, top - 28); c.stroke();
+    c.strokeStyle = '#7d8380'; c.lineWidth = 2; c.beginPath(); c.moveTo(14, top - 32); c.lineTo(202, top - 32); c.stroke();   // felsővezeték
+  }
+  // szekrény
+  if (S.shape === 'hood') {
+    rr(L, top, R - L, 64, 8); c.fillStyle = S.body; c.fill();                            // vezetőfülke
+    c.fillStyle = S.roof; rr(L + 6, top - 6, R - L - 12, 10, 4); c.fill();
+    c.fillStyle = S.win; rr(L + 12, top + 12, 54, 30, 3); c.fill(); rr(R - 66, top + 12, 54, 30, 3); c.fill();
+    c.fillStyle = '#ffffff33'; c.fillRect(L + 14, top + 14, 20, 6); c.fillRect(R - 64, top + 14, 20, 6);
+    rr(66, 92, 84, 70, 6); c.fillStyle = S.body; c.fill();                                // motorház (a fülke előtt)
+    c.fillStyle = S.nose; c.fillRect(66, 132, 84, 12);
+    c.fillStyle = '#00000033'; for (let y = 100; y < 128; y += 6) c.fillRect(74, y, 68, 2);
+  } else {
+    const r = S.shape === 'round' ? 34 : S.shape === 'wedge' ? 18 : 10;
+    rr(L, top, R - L, bot - top, [r, r, 6, 6]); c.fillStyle = S.body; c.fill();
+    if (S.lower) { c.save(); rr(L, top, R - L, bot - top, [r, r, 6, 6]); c.clip(); c.fillStyle = S.lower; c.fillRect(L, top + 74, R - L, bot - top); c.restore(); }
+    c.fillStyle = S.roof; rr(L + 10, top - 6, R - L - 20, 10, 5); c.fill();
+    // szélvédő
+    c.fillStyle = S.win;
+    if (S.shape === 'box') { rr(L + 10, top + 12, 58, 40, 4); c.fill(); rr(R - 68, top + 12, 58, 40, 4); c.fill(); c.fillStyle = S.body; c.fillRect(104, top + 10, 8, 44); }
+    else { rr(L + 12, top + 10, R - L - 24, 46, S.shape === 'round' ? 18 : 8); c.fill(); }
+    c.fillStyle = '#ffffff30'; c.fillRect(L + 16, top + 16, 24, 7);
+    c.strokeStyle = '#111'; c.lineWidth = 2; c.beginPath(); c.moveTo(L + 30, top + 48); c.lineTo(L + 52, top + 30); c.stroke();   // ablaktörlő
+    // sárga homlokfelület
+    c.fillStyle = S.nose;
+    if (S.shape === 'box') c.fillRect(L, top + 66, R - L, 30);
+    else { c.beginPath(); c.moveTo(L + 14, bot - 6); c.lineTo(108, top + 62); c.lineTo(R - 14, bot - 6); c.closePath(); c.fill(); }
+    if (S.grille) { c.fillStyle = '#d7d9d6'; rr(92, top + 70, 32, 22, 2); c.fill(); c.fillStyle = '#9ba09d'; for (let y = top + 73; y < top + 90; y += 4) c.fillRect(95, y, 26, 2); }
+  }
+  // fényszórók (a menetirány eleje: fehér)
+  const lamp = (x, y, r) => { c.fillStyle = '#fff8d8'; c.shadowColor = '#fff3b0'; c.shadowBlur = 10; c.beginPath(); c.arc(x, y, r, 0, 7); c.fill(); c.shadowBlur = 0; };
+  lamp(L + 18, bot - 18, 6); lamp(R - 18, bot - 18, 6); lamp(108, top + 4 + (S.shape === 'hood' ? 2 : 0), 5);
+  // ütközők és vonókészülék
+  if (S.shape === 'box' || S.shape === 'hood') {
+    c.fillStyle = '#1c1c1c'; c.fillRect(L + 4, bot - 2, 18, 8); c.fillRect(R - 22, bot - 2, 18, 8);
+    c.beginPath(); c.arc(L + 13, bot + 4, 9, 0, 7); c.arc(R - 13, bot + 4, 9, 0, 7); c.fill();
+    c.fillStyle = '#2b2b2b'; c.fillRect(102, bot - 4, 12, 14);
+  } else { c.fillStyle = '#222'; rr(96, bot - 6, 24, 14, 3); c.fill(); }
+  return frontCache[type] = cv;
+}
+function drawSpeedo(c, kmh, limit, vmax) {
+  const W = c.canvas.width, H = c.canvas.height, cx = W / 2, cy = H - 18, R = Math.min(W / 2 - 8, H - 26);
+  const max = vmax > 110 ? 160 : 120, a0 = Math.PI, ang = v => a0 + Math.PI * clamp(v / max, 0, 1);
+  c.clearRect(0, 0, W, H);
+  c.lineCap = 'round';
+  c.strokeStyle = '#33392f'; c.lineWidth = 10; c.beginPath(); c.arc(cx, cy, R, Math.PI, 0); c.stroke();
+  if (limit != null) { c.strokeStyle = '#d98b2b'; c.beginPath(); c.arc(cx, cy, R, ang(limit) - 0.02, ang(limit) + 0.02); c.stroke(); }
+  c.strokeStyle = kmh > (limit ?? 999) + 3 ? '#e0533c' : '#9fd27a'; c.beginPath(); c.arc(cx, cy, R, Math.PI, ang(kmh) + 0.0001); c.stroke();
+  c.strokeStyle = '#d9d2b4'; c.fillStyle = '#d9d2b4'; c.lineWidth = 2; c.font = '700 15px ui-monospace,monospace'; c.textAlign = 'center'; c.textBaseline = 'middle';
+  for (let v = 0; v <= max; v += 20) {
+    const t = ang(v), x1 = cx + Math.cos(t) * (R - 9), y1 = cy + Math.sin(t) * (R - 9), x2 = cx + Math.cos(t) * (R - 17), y2 = cy + Math.sin(t) * (R - 17);
+    c.beginPath(); c.moveTo(x1, y1); c.lineTo(x2, y2); c.stroke();
+    if (v % 40 === 0) c.fillText(v, cx + Math.cos(t) * (R - 31), cy + Math.sin(t) * (R - 31));
+  }
+  const t = ang(kmh);
+  c.strokeStyle = '#ff5a3c'; c.lineWidth = 4; c.beginPath(); c.moveTo(cx, cy); c.lineTo(cx + Math.cos(t) * (R - 6), cy + Math.sin(t) * (R - 6)); c.stroke();
+  c.fillStyle = '#e9e1c4'; c.beginPath(); c.arc(cx, cy, 6, 0, 7); c.fill();
+  c.fillStyle = '#0f120e'; c.beginPath(); c.roundRect(cx - 32, cy - 50, 64, 30, 4); c.fill();
+  c.strokeStyle = '#3b4237'; c.lineWidth = 1.5; c.stroke();
+  c.font = '700 24px ui-monospace,monospace'; c.fillStyle = '#f4ecd0'; c.fillText(Math.round(kmh), cx, cy - 34);
+  c.font = '700 12px ui-monospace,monospace'; c.fillStyle = '#9b9a86'; c.fillText('km/h', cx, H - 6);
+}
+let infoLive = { no: null, kmh: 0 };
+function drawInfoLive(force) {
+  const tr = infoSel?.kind === 'train' && TRAIN[infoSel.id];
+  if (!tr || tr.state !== 'run') return;
+  const front = infoCard.querySelector('.ic-front'), speedo = infoCard.querySelector('.ic-speedo');
+  if (!front || !speedo) return;
+  if (force || front.dataset.type !== frontTypeOf(tr)) {
+    const type = frontTypeOf(tr), fc = front.getContext('2d'), img = frontImage(type);
+    const iw = img.naturalWidth || img.width, ih = img.naturalHeight || img.height;
+    if (iw) {
+      const k = Math.min(front.width * 0.94 / iw, front.height * 0.94 / ih), w = iw * k, h = ih * k;
+      fc.clearRect(0, 0, front.width, front.height); fc.drawImage(img, (front.width - w) / 2, front.height - h - 2, w, h);
+      front.dataset.type = type; front.title = FRONT_STYLE[type]?.label || '';
+    }
+  }
+  if (infoLive.no !== tr.no) infoLive = { no: tr.no, kmh: tr.v * 3.6 };
+  infoLive.kmh += (tr.v * 3.6 - infoLive.kmh) * 0.25;            // a mutató finoman mozdul
+  let limit = null;
+  try { limit = Math.round(allowedSpeed(tr) * 3.6); } catch (err) { limit = null; }
+  drawSpeedo(speedo.getContext('2d'), infoLive.kmh, limit, tr.vmax ?? KINDS[tr.kind]?.vmax ?? 100);
+  const ready = dispatchReady(tr) && !dispatchProblem(tr);
+  if (front.classList.contains('ready') !== ready) { front.classList.toggle('ready', ready); front.title = ready ? 'Menesztés: kattints a vezetőfülkére' : (FRONT_STYLE[front.dataset.type]?.label || ''); }
+  const pct = Math.round(clamp(tr.brake || 0, 0, 100));
+  const bar = infoCard.querySelector('.ic-bar i'), lbl = infoCard.querySelector('.ic-brake b');
+  if (bar) { bar.style.width = pct + '%'; bar.style.background = pct >= 90 ? '#e0533c' : pct >= 35 ? '#e6a83a' : '#7cc46a'; }
+  if (lbl) lbl.textContent = `${pct} %`;
+}
+// Az adatlap fix helyen áll a bal oldalon, a jelzőablak mellett; fejlécénél húzható, sarkánál méretezhető (megjegyzi).
+let sigWrapW = 182;
 function placeInfo() {
   if (!infoSel || infoCard.hidden) return;
-  const [sx, sy] = W2S(cam, ...infoSel.w), cw = infoCard.offsetWidth, ch = infoCard.offsetHeight;
-  // a kártya a tárgy mellé kerül, hogy ne takarja el; keskeny képernyőn alá vagy fölé
-  let left = sx + 44 + cw <= cam.w - 8 ? sx + 44 : sx - 44 - cw, top = sy - ch / 2;
-  if (left < 8) { left = sx - cw / 2; top = sy + 40 + ch <= cam.h - 8 ? sy + 40 : sy - 40 - ch; }
-  infoCard.style.left = clamp(left, 8, Math.max(8, cam.w - cw - 8)) + 'px';
-  const inset = isPaged() ? 44 : 8;
-  infoCard.style.top = clamp(top, 46, Math.max(46, cam.h - ch - inset)) + 'px';
+  const sw = $('#sigWrap');
+  if (sw.classList.contains('open') && sw.offsetWidth) sigWrapW = sw.offsetWidth;
+  const host = infoCard.offsetParent, hw = host?.clientWidth || cam.w, hh = host?.clientHeight || cam.h;
+  const iw = infoCard.offsetWidth, ih = infoCard.offsetHeight, top0 = isPaged() ? 46 : 56;
+  // Egymás mellett is elférnek: ha a jelzőablak nyitva van, mellette áll; ha bezárul, az adatlap a bal szélre csúszik.
+  const sigOpen = sw.classList.contains('open') && !sw.classList.contains('win-out');
+  const pos = LAYOUT.info || { x: (isPaged() ? 6 : 12) + (sigOpen ? sigWrapW + 8 : 0), y: top0 };
+  infoCard.style.left = clamp(pos.x, 4, Math.max(4, hw - iw - 4)) + 'px';
+  infoCard.style.top = clamp(pos.y, 4, Math.max(4, hh - ih - 4)) + 'px';
 }
 infoCard.addEventListener('click', e => {
   const act = e.target.closest('[data-act]')?.dataset.act;
@@ -5402,6 +5789,13 @@ infoCard.addEventListener('click', e => {
   } else if (infoSel?.kind === 'train') {
     const tr = TRAIN[infoSel.id];
     if (act === 'ask') { openDepartureCall(tr); return; }
+    if (act === 'cab') {                         // a vezetőfülkére kattintás: menesztés (ha a vonat indulásra kész)
+      if (!dispatchReady(tr)) { msg(`${tr.cat} ${tr.no}: a vonat még nem áll indulásra készen.`, 'info'); return; }
+      const problem = dispatchProblem(tr);
+      if (problem) { msg(`Menesztés: ${problem}`, 'warn'); return; }
+      if (issueDispatch(tr)) { recordSnap(); renderTT(); renderGuide(); renderInfo(); }
+      return;
+    }
     if (act === 'dispatch-menu') infoSel.dispatch = infoSel.dispatch ? '' : 'menu';
     if (act === 'dispatch-delay') infoSel.dispatch = infoSel.dispatch === 'delay' ? 'menu' : 'delay';
     if (act === 'dispatch-now' && issueDispatch(tr)) {
@@ -5875,7 +6269,8 @@ applyTheme();
 // Futás közben 5 szimulált másodpercenként pillanatkép készül a teljes állapotról.
 // Visszatekeréskor a legközelebbi korábbi képet töltjük vissza; ha onnan tovább fut az idő,
 // a „jövőbeli” képek elvesznek (új idővonal). Előre a rögzített képekre ugrunk, azon túl gyorsan szimulálunk.
-const T0 = START, TEND = START + SHIFT_LEN, SNAP_EVERY = 5;
+const T0 = START, SNAP_EVERY = 5;
+let TEND = START + SHIFT_LEN;
 let snaps = [], nextSnapAt = T0, branchPending = false, phoneSimAcc = 0;
 function snapshot() {
   return structuredClone({
@@ -5896,6 +6291,7 @@ function restore(snap) {
   const s = structuredClone(snap);
   now = s.now; seed = s.seed; Object.assign(COUNT, s.COUNT); renderTT.over = s.over;
   s.trains.forEach((t, i) => Object.assign(trains[i], t));
+  for (let i = s.trains.length; i < trains.length; i++) if (TRAIN_INIT[i]) Object.assign(trains[i], structuredClone(TRAIN_INIT[i]));
   for (const [id, pos, target, moving, until, keyOut] of s.sw) Object.assign(SW[id], { pos, target, moving, until, keyOut });
   for (const [id, occ, lock] of s.sec) Object.assign(SEC[id], { occ, lock });
   Object.assign(SR, s.SR); [KS.KS1.on, KS.KS2.on] = s.ks; [LINES.W.dir, LINES.E.dir] = s.lines;
@@ -5936,6 +6332,7 @@ function stateKey() {
 }
 // Egy szimulációs lépés minden mellékfeladattal (automata, telefonsor, pillanatkép)
 function simStep(d, fast) {
+  if (!tutor.on && now > TEND - 30 * 60) extendShift();
   if (branchPending) recordSnap();
   step(d);
   if (autoMode) {
@@ -5979,9 +6376,29 @@ function syncTimebar(force) {
   if (!scrubbing || force) slider.value = Math.round(now);
   $('#tbNow').textContent = fmt(scrubbing ? +slider.value : now, false);
 }
-slider.addEventListener('pointerdown', () => { scrubbing = true; });
+let scrubFrom = 0;
+slider.addEventListener('pointerdown', () => { scrubbing = true; scrubFrom = now; });
+// Pontosító kijelző az idősáv fölött: a mutatott időpont és az eltérés a jelenlegi időhöz képest (perc).
+const slideTip = $('#slideTip');
+function showSlideTip(value) {
+  const r = slider.getBoundingClientRect(), host = slider.parentElement.getBoundingClientRect();
+  const frac = (value - T0) / (TEND - T0), thumb = 14;
+  slideTip.style.left = (r.left - host.left + thumb / 2 + frac * (r.width - thumb)) + 'px';
+  const diff = Math.round((value - (scrubbing ? scrubFrom : now)) / 60);
+  slideTip.innerHTML = `${fmt(value, false)}<i>${diff === 0 ? 'most' : (diff > 0 ? '+' : '−') + Math.abs(diff) + ' p'}</i>`;
+  slideTip.hidden = false;
+}
+slider.addEventListener('pointermove', e => {
+  if (scrubbing) return showSlideTip(+slider.value);
+  const r = slider.getBoundingClientRect(), thumb = 14;
+  const frac = clamp((e.clientX - r.left - thumb / 2) / (r.width - thumb), 0, 1);
+  showSlideTip(Math.round((T0 + frac * (TEND - T0)) / 5) * 5);
+});
+slider.addEventListener('pointerleave', () => { if (!scrubbing) slideTip.hidden = true; });
+addEventListener('pointerup', () => { if (!slider.matches(':hover')) slideTip.hidden = true; });
 slider.addEventListener('input', () => {
   $('#tbNow').textContent = fmt(+slider.value, false);
+  showSlideTip(+slider.value);
   const last = snaps.length ? snaps[snaps.length - 1].now : T0;
   if (+slider.value <= last) seekTo(+slider.value);    // a rögzített szakaszon élőben tekerünk
 });
@@ -6061,7 +6478,7 @@ $('#approach').addEventListener('click', e => {
 
 /* Követő kamera: a legfontosabb eseményhez nagyít (Megállj!-nál álló vonat, közeledő vonat, állomáson lévő vonat) */
 let camAuto = (() => { try { return localStorage.getItem('dunaharaszti-camauto') !== '0'; } catch (err) { return true; } })();
-let camHoldUntil = 0, followZoom = null;
+let camHoldUntil = 0, followZoom = null, camFollow = null;
 function camHold() { camHoldUntil = performance.now() + 20000; }
 function setCamAuto(on) {
   camAuto = on; camHoldUntil = 0;
@@ -6083,7 +6500,7 @@ function trainCenter(tr) {
   const tail = last ? pointAt(EDGE[last.e], tr.dir > 0 ? last.lo : last.hi) : head;
   return [(head[0] + tail[0]) / 2, (head[1] + tail[1]) / 2];
 }
-function focusTrain(tr) {
+function focusTrain(tr, keepZoom = false) {
   if (!tr || tr.state !== 'run') return;
   const p = trainCenter(tr);
   if (!p) return;
@@ -6092,15 +6509,13 @@ function focusTrain(tr) {
   const fitZoom = Math.min(4, cam.w * .88 / minWidth, cam.h / 110);
   follow = tr.no;
   setViewButton(null);
-  [cam.x, cam.y] = p;
-  cam.z = followZoom ?? fitZoom;
-  clampCam(cam);
-  if (canAskDeparture(tr) || dispatchReady(tr)) {
-    if (infoSel?.kind === 'train' && infoSel.id === tr.no) {
-      infoSel.w = p;
-      placeInfo();
-    } else openInfo({ kind: 'train', id: tr.no, w: p });
-  } else closeInfo();
+  // Nem ugrik oda: a kamera lágyan átúszik a vonathoz, és fokozatosan közelít (a képkockánkénti követés végzi).
+  camFollow = { no: tr.no, z: keepZoom ? cam.z : fitZoom, vx: 0, vy: 0, lp: p };
+  if (!camAuto) { camGlide = { x: p[0], y: p[1], z: keepZoom ? cam.z : fitZoom }; camHold(); }   // követés kikapcsolva: egyszer odaúszik
+  if (infoSel?.kind === 'train' && infoSel.id === tr.no) {
+    infoSel.w = p;
+    placeInfo();
+  } else openInfo({ kind: 'train', id: tr.no, w: p });
   closeSRPanel();
   renderTT();
 }
@@ -6217,7 +6632,7 @@ function fit(mode) {
   else cam.z = Math.max(Math.min(cam.w / 2530, cam.h / 390), cam.h / (modelBottom - modelTop));
 }
 function zoomMap(factor, x = cam.w / 2, y = cam.h / 2) {
-  camHold();
+  camHold(); camGlide = null;
   if (follow && camAuto) { x = cam.w / 2; y = cam.h / 2; }
   const [wx, wy] = S2W(cam, x, y);
   cam.z = clamp(cam.z * factor, Math.min(0.08, cam.w / (MAPW + 100)), 6);
@@ -6299,10 +6714,33 @@ function frame(t) {
   syncTimebar();
   if (follow && camAuto && TRAIN[follow].state === 'run') {
     const p = trainCenter(TRAIN[follow]);
-    if (p) {
-      const f = Math.min(1, real * 12);
-      cam.x += (p[0] - cam.x) * f;
-      cam.y += (p[1] - cam.y) * f;
+    if (p && real > 0) {
+      // Sima követés: a vonat sebességét kisimítva előre tekint, így a kamera késés nélkül, rángatás nélkül halad vele.
+      let F = camFollow;
+      if (!F || F.no !== follow) F = camFollow = { no: follow, z: cam.z, vx: 0, vy: 0, lp: p };
+      const dx = p[0] - F.lp[0], dy = p[1] - F.lp[1];
+      if (Math.hypot(dx, dy) > 600) { F.vx = F.vy = 0; }          // visszatekerés / ugrás: nincs lendület
+      else {
+        const lim = 4000, b = 1 - Math.exp(-real / 0.6);
+        F.vx += (clamp(dx / real, -lim, lim) - F.vx) * b;
+        F.vy += (clamp(dy / real, -lim, lim) - F.vy) * b;
+      }
+      F.lp = p;
+      const T = 0.55, a = 1 - Math.exp(-real / T);
+      cam.x += (p[0] + F.vx * T - cam.x) * a;
+      cam.y += (p[1] + F.vy * T - cam.y) * a;
+      const z = followZoom ?? F.z, az = 1 - Math.exp(-real / 0.6);
+      cam.z *= Math.exp(Math.log(z / cam.z) * az);
+    }
+  }
+  if (camGlide) {
+    if (follow && camAuto) camGlide = null;
+    else {
+      const a = 1 - Math.exp(-real / 0.35);
+      cam.x += (camGlide.x - cam.x) * a; cam.y += (camGlide.y - cam.y) * a;
+      cam.z *= Math.exp(Math.log(camGlide.z / cam.z) * a);
+      camHold();
+      if (Math.hypot(camGlide.x - cam.x, camGlide.y - cam.y) * cam.z < 0.5 && Math.abs(camGlide.z / cam.z - 1) < 0.003) camGlide = null;
     }
   }
   autoCamera(real);
@@ -6326,9 +6764,17 @@ function frame(t) {
   renderSRPanel();
   drawSRLamp();
   autoWindows(real);
+  sigAutoHide();
   phoneTalkTick(t);
   ttBody.classList.toggle('tt-lamps-lit', t % 1100 < 550);
   ttTimer -= real;
+  if (infoSel?.kind === 'train' && TRAIN[infoSel.id].state === 'run') { const c = trainCenter(TRAIN[infoSel.id]); if (c) infoSel.w = c; drawInfoLive(); }
+  // A vonat adatlapja addig marad kint, amíg a vonat ki van jelölve (követés), vagy rajta az egér; különben 4 mp múlva eltűnik.
+  if (infoSel?.kind === 'train' && !infoCard.hidden) {
+    if (follow === infoSel.id || infoCard.matches(':hover') || infoCard.contains(document.activeElement)) infoSel.seen = t;
+    else if (t - (infoSel.seen ?? t) > 4000) closeInfo();
+    else infoSel.seen ??= t;
+  }
   placeInfo();
   if (ttTimer <= 0) { ttTimer = 0.4; renderTT(); if (!tutor.on) phoneTick(); renderGuide(); applyTheme(); renderInfo(); }
   requestAnimationFrame(frame);
@@ -6978,7 +7424,7 @@ const SND = (() => {
   wrap('pultClick', orig => function (el) { if (el && SND.ready) SND.button(el.type === 'pCommon' ? 'common' : 'normal'); return orig.apply(this, arguments); });
   // menesztés gomb → forgalmi síp (csak a játékos gombnyomására, az automata/tekerés közben nem)
   let whistleArmed = 0;
-  document.addEventListener('click', e => { if (e.target.closest?.('[data-act=dispatch-now], [data-act=dispatch]')) whistleArmed = performance.now(); }, true);
+  document.addEventListener('click', e => { if (e.target.closest?.('[data-act=dispatch-now], [data-act=dispatch], .ic-front.ready')) whistleArmed = performance.now(); }, true);
   wrap('issueDispatch', orig => function () { const ok = orig.apply(this, arguments); if (ok && SND.ready && performance.now() - whistleArmed < 600) SND.dispatchWhistle(); return ok; });
   // hibás kezelés → berregő
   // (a pult hibás kezelésnél sem ad hangot)
@@ -6999,5 +7445,47 @@ const SND = (() => {
   requestAnimationFrame(sndLoop);
 }
 
+</script>
+<script>
+/* Ablakok finom eltűnése és megjelenése. A logikai állapot (el.hidden) azonnal változik,
+   csak a tényleges elrejtés késik az animáció idejére, így a játék logikája nem érzékeli a különbséget. */
+const WIN_OUT_MS = 200;
+const winReduce = matchMedia('(prefers-reduced-motion: reduce)');
+function winAnimateIn(el) { if (winReduce.matches) return; el.classList.remove('win-in'); void el.offsetWidth; el.classList.add('win-in'); }
+function winOpen(el) {
+  clearTimeout(el._winTimer); el.classList.remove('win-out');
+  if (!el.classList.contains('open')) { el.classList.add('open'); winAnimateIn(el); }
+}
+function winClose(el) {
+  if (!el.classList.contains('open') || el.classList.contains('win-out')) return;
+  if (winReduce.matches) { el.classList.remove('open'); return; }
+  el.classList.remove('win-in'); el.classList.add('win-out');
+  el._winTimer = setTimeout(() => { el.classList.remove('win-out', 'open'); }, WIN_OUT_MS);
+}
+(() => {
+  const desc = Object.getOwnPropertyDescriptor(HTMLElement.prototype, 'hidden');
+  function smooth(el) {
+    if (!el || el._winSmooth) return;
+    el._winSmooth = true;
+    let logical = desc.get.call(el), timer = 0;
+    Object.defineProperty(el, 'hidden', { configurable: true,
+      get() { return logical; },
+      set(v) {
+        v = !!v;
+        if (v === logical) return;
+        logical = v; clearTimeout(timer);
+        if (v) {
+          if (winReduce.matches || desc.get.call(el)) { el.classList.remove('win-in', 'win-out'); desc.set.call(el, true); return; }
+          el.classList.remove('win-in'); el.classList.add('win-out');
+          timer = setTimeout(() => { el.classList.remove('win-out'); desc.set.call(el, true); }, WIN_OUT_MS);
+        } else {
+          const wasShown = !desc.get.call(el);
+          el.classList.remove('win-out'); desc.set.call(el, false);
+          if (!wasShown) winAnimateIn(el);
+        }
+      } });
+  }
+  for (const id of ['infoCard', 'phonePanel', 'srPanel', 'approach', 'soundPanel']) smooth(document.getElementById(id));
+})();
 </script>
 </body></html>
