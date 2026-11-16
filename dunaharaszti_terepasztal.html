@@ -1706,8 +1706,10 @@ function canAskDeparture(tr) {
   if (throughAwaiting(tr) && !(tr.state === 'run' && stationStop(tr) && tr.awaitDispatch)) return true;   // áthaladónál előre kérhető
   // Bármely, már hozzánk tartozó vonatra (úton van felénk, bejár vagy áll) kérhető, amíg nem menesztettük.
   return tr.dispatchAt == null && tr.lineDepartAt == null && tr.depAt == null &&
-    (tr.state === 'run' || (tr.state === 'pending' && tr.receiveAt != null));
+    (tr.state === 'run' || (tr.state === 'pending' && (tr.receiveAt != null || tr.enter - now <= ASK_AHEAD)));
 }
+// Még meg nem jelent vonatra ennyivel a pályára lépése előtt lehet indulási engedélyt kérni (30 perc).
+const ASK_AHEAD = 1800;
 // Az a szembe jövő vonat, amelynek beérkezése után a szomszéd a mi vonatunkat fogadja (null = nincs ilyen).
 function opposingBefore(train, line) {
   const coming = t => t !== train && t.state !== 'done' && originLine(t) === line && t.actualTrack == null;
@@ -5048,9 +5050,9 @@ function timetableClick(e) {
   const row = e.target.closest('tr.row'); if (!row) return;
   const tr = TRAIN[row.dataset.no];
   if (tr.state === 'run') focusTrain(tr);
-  else if (canAskDeparture(tr) || (tr.state === 'pending' && tr.departurePermission === true && isThrough(tr)))
-    openInfo({ kind: 'train', id: tr.no, w: [cam.x, cam.y] });   // áthaladó vonat: indulási engedély előre
-  else msg(`${tr.no} jelenleg nincs a pályán.` + (isThrough(tr) && tr.receiveAt == null ? ' Áthaladó vonatra a fogadási engedély után kérhetsz előre indulási engedélyt.' : ''), 'info');
+  else if (canAskDeparture(tr) || (tr.state === 'pending' && tr.departurePermission === true))
+    openInfo({ kind: 'train', id: tr.no, w: [cam.x, cam.y] });   // még meg nem jelent vonat: indulási engedély előre
+  else msg(`${tr.no} jelenleg nincs a pályán.` + (tr.state === 'pending' ? ' Indulási engedélyt a megjelenése előtt legfeljebb 30 perccel kérhetsz.' : ''), 'info');
 }
 ttBody.addEventListener('click', timetableClick);
 ttBody.addEventListener('keydown', e => {
