@@ -152,14 +152,16 @@ th,td{padding:6px 8px;text-align:left;vertical-align:top;border-bottom:1px solid
 td:nth-child(3),td:nth-child(4),td:nth-child(6){font-family:var(--mono);font-weight:700}
 th{position:sticky;top:0;background:var(--fibre),var(--paper-2);color:var(--ink);border-bottom:2px solid var(--rule);font:700 10px/1.3 var(--serif);text-transform:uppercase;letter-spacing:.06em}
 td.tt-last{position:relative;padding-right:30px}
-.tt-phone{position:absolute;right:5px;top:5px;display:flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:50%;
-  background:#26301f;color:#e9dfb8;font-size:13px;line-height:1;cursor:pointer;box-shadow:inset 0 0 0 1px #4d5b44}
+.tt-phone{position:absolute;right:5px;top:5px;display:flex;align-items:center;gap:0;height:24px;min-width:24px;padding:0 5px;border-radius:12px;
+  background:#26301f;color:#e9dfb8;font-size:13px;line-height:1;box-shadow:inset 0 0 0 1px #4d5b44;white-space:nowrap;z-index:2}
+.tt-phone b{font-weight:400;width:14px;text-align:center}
 .tt-phone i{position:absolute;right:-3px;bottom:-3px;font:700 9px/1 var(--sans);font-style:normal;background:#2f5f2a;color:#fff;border-radius:6px;padding:1px 2px}
 .tt-phone.wait i{background:#8a6a20}.tt-phone.ok{color:#bfe6a8}
-.tt-phone button{position:absolute;right:26px;top:50%;translate:6px -50%;min-height:26px;padding:4px 10px;font-size:11.5px;white-space:nowrap;
-  opacity:0;pointer-events:none;transition:opacity .15s,translate .15s;z-index:2}
-.tt-phone:hover button,.tt-phone.open button,.tt-phone:focus-within button{opacity:1;pointer-events:auto;translate:0 -50%}
-.tt-phone:hover{background:#3a4a30}
+.tt-phone.ask{cursor:pointer}
+.tt-phone.ask>span{max-width:0;overflow:hidden;opacity:0;font:600 11.5px/1 var(--sans);transition:max-width .22s ease,opacity .18s ease,margin .22s ease}
+.tt-phone.ask:hover,.tt-phone.ask.open,.tt-phone.ask:focus-visible{background:#3d5a2f;box-shadow:inset 0 0 0 1px #8fc46b,0 2px 6px #0008}
+.tt-phone.ask:hover>span,.tt-phone.ask.open>span,.tt-phone.ask:focus-visible>span{max-width:220px;opacity:1;margin-left:6px}
+.tt-phone.ask:active{translate:0 1px}
 tr.row{cursor:pointer}tr.row:hover,tr.row.sel,tr.row:focus-visible{background:var(--row-hover)}
 #ttBody .row[data-lamp=moving]{--tt-lamp:#ffd152;--tt-glow:.24}
 #ttBody.tt-lamps-lit .row[data-lamp=moving]{--tt-glow:1}
@@ -472,11 +474,14 @@ th{font-family:var(--mono)}
 #infoCard .ic-crew{font-size:10.5px;color:var(--ink-soft)}
 #infoCard>button{margin:3px 9px 0;width:calc(100% - 18px)}
 #infoCard .ic-controls{margin:5px 9px 0;padding-top:5px}
-#infoCard{transition:left .32s cubic-bezier(.2,.85,.25,1),top .32s cubic-bezier(.2,.85,.25,1)}
+#infoCard{transition:left .32s cubic-bezier(.2,.85,.25,1),top .32s cubic-bezier(.2,.85,.25,1),translate .3s cubic-bezier(.2,.85,.25,1)}
+#srPanel,#approach{transition:translate .3s cubic-bezier(.2,.85,.25,1)}
 #infoCard.no-slide,#infoCard.dragging{transition:none}
 .ic-live{display:flex;gap:5px;align-items:stretch;margin:5px 9px 5px;padding:4px;background:#1b1f1a;border:1px solid #0b0d0a;box-shadow:inset 0 1px 3px #000a}
 .ic-front{width:44%;aspect-ratio:216/200;height:auto;flex:none;border-radius:2px;background:linear-gradient(#5d7f99,#a9c2cf 62%,#6f7a5f 63%,#4f5a43)}
 .ic-front.ready{cursor:pointer;box-shadow:0 0 0 2px #7cc46a,0 0 8px #7cc46a88}
+.ic-front.ask{cursor:pointer;box-shadow:0 0 0 2px #e6b84a}
+.ic-front{cursor:pointer}
 .ic-gauges{flex:1;display:flex;flex-direction:column;justify-content:space-between;min-width:0}
 .ic-speedo{width:100%;max-width:120px;aspect-ratio:228/148;height:auto;align-self:center}
 .ic-brake{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:5px;color:#e9e1c4;font:700 9.5px/1 var(--mono);letter-spacing:.06em}
@@ -1753,6 +1758,12 @@ function authorizeReception(tr) {
   if (receptionProblem(tr)) return false;
   tr.receiveAt = now;
   LINES[originLine(tr)].dir = tr.dir;
+  // Ha erre az állomásközre már van kiadott indulási engedélyünk, az ennek a vonatnak a beérkezése utánra módosul.
+  if (!autoMode) for (const t of trains) {
+    if (t === tr || t.departurePermission !== true || destinationLine(t) !== originLine(tr) || t.lineDepartAt != null || t.state === 'done') continue;
+    const prev = t.permAfter && TRAIN[t.permAfter];
+    if (!prev || prev.actualTrack != null || prev.state === 'done') t.permAfter = tr.no;
+  }
   computeAspects();
   msg(`${tr.cat} ${tr.no} fogadási engedélye megadva ${LINES[originLine(tr)].name} felől.`, 'ok');
   return true;
@@ -1795,9 +1806,12 @@ function opposingBefore(train, line) {
   return next && coming(next) && next.enter <= Math.max(now, train.dep) ? next : null;
 }
 // Kiadott indulási engedély erre az állomásközre: a szomszéd addig nem indít felénk más vonatot.
+// Csak az állomáson már bent álló vonat engedélye köti a szomszédot; a még úton lévő (előre engedélyt kapott)
+// vonat engedélye a közben fogadott ellenvonat beérkezése utánra tolódik (így nem alakulhat ki kölcsönös várakozás).
 function heldPermission(line, except) {
   return trains.find(t => t.departurePermission === true && destinationLine(t) === line && t.lineDepartAt == null &&
-    t.state !== 'done' && (!except || t.permAfter !== except.no)) || null;
+    t.state === 'run' && t.actualTrack != null && t.state !== 'done' &&
+    (!except || (t.permAfter !== except.no && t.crossing !== except.no))) || null;
 }
 // Egyvágányú vonalon az áthaladó vonatnak is indulási engedély kell: addig a kijárati jelző nem válthat szabadra.
 function exitWaitsForPermission(r) {
@@ -4433,10 +4447,12 @@ function hitTest(cv, cm, x, y, sections, includeTrains = sections && !selStart) 
   }
   return best;
 }
+let lastTrainClick = null;
 function mapClick(el, mods) {
   if (!el) { selStart = null; closeInfo(); return; }
   if (el.type === 'train') {
     $('#tip').style.display = 'none';
+    lastTrainClick = { no: el.id, t: performance.now() };
     focusTrain(TRAIN[el.id], true);                 // a vonatra kattintás kijelöli (a kamera követi), az adatlap addig kint marad
     return;
   }
@@ -4512,6 +4528,17 @@ function setupCanvasInput(c, cm, isMap) {
     e.preventDefault();
     const [x, y] = pos(e); const el = hitTest(c, cm, x, y, isMap, false);
     if (el && (el.type === 'signal' || el.type === 'pSig')) torles(el.id); else { selStart = null; armed = null; pStart = null; }
+  });
+  // Dupla kattintás a vonatra: közeli nézet a mozdonyra
+  if (isMap) c.addEventListener('dblclick', e => {
+    const [x, y] = pos(e), el = hitTest(c, cm, x, y, true, false);
+    const no = el?.type === 'train' ? el.id : performance.now() - (lastTrainClick?.t ?? -1e9) < 700 ? lastTrainClick.no : null;   // a kamera közben elmozdulhatott
+    if (!no) return;
+    const tr = TRAIN[no], h = tr && trainHead(tr); if (!h) return;
+    e.preventDefault();
+    follow = tr.no; followZoom = 4.5; setViewButton(null);
+    camFollow = { no: tr.no, z: 4.5, vx: 0, vy: 0, lp: h };
+    if (!camAuto) { camGlide = { x: h[0], y: h[1], z: 4.5 }; camHold(); }
   });
   if (isMap) c.addEventListener('wheel', e => {
     e.preventDefault();
@@ -5198,7 +5225,7 @@ function renderTT() {
       <td class="st ${sc}">${st}</td>
       <td class="${dc} tt-last"><b>+${Math.max(0, d)}p</b>${timetablePhone(tr)}</td></tr>`;
   }).join('');
-  if (rows !== timetableRows) {
+  if (rows !== timetableRows && !(ttPhoneHover && ttBody.querySelector('.tt-phone.ask:hover'))) {   // amíg az egér a telefon gombon van, nem rajzoljuk újra
     const focus = ttBody.contains(document.activeElement) ? document.activeElement.dataset.no : null;
     timetableRows = rows;
     ttBody.innerHTML = `<table><thead><tr><th>Vonat</th><th>Irány</th><th>Érk.</th><th>Ind.</th><th>Vg.</th><th>Tart.</th><th>Állapot</th><th>Késés</th></tr></thead><tbody>${rows}</tbody></table>`;
@@ -5223,7 +5250,7 @@ function timetablePhone(tr) {
   }
   if (departureCallPending(tr)) return `<span class="tt-phone wait" title="${station} válaszára vár…">☎︎<i>…</i></span>`;
   if (!canAskDeparture(tr)) return '';
-  return `<span class="tt-phone${ttPhoneHover === tr.no ? ' open' : ''}">☎︎<button type="button" data-ask="${tr.no}">${tr.departurePermission === false ? 'Újra: ' : ''}Engedélykérés · ${station}</button></span>`;
+  return `<span class="tt-phone ask${ttPhoneHover === tr.no ? ' open' : ''}" role="button" tabindex="0" data-ask="${tr.no}" title="Indulási engedély kérése ${station} állomástól"><b>☎︎</b><span>${tr.departurePermission === false ? 'Újra: ' : ''}Engedélykérés · ${station}</span></span>`;
 }
 function askFromTimetable(tr) {
   const line = destinationLine(tr), call = phoneLines[line].call;
@@ -5233,10 +5260,7 @@ function askFromTimetable(tr) {
   renderPhone(); renderTT();
 }
 function timetableClick(e) {
-  const ask = e.target.closest('[data-ask]');
-  if (ask) { askFromTimetable(TRAIN[ask.dataset.ask]); return; }
-  const ph = e.target.closest('.tt-phone');
-  if (ph) { ttPhoneHover = ph.classList.toggle('open') ? ph.closest('tr').dataset.no : null; return; }   // érintőképernyőn koppintásra nyílik
+  if (e.target.closest('.tt-phone')) return;          // a telefon ikon saját kezelőt kap (lenyomásra)
   const row = e.target.closest('tr.row'); if (!row) return;
   const tr = TRAIN[row.dataset.no];
   if (tr.state === 'run') focusTrain(tr);
@@ -5248,6 +5272,14 @@ function timetableClick(e) {
   else msg(`${tr.no} jelenleg nincs a pályán.` + (tr.state === 'pending' ? ' Indulási engedélyt a megjelenése előtt legfeljebb 30 perccel kérhetsz.' : ''), 'info');
 }
 ttBody.addEventListener('click', timetableClick);
+ttBody.addEventListener('pointerdown', e => {
+  const ask = e.target.closest('.tt-phone[data-ask]'); if (!ask || e.button !== 0) return;
+  e.preventDefault(); e.stopPropagation();
+  const tr = TRAIN[ask.dataset.ask];
+  if (e.pointerType === 'touch' && !ask.classList.contains('open')) { ttPhoneHover = tr.no; ask.classList.add('open'); return; }   // érintésre előbb kinyílik
+  ttPhoneHover = null; askFromTimetable(tr);
+});
+ttBody.addEventListener('keydown', e => { const ask = e.target.closest?.('.tt-phone[data-ask]'); if (ask && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); e.stopPropagation(); askFromTimetable(TRAIN[ask.dataset.ask]); } }, true);
 ttBody.addEventListener('pointerover', e => {
   if (e.pointerType === 'touch') return;
   const ph = e.target.closest('.tt-phone');
@@ -5758,7 +5790,12 @@ function drawInfoLive(force) {
   try { limit = Math.round(allowedSpeed(tr) * 3.6); } catch (err) { limit = null; }
   drawSpeedo(speedo.getContext('2d'), infoLive.kmh, limit, tr.vmax ?? KINDS[tr.kind]?.vmax ?? 100);
   const ready = dispatchReady(tr) && !dispatchProblem(tr);
-  if (front.classList.contains('ready') !== ready) { front.classList.toggle('ready', ready); front.title = ready ? 'Menesztés: kattints a vezetőfülkére' : (FRONT_STYLE[front.dataset.type]?.label || ''); }
+  const ask = !ready && tr.departurePermission !== true && canAskDeparture(tr) && !departureCallPending(tr) && !autoMode;
+  const mode = ready ? 'ready' : ask ? 'ask' : '';
+  if (front.dataset.mode !== mode) {
+    front.dataset.mode = mode; front.classList.toggle('ready', ready); front.classList.toggle('ask', ask);
+    front.title = ready ? 'Menesztés: kattints a vezetőfülkére' : ask ? 'Kattints: indulási engedély kérése' : (FRONT_STYLE[front.dataset.type]?.label || '');
+  }
   const pct = Math.round(clamp(tr.brake || 0, 0, 100));
   const bar = infoCard.querySelector('.ic-bar i'), lbl = infoCard.querySelector('.ic-brake b');
   if (bar) { bar.style.width = pct + '%'; bar.style.background = pct >= 90 ? '#e0533c' : pct >= 35 ? '#e6a83a' : '#7cc46a'; }
@@ -5766,6 +5803,32 @@ function drawInfoLive(force) {
 }
 // Az adatlap fix helyen áll a bal oldalon, a jelzőablak mellett; fejlécénél húzható, sarkánál méretezhető (megjegyzi).
 let sigWrapW = 182;
+// A felugró ablakok nem takarhatják egymást: a fix helyűek (jelzőablak, telefon, hangerő) elsőbbséget kapnak,
+// a többit (vonat-adatlap, SR-panel, közeledő vonatok) a legkisebb elmozdulással arrébb toljuk.
+function deoverlapPopups() {
+  const vis = el => el && !el.hidden && el.offsetWidth && getComputedStyle(el).display !== 'none' && !el.classList.contains('win-out');
+  const sw = $('#sigWrap');
+  const placed = [];
+  for (const el of [sw.classList.contains('open') ? sw : null, phonePanel, $('#soundPanel')]) if (vis(el)) placed.push(el.getBoundingClientRect());
+  const host = $('#map').parentElement.getBoundingClientRect();
+  for (const el of [infoCard, srPanel, $('#approach')]) {
+    if (!vis(el)) { if (el) el.style.translate = ''; continue; }
+    const cur = el._dxy || [0, 0], r0 = el.getBoundingClientRect();
+    const r = { left: r0.left - cur[0], right: r0.right - cur[0], top: r0.top - cur[1], bottom: r0.bottom - cur[1] };   // eltolás nélküli hely
+    const hit = (a, dx, dy) => a.left < r.right + dx && a.right > r.left + dx && a.top < r.bottom + dy && a.bottom > r.top + dy;
+    const inside = (dx, dy) => r.left + dx >= host.left + 2 && r.right + dx <= host.right - 2 && r.top + dy >= host.top + 2 && r.bottom + dy <= host.bottom - 2;
+    let best = [0, 0];
+    if (placed.some(a => hit(a, 0, 0))) {
+      const cands = [];
+      for (const a of placed) cands.push([a.right + 8 - r.left, 0], [a.left - 8 - r.right, 0], [0, a.bottom + 8 - r.top], [0, a.top - 8 - r.bottom]);
+      for (const a of placed) for (const b of placed) cands.push([a.right + 8 - r.left, b.bottom + 8 - r.top]);
+      const ok = cands.filter(([dx, dy]) => inside(dx, dy) && !placed.some(a => hit(a, dx, dy))).sort((p, q) => Math.hypot(...p) - Math.hypot(...q));
+      if (ok.length) best = ok[0];
+    }
+    if (best[0] !== cur[0] || best[1] !== cur[1]) { el._dxy = best; el.style.translate = best[0] || best[1] ? `${best[0]}px ${best[1]}px` : ''; }
+    placed.push({ left: r.left + best[0], right: r.right + best[0], top: r.top + best[1], bottom: r.bottom + best[1] });
+  }
+}
 function placeInfo() {
   if (!infoSel || infoCard.hidden) return;
   const sw = $('#sigWrap');
@@ -5789,8 +5852,14 @@ infoCard.addEventListener('click', e => {
   } else if (infoSel?.kind === 'train') {
     const tr = TRAIN[infoSel.id];
     if (act === 'ask') { openDepartureCall(tr); return; }
-    if (act === 'cab') {                         // a vezetőfülkére kattintás: menesztés (ha a vonat indulásra kész)
-      if (!dispatchReady(tr)) { msg(`${tr.cat} ${tr.no}: a vonat még nem áll indulásra készen.`, 'info'); return; }
+    if (act === 'cab') {                         // a vezetőfülkére kattintás: a térkép a vonat elejére úszik; menesztés / engedélykérés
+      if (tr.state === 'run') { const h = trainHead(tr); if (h) { follow = tr.no; if (camAuto) camFollow = { no: tr.no, z: cam.z, vx: 0, vy: 0, lp: h }; else { camGlide = { x: h[0], y: h[1], z: cam.z }; camHold(); } } }
+      if (tr.departurePermission !== true && canAskDeparture(tr) && !departureCallPending(tr) && (!tutor.on || tutor.phone)) {
+        const call = phoneLines[destinationLine(tr)].call;
+        if (!call || call.stage === 'done') { startDepartureCall(tr); renderPhone(); renderTT(); msg(`${tr.cat} ${tr.no}: indulási engedélyt kértél ${LINES[destinationLine(tr)].name} állomástól.`, 'info'); }
+        return;
+      }
+      if (!dispatchReady(tr)) { msg(tr.dwell ? `${tr.cat} ${tr.no}: utascsere, ajtózárás után menesztheted.` : `${tr.cat} ${tr.no}: a vonat még nem áll indulásra készen.`, 'info'); return; }
       const problem = dispatchProblem(tr);
       if (problem) { msg(`Menesztés: ${problem}`, 'warn'); return; }
       if (issueDispatch(tr)) { recordSnap(); renderTT(); renderGuide(); renderInfo(); }
@@ -6502,7 +6571,7 @@ function trainCenter(tr) {
 }
 function focusTrain(tr, keepZoom = false) {
   if (!tr || tr.state !== 'run') return;
-  const p = trainCenter(tr);
+  const p = trainHead(tr) || trainCenter(tr);
   if (!p) return;
   if (isPaged() && page !== 'map') setPage('map');
   const minWidth = tr.len * 2 + Math.min(200, tr.len + 80);
@@ -6713,7 +6782,7 @@ function frame(t) {
   else while (simDt > 1e-6) { const d = Math.min(0.1, simDt); simStep(d); simDt -= d; }
   syncTimebar();
   if (follow && camAuto && TRAIN[follow].state === 'run') {
-    const p = trainCenter(TRAIN[follow]);
+    const p = trainHead(TRAIN[follow]) || trainCenter(TRAIN[follow]);   // a kamera a vonat elejét (a mozdonyt) követi
     if (p && real > 0) {
       // Sima követés: a vonat sebességét kisimítva előre tekint, így a kamera késés nélkül, rángatás nélkül halad vele.
       let F = camFollow;
@@ -6769,6 +6838,7 @@ function frame(t) {
   ttBody.classList.toggle('tt-lamps-lit', t % 1100 < 550);
   ttTimer -= real;
   if (infoSel?.kind === 'train' && TRAIN[infoSel.id].state === 'run') { const c = trainCenter(TRAIN[infoSel.id]); if (c) infoSel.w = c; drawInfoLive(); }
+  deoverlapPopups();
   // A vonat adatlapja addig marad kint, amíg a vonat ki van jelölve (követés), vagy rajta az egér; különben 4 mp múlva eltűnik.
   if (infoSel?.kind === 'train' && !infoCard.hidden) {
     if (follow === infoSel.id || infoCard.matches(':hover') || infoCard.contains(document.activeElement)) infoSel.seen = t;
