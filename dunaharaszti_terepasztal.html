@@ -111,6 +111,11 @@ kbd{font:700 11px var(--mono);padding:1px 5px;border-radius:3px;background:#fffa
 #log{position:absolute;right:12px;top:12px;z-index:3;display:flex;flex-direction:column;gap:5px;width:min(370px,36%);pointer-events:none;font-size:12px}
 #log div{background:var(--grain),#18201ae8;border:1px solid #4d5b44;border-left:4px solid var(--accent);border-radius:var(--r);padding:6px 10px;box-shadow:var(--shadow)}
 #log div:nth-child(n+3){display:none}
+#log div.log-phone{display:flex;align-items:flex-start;gap:8px}
+.log-tel{flex:none;display:inline-flex;align-items:center;gap:3px;padding:1px 5px;border-radius:9px;background:#26301f;color:#ffd98a;font-size:12px;line-height:16px}
+.log-tel i{display:inline-flex;align-items:flex-end;gap:1.5px;height:9px}
+.log-tel s{width:2px;height:3px;background:#ffd98a;border-radius:1px;animation:talk-bar .5s ease-in-out 6 alternate}
+.log-tel s:nth-child(2){animation-delay:.17s}.log-tel s:nth-child(3){animation-delay:.34s}
 /* Húzható elválasztók */
 .split{flex:none;position:relative;z-index:5;background:var(--grain),linear-gradient(#3a4733,#1d261a);touch-action:none}
 .split::after{content:"";position:absolute;inset:0;margin:auto;border-radius:2px;background:#c9c09a66}
@@ -435,6 +440,19 @@ button.on,button[aria-pressed=true]{background:var(--grain),#e3b14f;border-color
 #tutorBody{flex:1;overflow:auto;padding:10px 12px 14px 16px;display:flex;flex-direction:column;gap:9px;color:var(--ink)}
 #guideBody{padding-left:16px}
 #tutorBody[hidden]{display:none}
+#scoreBody{flex:1;overflow:auto;padding:10px 14px 14px 16px;color:var(--ink);background:linear-gradient(90deg,transparent 0 6px,#b0443a2e 6px 7px,transparent 7px),var(--fibre),var(--paper);font-size:12.5px}
+#scoreBody[hidden]{display:none}
+.score-badge{min-width:22px;height:18px;padding:0 6px;border-radius:9px;background:#2f5f2a;color:#fff;font:700 11px/18px var(--mono);text-align:center;text-shadow:none}
+.sc-total{display:flex;align-items:baseline;gap:10px;margin:2px 0 8px;padding-bottom:8px;border-bottom:3px double var(--rule)}
+.sc-total b{font:700 34px/1 var(--mono);color:var(--ink-strong)}.sc-total small{font:700 10px/1.2 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft)}
+.sc-grid{display:grid;grid-template-columns:1fr auto auto;gap:3px 12px;margin:0 0 10px}
+.sc-grid span:nth-child(3n+2),.sc-grid span:nth-child(3n){text-align:right;font-family:var(--mono);font-weight:700}
+.sc-grid .neg{color:#b0402f}.sc-grid .pos{color:#2f6f2a}
+.sc-ev{list-style:none;margin:0 0 10px;padding:0;display:grid;gap:3px;font-size:11.5px}
+.sc-ev li{display:flex;gap:8px}.sc-ev li b{font-family:var(--mono);min-width:38px;text-align:right}.sc-ev li b.neg{color:#b0402f}.sc-ev li b.pos{color:#2f6f2a}.sc-ev li i{font-style:normal;color:var(--ink-soft);font-family:var(--mono);font-size:10.5px}
+.sc-note{font-size:11px;color:var(--ink-soft);margin:0 0 10px}
+.end-box h2{margin:0 0 4px}.end-box .sc-total b{font-size:44px}
+.end-rank{font:700 15px var(--serif);margin:0 0 10px}
 #log div{border-radius:0;background:var(--fibre),var(--paper);color:var(--ink);border:1px solid var(--rule);border-left:5px solid var(--accent);font:700 11.5px/1.4 var(--mono);box-shadow:2px 3px 0 #0006}
 #log div.err{color:var(--d3)}
 #tip{border-radius:0;padding:9px 12px;box-shadow:inset 0 0 0 3px var(--paper),inset 0 0 0 4px color-mix(in srgb,var(--rule) 45%,transparent),3px 4px 0 #0007}
@@ -802,6 +820,7 @@ body.paged #sigWrap{top:46px;left:6px}
       <button type="button" role="tab" data-tab="guide" aria-selected="false" aria-controls="guideBody">Segítő <span id="guideCount" class="count" hidden="">0</span></button>
       <button type="button" role="tab" data-tab="tutor" aria-selected="false" aria-controls="tutorBody">Oktató</button>
       <button type="button" role="tab" data-tab="tt" aria-selected="true" aria-controls="ttBody">Menetrend</button>
+      <button type="button" role="tab" data-tab="score" aria-selected="false" aria-controls="scoreBody">Eredmények <span id="scoreBadge" class="score-badge">0</span></button>
       <small id="shiftLabel">Dunaharaszti · 08:36–10:36</small>
       <button type="button" id="paperDark" class="paper-toggle" aria-pressed="true" title="A Segítő és a Menetrend lapjának világos vagy sötét megjelenítése">Világos lap</button>
     </div>
@@ -837,6 +856,7 @@ body.paged #sigWrap{top:46px;left:6px}
         </dl>
       </details>
     </div>
+    <div id="scoreBody" role="tabpanel" hidden=""></div>
     <div id="tutorBody" role="tabpanel" hidden=""><div class="tu-intro"><h3>Dominó 55 oktató</h3><p>Nyolc rövid lecke az alapoktól: melyik gombot mikor és miért nyomod meg. A tanpályán nincs forgalom, nyugodtan gyakorolhatsz. Kilépéskor a szolgálat ott folytatódik, ahol abbahagytad.</p></div>
       <ol class="tu-lessons"><li><button type="button" data-lesson="0"><span class="tu-no">1</span><span class="tu-t"><b>A pult felépítése</b><small>Mit látsz, mi micsoda</small></span><i class="tu-stamp">Kész</i></button></li><li><button type="button" data-lesson="1"><span class="tu-no">2</span><span class="tu-t"><b>Váltóállítás</b><small>Közös áll. + váltógomb</small></span><i class="tu-stamp">Kész</i></button></li><li><button type="button" data-lesson="2"><span class="tu-no">3</span><span class="tu-t"><b>Bejárati vágányút</b><small>Kezdőgomb + célgomb, majd jelzőállítás</small></span><i class="tu-stamp">Kész</i></button></li><li><button type="button" data-lesson="3"><span class="tu-no">4</span><span class="tu-t"><b>Kijárati vágányút</b><small>Kijárati jelző + zöld célgomb</small></span><i class="tu-stamp">Kész</i></button></li><li><button type="button" data-lesson="4"><span class="tu-no">5</span><span class="tu-t"><b>Sorompó és rendkívüli gombok</b><small>SR2, hívójelzés, kényszeroldás</small></span></button></li><li><button type="button" data-lesson="5"><span class="tu-no">6</span><span class="tu-t"><b>Vonat fogadása és indítása</b><small>Gyakorlóvonat a tanpályán</small></span></button></li></ol></div>
     <div id="ttBody" role="tabpanel" class=""><table><thead><tr><th>Vonat</th><th>Irány</th><th>Érk.</th><th>Ind.</th><th>Vg.</th><th>Tart.</th><th>Állapot</th><th>Késés</th></tr></thead><tbody><tr class="row  " data-no="3732">
@@ -958,6 +978,7 @@ body.paged #sigWrap{top:46px;left:6px}
 </aside>
 
 <div id="tip" role="tooltip" style="display: none;"></div>
+ <div class="modal" id="endModal" role="dialog" aria-modal="true" aria-labelledby="endTitle"><div class="box end-box" id="endBox"></div></div>
 <div class="modal open" id="helpModal" role="dialog" aria-modal="true" aria-labelledby="helpTitle">
   <div class="box">
     <div class="help-brand"><svg class="logo-svg" aria-hidden="true" viewBox="0 110 560 360" xmlns="http://www.w3.org/2000/svg"><defs><mask id="mvB"><rect x="0" y="0" width="560" height="600" fill="#fff"></rect><path d="M256.6 187.3A108 108 0 1 1 256.6 392.7L265.0 367.0A81 81 0 1 0 265.0 213.0Z" fill="#000"></path><path d="M0 262H290A26.5 26.5 0 0 1 290 315H0Z" fill="#000"></path></mask></defs><g mask="url(#mvB)" fill="currentColor"><circle cx="290" cy="290" r="165"></circle><path d="M12 208H540L516 262H38Z"></path><path d="M40 315H512L488 370H64Z"></path></g></svg><h2 id="helpTitle">Dunaharaszti Forgalmi Szimulátor<small>kezelési útmutató</small></h2></div>
@@ -1233,9 +1254,13 @@ const activeFrom = {};
 let ASP = {};
 const COUNT = { HB: 0, HK: 0, SK: 0, KO: 0 };   // számlálók a pulton
 const logEl = $('#log');
-function msg(text, kind = 'info') {
+function msg(text, kind = 'info', phone = false) {
   const d = document.createElement('div');
-  d.className = kind; d.textContent = fmt(now) + '  ' + text;
+  d.className = kind + (phone ? ' log-phone' : '');
+  if (phone) {                 // kis telefon ikon, beszéd közben hullámzó jellel
+    const ic = document.createElement('span'); ic.className = 'log-tel'; ic.innerHTML = '☎︎<i><s></s><s></s><s></s></i>';
+    d.append(ic, document.createTextNode(fmt(now) + '  ' + text));
+  } else d.textContent = fmt(now) + '  ' + text;
   logEl.prepend(d);
   while (logEl.children.length > 4) logEl.lastChild.remove();
 }
@@ -1289,6 +1314,10 @@ function routeProblem(def) {
   if (def.line) {
     const partner = departingCrossing(def);
     if (partner) return `${def.name}: a kijárattal várd meg a(z) ${partner.no} sz. vonat bejárását.`;
+    // Feltételes indulási engedély: a kijárati vágányút csak a megnevezett ellenvonat beérkezése után állítható
+    const waiter = trains.find(t => t.state === 'run' && t.actualTrack === def.start.slice(1) && t.dir === def.ldir && t.lineDepartAt == null &&
+      t.permAfter && TRAIN[t.permAfter] && TRAIN[t.permAfter].actualTrack == null && TRAIN[t.permAfter].state !== 'done');
+    if (waiter) return `${def.name}: a(z) ${waiter.no} sz. vonat engedélye a(z) ${waiter.permAfter} sz. vonat beérkezése után érvényes – addig ne állíts kijáratot.`;
     const inbound = nextReception(def.line);
     if (inbound && readyForCrossingApproach(inbound))
       return `${def.name}: előbb a kijelölt kereszt érkező vonatát (${inbound.no}) fogadd.`;
@@ -1685,6 +1714,23 @@ function buildTimetable(t0, t1) {
 }
 const TIMETABLE = buildTimetable(START, START + SHIFT_LEN);
 const ROMAN = { '1': 'I.', '2': 'II.', '3': 'III.' };
+// ---- Véletlen késések: a vonatszámból és a menetrendi időszakból számolt, napszakhoz és vonatfajtához igazított modell ----
+const LATE_REASONS = {
+  S: ['utascsere elhúzódott Kunszentmiklós-Tasson', 'lassújel a pályán', 'csatlakozásra várt', 'mozdonyhiba elhárítása', 'ajtóhiba Kiskunlacházán', 'sok utas a peronon'],
+  EC: ['késve érkezett Kelebiáról', 'lassújel a pályán', 'határátlépés elhúzódott', 'ellenvonat bevárása'],
+  G: ['fékpróba elhúzódott', 'Kelebián késve vették át', 'rendezési munka Ferencvárosban', 'mozdonycsere', 'kocsivizsgálat', 'lassújel a pályán'],
+};
+function plannedLateness(d) {
+  let h = 2166136261 ^ (PERIOD_KEY || '').length * 977;
+  for (const ch of String(d.no) + (PERIOD_KEY || '')) h = Math.imul(h ^ ch.charCodeAt(0), 16777619);
+  const r1 = (h >>> 0) / 4294967296, r2 = (Math.imul(h, 2654435761) >>> 0) / 4294967296, r3 = (Math.imul(h ^ 0x5bd1e995, 1597334677) >>> 0) / 4294967296;
+  const hour = (d.enter / 3600) % 24, rush = (hour >= 6 && hour < 9) || (hour >= 15 && hour < 19);
+  const p = d.kind === 'G' ? 0.28 : rush ? 0.22 : 0.12;
+  if (r1 >= p) return null;
+  const min = d.kind === 'G' ? 3 + Math.floor(r2 * r2 * 13) : 1 + Math.floor(r2 * r2 * 7);
+  const list = LATE_REASONS[d.kind] || LATE_REASONS.S;
+  return { min, reason: list[Math.floor(r3 * list.length)] };
+}
 function makeTrain(d) {
   const tr = Object.assign({}, KINDS[d.kind], d, {
     state: 'pending', v: 0, s: 0, trail: [], cover: [], exiting: false, restrict: null, stopPending: false,
@@ -1696,6 +1742,9 @@ function makeTrain(d) {
     tr.haltStop = true; tr.haltDone = false;
     if (tr.dir > 0) tr.exit += HALT_EXTRA[1]; else tr.enter -= HALT_EXTRA[-1];
   }
+  const late = plannedLateness(tr);
+  if (late) { tr.late = late; tr.enter += late.min * 60; }   // a vonat ennyivel később érkezik a szomszéd felől
+  tr.lateTold = false; tr.scored = false;
   if (tr.kind === 'G') {
     tr.freightConsist = Math.floor(Number(tr.no) / 2) % FREIGHT_CONSISTS.length;
     tr.freightLoco = [0, 1, 0, 1, 2][Math.floor(Number(tr.no) / 2) % 5];   // V63, V43, V63, V43, Ludmilla
@@ -1749,6 +1798,12 @@ function receptionProblem(tr) {
   const held = !autoMode && heldPermission(line, tr);
   if (held) return `A(z) ${held.no} sz. vonatodnak indulási engedélyt kaptál ${L.name} felé, ezért a szomszéd addig nem indít felénk.`;
   if ((L.dir && L.dir !== tr.dir) || L.secs.some(id => SEC[id].occ || SEC[id].lock)) return 'Foglalt az állomásköz.';
+  // Három fővágány van: a bent álló és a már fogadott, még be nem ért vonatok mellett kell hely az új vonatnak is.
+  if (!tutor.on) {
+    const inside = new Set(trains.filter(t => t.state === 'run' && t.actualTrack != null && t.lineDepartAt == null).map(t => t.actualTrack)).size;
+    const incoming = trains.filter(t => t !== tr && t.receiveAt != null && t.actualTrack == null && t.state !== 'done' && t.lineDepartAt == null).length;
+    if (inside + incoming >= 3) return 'Az állomáson nincs szabad vágány a vonat fogadásához.';
+  }
   const partner = TRAIN[tr.crossing];
   if (tr.track === '2' && partner?.state === 'pending' && partner.receiveAt == null)
     return `A kereszthez előbb a(z) ${partner.no} sz. vonatot engedélyezd ${LINES[originLine(partner)].name} felől.`;
@@ -1912,7 +1967,7 @@ function trySpawn(tr) {
   tr.secs = new Set([first.sec]);
   first.occ = true;
   SEC[first.sec].occ = true;
-  msg(`${tr.cat} ${tr.no} elindult ${tr.dir > 0 ? 'Soroksárról' : 'Taksonyból'} Dunaharaszti felé.`, 'info');
+  msg(`${LINES[originLine(tr)].name} időközlés: ${tr.cat} ${tr.no} elindult Dunaharaszti felé.`, 'info', true);
   return true;
 }
 
@@ -4824,7 +4879,13 @@ function autoReceiveNotice(train) {
   phoneMessage(line, 'system', `Indulási időközlés (automatikus) · ${LINES[line].name}`);
   phoneMessage(line, 'neighbor', departureWords(train, LINES[line].name, train.enterAt));
   phoneMessage(line, 'player', 'Az indulási időközlést vettem.');
+  phoneMurmur(departureWords(train, LINES[line].name, train.enterAt), true);
   renderGuide();
+}
+// Rövid, halk telefonbeszéd (érthetetlen motyogás) az automatikus időközléseknél, csak normál tempónál.
+function phoneMurmur(words, neighbor) {
+  if (typeof SND === 'undefined' || !SND.ready || speed > 10 || speed <= 0 || !phonePanel.hidden || tutor.on) return;
+  try { SND.voice(words, false); } catch (err) { /* hang nélkül */ }
 }
 // A szomszéd automatikus válasza az engedélykérésre, és az automatikus indulási időközlés.
 function phoneAutoTick() {
@@ -4837,7 +4898,7 @@ function phoneAutoTick() {
   for (const train of trains) {
     if (train.lineDepartAt == null) continue;
     const line = destinationLine(train), connection = phoneLines[line];
-    if (connection.sent.has(`report-${train.no}`) || connection.call || now < train.lineDepartAt + 4) continue;
+    if (connection.sent.has(`report-${train.no}`) || (connection.call && connection.call.stage !== 'done') || now < train.lineDepartAt + 4) continue;
     connection.sent.add(`report-${train.no}`);
     const words = departureWords(train, 'Dunaharaszti', train.lineDepartAt);
     phoneMessage(line, 'system', `Indulási időközlés (automatikus) · ${LINES[line].name}`);
@@ -4845,7 +4906,8 @@ function phoneAutoTick() {
     phoneMessage(line, 'neighbor', words);
     phoneMessage(line, 'player', 'Az indulási időközlést vettem.');
     phoneMessage(line, 'system', 'Vonal bontva');
-    msg(`Indulási időközlés leadva ${LINES[line].name} felé: ${train.cat} ${train.no}, ${fmt(train.lineDepartAt, false)}.`, 'ok');
+    msg(`Indulási időközlés leadva ${LINES[line].name} felé: ${train.cat} ${train.no}, ${fmt(train.lineDepartAt, false)}.`, 'ok', true);
+    phoneMurmur(words);
   }
 }
 function canOfferPhoneTrain(line, train) {
@@ -5374,7 +5436,8 @@ function guideItems() {
         continue;
       }
       if (!r) {
-        const tracks = t.crossing ? [t.track] : [t.track, ...['2', '3', '1'].filter(k => k !== t.track)];
+        // A kereszt tervezett vágánya az elsődleges; ha (pl. késés miatt) az foglalt, másik szabad vágány is jó.
+        const tracks = [t.track, ...['2', '3', '1'].filter(k => k !== t.track)];
         const options = tracks.map(k => ROUTE[`${entry}-${k}`]).filter(Boolean);
         const def = options.find(d => !routeProblem(d));
         const planned = ROUTE[`${entry}-${t.track}`];
@@ -5607,7 +5670,6 @@ function renderDepartureControls(d) {
   const delayed = infoSel.dispatch === 'delay';
   const options = expanded ? `<div class="ic-options" id="dispatchOptions">
     <button type="button" data-act="dispatch-now"${d.problem ? ' disabled' : ''}>Menesztés</button>
-    <button type="button" data-act="dispatch-delay" aria-expanded="${delayed}"${d.permission === true ? '' : ' disabled'}>Írásbeli utasítás késleltetett menesztésre</button>
     ${d.problem ? `<p class="ic-why">${d.problem}</p>` : ''}</div>` : '';
   const form = delayed && d.permission === true ? `<form class="ic-options" id="dispatchForm">
     <label>Késleltetés (perc) <input type="number" min="1" step="1" required data-act="minutes" value="${esc(infoSel.minutes ?? '1')}"></label>
@@ -6124,7 +6186,7 @@ function setPage(p) {
   const pw = $('#pultWrap'), tt = $('#tt');
   if (p !== 'phone' && !phonePanel.hidden) { phonePanel.hidden = true; phoneTrigger.setAttribute('aria-expanded', 'false'); }
   if (p === 'phone' && phonePanel.hidden) { phonePanel.hidden = false; phoneTrigger.setAttribute('aria-expanded', 'true'); selectPhoneLine(defaultPhoneLine()); }
-  const tab = { guide: 'guide', tt: 'tt', tutor: 'tutor' }[p];
+  const tab = { guide: 'guide', tt: 'tt', tutor: 'tutor', score: 'score' }[p];
   pw.classList.toggle('closed', p !== 'pult');
   tt.classList.toggle('closed', !(tab || (p === 'pult' && tutor.on)));
   if (tab && deskTab !== tab) selectDeskTab(tab); else resize();
@@ -6217,7 +6279,9 @@ function showDeskTab(tab) {
   $('#ttBody').hidden = tab !== 'tt';
   $('#guideBody').hidden = tab !== 'guide';
   $('#tutorBody').hidden = tab !== 'tutor';
+  $('#scoreBody').hidden = tab !== 'score';
   if (tab === 'tutor') renderTutor(true);
+  if (tab === 'score') { scoreKey = ''; renderScore(); }
   guideKey = '';
 }
 function selectDeskTab(tab, toggle) {
@@ -6226,7 +6290,7 @@ function selectDeskTab(tab, toggle) {
   showDeskTab(tab);
   if (closed) setDeskOpen('tt', true); else resize();
   renderGuide();
-  if (isPaged() && ['guide', 'tt', 'tutor'].includes(page) && page !== tab) setPage(tab);
+  if (isPaged() && ['guide', 'tt', 'tutor', 'score'].includes(page) && page !== tab) setPage(tab);
 }
 for (const b of document.querySelectorAll('[data-tab]')) b.onclick = () => selectDeskTab(b.dataset.tab);
 
@@ -6400,6 +6464,93 @@ function stateKey() {
     Object.values(phoneLines).map(v => [v.messages.length, v.queue.length, v.call ? v.call.type + ':' + v.call.stage : null])]);
 }
 // Egy szimulációs lépés minden mellékfeladattal (automata, telefonsor, pillanatkép)
+// ---- Pontozás ----
+// menesztés +10, áthaladó vonat átengedése +8, pontos kihaladás +5, behozott késés +3/perc, okozott késés −1/perc,
+// szolgálati idő +1 / 5 perc, kényszeroldás −5, hívójelzés −2. Automata módban nincs pont.
+Object.assign(COUNT, { pts: 0, disp: 0, thru: 0, ontime: 0, caused: 0, recovered: 0, servMin: 0, pen: 0, last10: 0, at10: 0, ev: [] });
+let scoreSeen = { KO: 0, HB: 0, HK: 0 };
+function addScore(pts, text) {
+  COUNT.pts += pts; COUNT.last10 += pts;
+  COUNT.ev = [{ t: now, pts, text }, ...COUNT.ev].slice(0, 40);
+  if (Math.abs(pts) >= 3) msg(`${pts > 0 ? '+' : '−'}${Math.abs(pts)} pont · ${text}`, pts > 0 ? 'ok' : 'warn');
+}
+function scoreTick() {
+  if (tutor.on) return;
+  for (const k of ['KO', 'HB', 'HK']) {
+    if (COUNT[k] > scoreSeen[k] && !autoMode) { const n = COUNT[k] - scoreSeen[k], v = k === 'KO' ? 5 : 2; COUNT.pen += n * v; addScore(-n * v, k === 'KO' ? 'kényszeroldás' : 'hívójelzés'); }
+    scoreSeen[k] = COUNT[k];
+  }
+  for (const tr of trains) {
+    // késés előrejelzése a szomszédtól, mielőtt a vonat odaér
+    if (tr.late && !tr.lateTold && tr.state === 'pending' && now >= tr.enter - tr.late.min * 60 - OFFER_LEAD) {
+      tr.lateTold = true;
+      msg(`${LINES[originLine(tr)].name}: a ${tr.no} sz. vonat kb. ${tr.late.min} perc késéssel közlekedik (${tr.late.reason}).`, 'info');
+    }
+    // Keresztváltoztatás: ha a keresztvonat késik és még el sem indult a szomszédtól, a kereszt elmarad (nem vár rá a mi vonatunk).
+    const partner = tr.crossing && TRAIN[tr.crossing];
+    if (partner && partner.late && partner.state === 'pending' && partner.enterAt == null && partner.receiveAt == null &&
+        now > partner.enter - partner.late.min * 60 && tr.state === 'run' && tr.lineDepartAt == null) {
+      tr.crossing = null; partner.crossing = null;
+      msg(`Keresztváltoztatás: a(z) ${partner.no} sz. vonat késik, a(z) ${tr.no} sz. vonat nem várja meg.`, 'info');
+    }
+    if (tr.scored || tr.lineDepartAt == null) continue;
+    tr.scored = true;
+    if (autoMode) continue;
+    const entryDelay = Math.max(0, (tr.enterAt ?? tr.enter) - (tr.enter - (tr.late ? tr.late.min * 60 : 0)));
+    const exitDelay = Math.max(0, tr.lineDepartAt - tr.dep - 20);
+    const name = `${tr.cat} ${tr.no}`;
+    let pts = 0; const parts = [];
+    if (isThrough(tr)) { pts += 8; COUNT.thru++; parts.push('átengedve'); } else { pts += 10; COUNT.disp++; parts.push('menesztve'); }
+    if (exitDelay < 60) { pts += 5; COUNT.ontime++; parts.push('pontosan'); }
+    const recovered = Math.floor((entryDelay - exitDelay) / 60), caused = Math.ceil((exitDelay - entryDelay - 59) / 60);
+    if (recovered >= 1) { const b = Math.min(15, recovered * 3); pts += b; COUNT.recovered += recovered; parts.push(`${recovered} perc késést behoztál`); }
+    else if (caused >= 1) { const m = Math.min(10, caused); pts -= m; COUNT.caused += caused; parts.push(`${caused} perc késést okoztál`); }
+    addScore(pts, `${name} ${parts.join(', ')}`);
+  }
+  // szolgálati idő: 5 percenként +1 (csak ha az idő telik és nem automata)
+  const mins = Math.floor((now - T0) / 60);
+  if (mins > COUNT.servMin) {
+    const add = Math.floor(mins / 5) - Math.floor(COUNT.servMin / 5);
+    COUNT.servMin = mins;
+    if (add > 0 && !autoMode) { COUNT.pts += add; COUNT.last10 += add; }
+  }
+  if (now - COUNT.at10 >= 600) {
+    if (COUNT.at10 && COUNT.last10) msg(`Az elmúlt 10 percben ${COUNT.last10 > 0 ? '+' : '−'}${Math.abs(COUNT.last10)} pont · összesen ${COUNT.pts} pont.`, 'info');
+    COUNT.at10 = now - ((now - T0) % 600); COUNT.last10 = 0;
+  }
+}
+COUNT.at10 = 0;
+const RANKS = [[0, 'Forgalmi gyakornok'], [80, 'Forgalmi szolgálattevő'], [200, 'Tapasztalt forgalmista'], [400, 'Állomásfőnök-helyettes'], [700, 'Állomásfőnök']];
+function rankOf(p) { return RANKS.filter(r => p >= r[0]).pop()[1]; }
+function scoreHTML(final) {
+  const C = COUNT, h = Math.floor((now - T0) / 3600), m = Math.floor((now - T0) % 3600 / 60);
+  const row = (a, n, pts) => `<span>${a}</span><span>${n}</span><span class="${pts < 0 ? 'neg' : pts > 0 ? 'pos' : ''}">${pts > 0 ? '+' : ''}${pts}</span>`;
+  const ev = C.ev.slice(0, final ? 8 : 12).map(e => `<li><i>${fmt(e.t, false)}</i><b class="${e.pts < 0 ? 'neg' : 'pos'}">${e.pts > 0 ? '+' : ''}${e.pts}</b><span>${e.text}</span></li>`).join('');
+  return `<div class="sc-total"><b>${C.pts}</b><small>pont<br>${rankOf(C.pts)}</small></div>
+    <div class="sc-grid">${row('Menesztett vonat', C.disp, C.disp * 10)}${row('Átengedett vonat', C.thru, C.thru * 8)}${row('Pontosan kihaladt', C.ontime, C.ontime * 5)}
+    ${row('Behozott késés (perc)', C.recovered, '')}${row('Okozott késés (perc)', C.caused, '')}${row('Szolgálatban', `${h} ó ${m} p`, Math.floor(C.servMin / 5))}${row('Levonás (kényszeroldás, hívójelzés)', '', -C.pen)}</div>
+    ${ev ? `<ul class="sc-ev">${ev}</ul>` : '<p class="sc-note">Még nincs pontszerző esemény. Menessz vagy engedj át egy vonatot!</p>'}
+    ${autoMode ? '<p class="sc-note">Automata módban nem jár pont.</p>' : ''}`;
+}
+let scoreKey = '';
+function renderScore() {
+  $('#scoreBadge').textContent = COUNT.pts;
+  if ($('#scoreBody').hidden) return;
+  const key = COUNT.pts + '|' + COUNT.ev.length + '|' + Math.floor((now - T0) / 60) + '|' + autoMode;
+  if (key === scoreKey) return;
+  scoreKey = key;
+  $('#scoreBody').innerHTML = scoreHTML(false) + '<p><button type="button" id="btnEndShift" class="on">Szolgálat vége</button></p>';
+}
+function endShift() {
+  setSpeed(0);
+  $('#endBox').innerHTML = `<h2 id="endTitle">Szolgálat vége</h2><p class="sc-note">Dunaharaszti · ${fmt(T0, false)}–${fmt(now, false)} · ${playerFullName || 'szolgálattevő'}</p>
+    ${scoreHTML(true)}
+    <p class="box-foot"><button type="button" id="endContinue">Folytatom a szolgálatot</button> <button type="button" id="endNew" class="on">Új szolgálat</button></p>`;
+  winOpen($('#endModal'));
+  $('#endContinue').onclick = () => { winClose($('#endModal')); setSpeed(1); };
+  $('#endNew').onclick = () => location.reload();
+}
+document.addEventListener('click', e => { if (e.target.closest?.('#btnEndShift')) endShift(); });
 function simStep(d, fast) {
   if (!tutor.on && now > TEND - 30 * 60) extendShift();
   if (branchPending) recordSnap();
@@ -6409,6 +6560,7 @@ function simStep(d, fast) {
     if ((autoPhoneAcc += d) >= 4) { autoPhoneAcc = 0; autoPhone(); }
   }
   if (fast && (phoneSimAcc += d) >= 1) { phoneSimAcc = 0; phoneTick(); }
+  scoreTick();
   if (now >= nextSnapAt) recordSnap();
 }
 function seekTo(target) {
@@ -6764,9 +6916,16 @@ function syncMapControls() {
 }
 window.addEventListener('resize', resize);
 resize();
-$('#btnFit').onclick = () => { camHold(); fit('station'); };
-$('#btnLine').onclick = () => { camHold(); fit('line'); };
-$('#btnHouse').onclick = () => { camHold(); fit('building'); };
+function fitSmooth(mode) {
+  const from = { x: cam.x, y: cam.y, z: cam.z };
+  fit(mode);                                   // kiszámolja a célnézetet…
+  const to = { x: cam.x, y: cam.y, z: cam.z };
+  Object.assign(cam, from);                    // …de a kamera odaúszik
+  camGlide = to; camHold(); setViewButton(mode);
+}
+$('#btnFit').onclick = () => fitSmooth('station');
+$('#btnLine').onclick = () => fitSmooth('line');
+$('#btnHouse').onclick = () => fitSmooth('building');
 $('#zoomOut').onclick = () => zoomMap(0.75);
 $('#zoomIn').onclick = () => zoomMap(4 / 3);
 
@@ -6846,7 +7005,7 @@ function frame(t) {
     else infoSel.seen ??= t;
   }
   placeInfo();
-  if (ttTimer <= 0) { ttTimer = 0.4; renderTT(); if (!tutor.on) phoneTick(); renderGuide(); applyTheme(); renderInfo(); }
+  if (ttTimer <= 0) { ttTimer = 0.4; renderScore(); renderTT(); if (!tutor.on) phoneTick(); renderGuide(); applyTheme(); renderInfo(); }
   requestAnimationFrame(frame);
 }
 setSpeed(1);
