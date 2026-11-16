@@ -1632,7 +1632,7 @@ const trains = TIMETABLE.map(d => {
     state: 'pending', v: 0, s: 0, trail: [], cover: [], exiting: false, restrict: null, stopPending: false,
     dwell: null, receiveAt: null, enterAt: null, arrAt: null, depAt: null, lineDepartAt: null, exitAt: null, actualTrack: null, by: null,
     nextSig: null, nextSigDist: 1e9, waitMsg: null, spawnWaitMsg: false, srWarn: false,
-    departurePermission: null, awaitDispatch: false, dispatchAt: null, dispatchOrder: null,
+    departurePermission: null, permAfter: null, awaitDispatch: false, dispatchAt: null, dispatchOrder: null,
   });
   if (tr.kind === 'S') {   // a személyvonatok Dunaharaszti-alsón is megállnak: a menetrend ezzel az idővel hosszabb
     tr.haltStop = true; tr.haltDone = false;
@@ -1667,6 +1667,8 @@ function receptionProblem(tr) {
   if (tr.receiveAt != null) return 'Az engedélyt már megadtad.';
   const line = originLine(tr), L = LINES[line];
   if (nextReception(line) !== tr) return 'Erről az állomásról egy korábbi vonat várakozik.';
+  const held = !autoMode && heldPermission(line, tr);
+  if (held) return `A(z) ${held.no} sz. vonatodnak indulási engedélyt kaptál ${L.name} felé, ezért a szomszéd addig nem indít felénk.`;
   if ((L.dir && L.dir !== tr.dir) || L.secs.some(id => SEC[id].occ || SEC[id].lock)) return 'Foglalt az állomásköz.';
   const partner = TRAIN[tr.crossing];
   if (tr.track === '2' && partner?.state === 'pending' && partner.receiveAt == null)
@@ -1702,7 +1704,24 @@ function throughAwaiting(tr) {
 function canAskDeparture(tr) {
   if (tutor.on && !tutor.phone) return false;
   if (throughAwaiting(tr) && !(tr.state === 'run' && stationStop(tr) && tr.awaitDispatch)) return true;   // áthaladónál előre kérhető
-  return stationStop(tr) && (tr.dwell || tr.awaitDispatch) && tr.dispatchAt == null;
+  // Bármely, már hozzánk tartozó vonatra (úton van felénk, bejár vagy áll) kérhető, amíg nem menesztettük.
+  return tr.dispatchAt == null && tr.lineDepartAt == null && tr.depAt == null &&
+    (tr.state === 'run' || (tr.state === 'pending' && tr.receiveAt != null));
+}
+// Az a szembe jövő vonat, amelynek beérkezése után a szomszéd a mi vonatunkat fogadja (null = nincs ilyen).
+function opposingBefore(train, line) {
+  const coming = t => t !== train && t.state !== 'done' && originLine(t) === line && t.actualTrack == null;
+  const onLine = trains.find(t => coming(t) && (t.state === 'run' || (t.state === 'pending' && t.receiveAt != null)));
+  if (onLine) return onLine;
+  const partner = TRAIN[train.crossing];
+  if (partner && coming(partner)) return partner;
+  const next = nextReception(line);
+  return next && coming(next) && next.enter <= Math.max(now, train.dep) ? next : null;
+}
+// Kiadott indulási engedély erre az állomásközre: a szomszéd addig nem indít felénk más vonatot.
+function heldPermission(line, except) {
+  return trains.find(t => t.departurePermission === true && destinationLine(t) === line && t.lineDepartAt == null &&
+    t.state !== 'done' && (!except || t.permAfter !== except.no)) || null;
 }
 // Egyvágányú vonalon az áthaladó vonatnak is indulási engedély kell: addig a kijárati jelző nem válthat szabadra.
 function exitWaitsForPermission(r) {
@@ -1725,6 +1744,8 @@ function dispatchProblem(tr) {
   if (!dispatchReady(tr)) return 'A vonat még nem áll indulásra készen.';
   if (tr.departurePermission !== true && (!tutor.on || tutor.phone)) return 'Kérj indulási engedélyt a célállomástól.';
   if (tr.dispatchOrder != null && now < tr.dispatchOrder) return `Írásbeli rendelkezés alapján ${fmt(tr.dispatchOrder)}-ig vár.`;
+  const after = tr.permAfter && TRAIN[tr.permAfter];
+  if (after && after.actualTrack == null && after.state !== 'done') return `Az engedély a(z) ${after.no} sz. vonat beérkezése után érvényes.`;
   return dispatchSignalProblem(tr);
 }
 function issueDispatch(tr) {
@@ -4714,10 +4735,16 @@ function answerDepartureCall(line, call, grant) {
   if (!canAskDeparture(train)) {
     phoneMessage(line, 'system', 'Az engedélykérés már nem aktuális.');
   } else {
-    const free = canOfferPhoneTrain(line, train);
+    const opp = opposingBefore(train, line);
+    const sameDir = LINES[line].secs.some(id => SEC[id].occ) && !opp;   // előttünk haladó vonat még az állomásközben
+    const free = opp ? true : canOfferPhoneTrain(line, train) && !sameDir;
     train.departurePermission = grant && free;
-    const words = train.departurePermission ? permissionWords(train, LINES[line].name, operator)
-      : `A ${train.no} sz. vonatot ${grant && !free ? 'foglalt állomásköz miatt ' : ''}nem fogadom. ${operator}.`;
+    train.permAfter = train.departurePermission && opp ? opp.no : null;
+    const words = !train.departurePermission
+      ? `A ${train.no} sz. vonatot ${grant && !free ? 'foglalt állomásköz miatt ' : ''}nem fogadom. ${operator}.`
+      : opp ? `A ${opp.no} sz. vonat Dunaharaszti állomásra érkezése után a ${train.no} sz. vonat ${LINES[line].name} állomásra jöhet! ${operator}.`
+      : permissionWords(train, LINES[line].name, operator);
+    if (opp && train.departurePermission) msg(`${train.cat} ${train.no}: feltételes indulási engedély – a(z) ${opp.no} sz. vonat beérkezése után indulhat.`, 'info');
     phoneMessage(line, 'neighbor', words);
     if (train.departurePermission) autoClosePhone(line);
   }
@@ -4936,6 +4963,9 @@ function statusOf(tr) {
     }
     if (tr.departurePermission !== true && (!tutor.on || tutor.phone)) {
       return ['wait', departureCallPending(tr) ? 'A célállomás válaszára vár' : tr.departurePermission === false ? 'Indulási engedély megtagadva' : 'Indulási engedélyre vár'];
+    }
+    if (tr.permAfter && TRAIN[tr.permAfter]?.actualTrack == null && TRAIN[tr.permAfter]?.state !== 'done' && dispatchReady(tr)) {
+      return ['wait', `Engedély a(z) ${tr.permAfter} sz. vonat beérkezése után`];
     }
     const problem = dispatchSignalProblem(tr);
     return ['wait', problem || 'Menesztésre kész'];
@@ -5483,7 +5513,7 @@ function tutorOfferTrain() {
   const tr = trains.find(t => t.state === 'pending' && t.dir > 0 && t.kind === 'S') || trains.find(t => t.state === 'pending' && t.dir > 0);
   tutor.train = null;
   if (!tr) return;
-  Object.assign(tr, { crossing: null, receiveAt: null, enter: now + 60, arr: now, dep: now, exit: now + 1200, track: '2', departurePermission: null, dispatchAt: null });
+  Object.assign(tr, { crossing: null, receiveAt: null, enter: now + 60, arr: now, dep: now, exit: now + 1200, track: '2', departurePermission: null, permAfter: null, dispatchAt: null });
   tutor.train = tr.no;
   for (const l in phoneLines) { phoneLines[l].queue.length = 0; phoneLines[l].call = null; }
   phoneNotified.delete(`offer-${tr.no}`); phoneNotified.delete(`receive-${tr.no}`);
