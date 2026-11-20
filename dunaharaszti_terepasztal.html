@@ -203,6 +203,10 @@ tr.row.done{opacity:.5}
 .box h3{margin:16px 0 5px;color:var(--title-ink);font:700 15px var(--serif)}
 .box ul,.box ol{margin:3px 0;padding-left:20px}.box li{margin:5px 0}
 .box-foot{text-align:right;margin:18px 0 0}
+.perm-box{width:min(100%,460px);min-height:0;height:auto;resize:none;border-top:6px solid #c8402e}
+.perm-box h2{display:flex;align-items:center;gap:10px}
+.perm-box h2::before{content:"!";display:inline-grid;place-items:center;width:28px;height:28px;flex:none;border-radius:50%;background:#c8402e;color:#fff;font:700 18px/1 var(--mono)}
+.perm-box p{margin:6px 0;font-size:14px;line-height:1.45}
 .signal-examples{display:grid;grid-template-columns:repeat(auto-fit,minmax(118px,1fr));gap:8px;margin:8px 0}
 .signal-example{display:flex;align-items:center;gap:6px;padding:6px;min-height:80px;border:1px solid var(--card-line);border-radius:2px;background:var(--card)}
 .signal-example canvas{width:36px;height:auto;flex:none}
@@ -643,6 +647,60 @@ body.paged #sigWrap{top:46px;left:6px}
 #playerNameNote{font-size:11.5px;opacity:.75}
 .period-pick select{font:600 13px var(--sans,system-ui);padding:5px 8px;border:1px solid #000;border-radius:3px;background:var(--card,#f4ead5);color:inherit;max-width:100%}
 #periodNote{font-size:11.5px;color:var(--ink-soft,#666)}
+button{transition:background-color .16s ease,color .16s ease,border-color .16s ease,box-shadow .12s ease,transform .08s ease}
+html.theme-fade body,html.theme-fade body *:not(canvas){transition:background-color .6s ease,color .6s ease,border-color .6s ease,box-shadow .6s ease!important}
+#log div{animation:log-in .38s cubic-bezier(.2,.85,.25,1) both}
+#log div{position:relative;padding-right:30px;pointer-events:auto}
+#log .log-x{position:absolute;top:4px;right:4px;width:20px;height:20px;min-width:0;padding:0;display:grid;place-items:center;border:1px solid currentColor;border-radius:2px;background:transparent;color:inherit;opacity:.55;cursor:pointer;font:700 14px/1 var(--mono);box-shadow:none}
+#log .log-x::before{content:"×"}
+#log .log-x:hover,#log .log-x:focus-visible{opacity:1}
+#log div.log-out{animation:log-out .26s ease-in forwards}
+@keyframes log-out{to{opacity:0;transform:translateX(14px)}}
+@keyframes log-in{from{opacity:0;transform:translateY(-6px);clip-path:inset(0 100% 0 0)}60%{opacity:1}to{opacity:1;transform:none;clip-path:inset(0 0 0 0)}}
+.sheet-in{animation:sheet-in .3s cubic-bezier(.2,.85,.25,1)}
+@keyframes sheet-in{from{opacity:0;transform:translateY(8px) perspective(900px) rotateX(5deg);transform-origin:50% 0}to{opacity:1;transform:none}}
+.bump{animation:bump .45s cubic-bezier(.3,1.6,.5,1)}
+@keyframes bump{0%{transform:scale(1)}35%{transform:scale(1.4);filter:brightness(1.35)}100%{transform:scale(1)}}
+#clock.tick{animation:clock-tick .32s ease-out}
+@keyframes clock-tick{0%{transform:perspective(300px) rotateX(-55deg);opacity:.55}100%{transform:none;opacity:1}}
+#infoCard.timed::after{content:'';position:sticky;bottom:0;display:block;height:3px;margin:6px 4px 0;background:repeating-linear-gradient(90deg,var(--accent) 0 6px,color-mix(in srgb,var(--accent) 70%,#000) 6px 8px);transform-origin:left center;transform:scaleX(var(--life,1));opacity:calc(.35 + var(--life,1) * .65)}
+#ttBody tbody tr{transition:background-color .35s ease}
+.cal-btn{font:700 12px var(--mono);letter-spacing:.03em;padding:6px 10px;text-align:left;max-width:100%}
+.cal{margin:8px 0 0;padding:12px 14px 12px;background:var(--fibre),var(--card);border:1px solid var(--rule);box-shadow:inset 0 0 0 3px var(--card),inset 0 0 0 4px color-mix(in srgb,var(--rule) 45%,transparent),3px 4px 0 #0003;color:var(--ink);transform-origin:50% 0;overflow:hidden}
+.cal.cal-opening{animation:cal-open .3s cubic-bezier(.2,.85,.25,1)}
+.cal.cal-closing{animation:cal-close .18s ease-in forwards}
+@keyframes cal-open{from{opacity:0;transform:perspective(900px) rotateX(-18deg) scaleY(.85)}to{opacity:1;transform:none}}
+@keyframes cal-close{to{opacity:0;transform:perspective(900px) rotateX(-12deg) scaleY(.9)}}
+.cal-head{display:flex;align-items:center;justify-content:space-between;gap:8px;padding-bottom:8px;border-bottom:3px double var(--rule)}
+.cal-title{display:flex;align-items:baseline;gap:10px}
+.cal-title b{font:700 20px/1 var(--serif);color:var(--title-ink);text-transform:capitalize;min-width:7.5em;text-align:right}
+.cal-title select{font:700 13px var(--mono);padding:3px 6px;border:1px solid var(--rule);border-radius:2px;background:var(--paper);color:var(--ink)}
+.cal-nav{width:32px;min-height:30px;padding:0;font:700 18px/1 var(--serif)}
+.cal-week,.cal-grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:3px}
+.cal-week{margin:8px 0 4px}
+.cal-week span{font:700 10px var(--mono);letter-spacing:.08em;text-transform:uppercase;text-align:center;color:var(--ink-soft)}
+.cal-week span:nth-child(n+6){color:#a3302a}
+.cal-grid.turn-next{animation:turn-next .3s cubic-bezier(.2,.85,.25,1)}
+.cal-grid.turn-prev{animation:turn-prev .3s cubic-bezier(.2,.85,.25,1)}
+@keyframes turn-next{from{opacity:0;transform:translateX(24px) perspective(700px) rotateY(-12deg)}to{opacity:1;transform:none}}
+@keyframes turn-prev{from{opacity:0;transform:translateX(-24px) perspective(700px) rotateY(12deg)}to{opacity:1;transform:none}}
+.cal-day{position:relative;min-height:34px;padding:0;border:1px solid color-mix(in srgb,var(--rule) 55%,transparent);border-radius:2px;background:var(--paper);background-image:none;color:var(--ink-strong);font:700 14px/1 var(--serif);box-shadow:none;transition:background-color .15s,transform .12s,box-shadow .15s}
+.cal-day::before{content:'';position:absolute;left:3px;right:3px;bottom:3px;height:3px;border-radius:1px;background:var(--k,transparent)}
+.cal-day.rest{color:#a3302a}
+.cal-day:hover:not(:disabled){background:var(--mark);transform:translateY(-1px);box-shadow:0 2px 0 color-mix(in srgb,var(--rule) 60%,transparent)}
+.cal-day:disabled{opacity:.32;cursor:not-allowed;background:transparent}
+.cal-day.today{box-shadow:inset 0 0 0 2px var(--accent)}
+.cal-day.picked{background:var(--mark)}
+.cal-day.picked::after{content:'';position:absolute;inset:3px;border:2px solid #b0302a;border-radius:50%;transform:rotate(-8deg);animation:stamp .28s cubic-bezier(.3,1.6,.5,1)}
+@keyframes stamp{from{transform:rotate(-20deg) scale(1.6);opacity:0}to{transform:rotate(-8deg) scale(1);opacity:1}}
+.k-work{--k:#2b6b34}.k-rest{--k:#c4772a}.k-works{--k:#b02a22}.k-hist{--k:#1f5f7f}.k-base{--k:#6b3d0e}
+.cal-legend{display:flex;flex-wrap:wrap;gap:4px 14px;list-style:none;margin:10px 0 0!important;padding:0!important;font:600 11px var(--mono);color:var(--ink-soft)}
+.cal-legend li{margin:0!important;display:flex;align-items:center;gap:5px}
+.cal-legend i{display:inline-block;width:14px;height:4px;border-radius:1px;background:var(--k)}
+.cal-info{margin:8px 0 0;min-height:2.8em;font-size:12px;color:var(--ink-body)}
+.cal-foot{display:flex;justify-content:flex-end;flex-wrap:wrap;gap:8px;margin-top:8px}
+@media(max-width:520px){.cal{padding:10px 8px}.cal-day{min-height:30px;font-size:13px}.cal-title b{min-width:0;font-size:17px}}
+@media(prefers-reduced-motion:reduce){button,.cal-day{transition:none}#log div,.sheet-in,.bump,#clock.tick,.cal.cal-opening,.cal.cal-closing,.cal-grid.turn-next,.cal-grid.turn-prev,.cal-day.picked::after{animation:none}}
 </style>
 </head>
 <body data-page="">
@@ -782,7 +840,7 @@ body.paged #sigWrap{top:46px;left:6px}
           <dt>Váltójelző</dt><dd><span class="swrow"><svg class="swsign" viewBox="0 0 20 28" aria-hidden="true"><rect x="2" y="1" width="16" height="8" fill="#f4f0e2" stroke="#111"></rect><text x="10" y="7.4" font-size="6.5" font-weight="700" text-anchor="middle" fill="#111">2</text><rect x="2" y="9" width="16" height="16" fill="#121212"></rect><rect x="8" y="12" width="4" height="10" fill="#fff"></rect></svg> egyenes irány &nbsp; <svg class="swsign" viewBox="0 0 20 28" aria-hidden="true"><rect x="2" y="1" width="16" height="8" fill="#f4f0e2" stroke="#111"></rect><text x="10" y="7.4" font-size="6.5" font-weight="700" text-anchor="middle" fill="#111">2</text><rect x="2" y="9" width="16" height="16" fill="#121212"></rect><path d="M6 11.5 L15 17 L6 22.5 L6 19.6 L10.5 17 L6 14.4Z" fill="#fff"></path></svg> kitérő, a csúcs felől nézve (a nyíl a kitérés felé mutat) &nbsp; <svg class="swsign" viewBox="0 0 20 28" aria-hidden="true"><rect x="2" y="1" width="16" height="8" fill="#f4f0e2" stroke="#111"></rect><text x="10" y="7.4" font-size="6.5" font-weight="700" text-anchor="middle" fill="#111">2</text><rect x="2" y="9" width="16" height="16" fill="#121212"></rect><rect x="5" y="15" width="10" height="4" fill="#fff"></rect></svg> kitérő, a gyök felől nézve</span>A váltó mindig a simuló csúcssín felé terel. A terepasztalon minden váltó mellett ott a váltójelzője, fölötte a váltó száma; a zöld keret azt jelzi, hogy a váltó vágányúttal le van zárva. (Gyermekvasutas tankönyv, F1-34–35)</dd>
           <dt>Csúcs, gyök</dt><dd>A váltó csúcssínek felőli vége a csúcs (itt ágazik el a két irány), a másik vége a gyök. Csúccsal szemben haladva a váltó állása dönti el, merre megy a vonat; gyök felől haladva a vonat csak a beállított ágról jöhet rá.</dd>
           <dt>Foglaltság</dt><dd>A szigetelt szakaszon vonat van (piros). Foglalt szakaszon a váltó nem állítható, és oda (hívójelzés nélkül) vágányút sem állítható.</dd>
-          <dt>Oldás</dt><dd>A vonat mögött a vágányút szakaszai maguktól felszabadulnak. Ha nem indult el vonat: Törlés; ha közeledik vonat: Kényszeroldás (időzített).</dd>
+          <dt>Oldás</dt><dd>A vonat mögött a vágányút szakaszai maguktól felszabadulnak. Jelzőállítás előtt: Törlés. Jelzőállítás után a menet csak kényszeroldással törölhető (időzített).</dd>
           <dt>Bejárati / kijárati jelző</dt><dd>A és B a bejárati jelzők (az állomásba engednek). K1–K3 Soroksár felé, V1–V3 Taksony felé engedi ki a vonatot.</dd>
           <dt>Előjelző</dt><dd>A bejárati jelző előtt áll, előre jelzi annak állását, hogy a vonat időben fékezhessen.</dd>
           <dt>Térköz, térközjelző</dt><dd>A nyílt vonal szakaszai. A térközjelző (141/142, 161/162) önműködően véd az előtte haladó vonattól.</dd>
@@ -837,6 +895,7 @@ body.paged #sigWrap{top:46px;left:6px}
 </aside>
 
 <div id="tip" role="tooltip"></div>
+<div class="modal" id="permModal" role="alertdialog" aria-modal="true" aria-labelledby="permTitle"><div class="box perm-box" id="permBox"></div></div>
 <div class="modal" id="endModal" role="dialog" aria-modal="true" aria-labelledby="endTitle"><div class="box end-box" id="endBox"></div></div>
 <div class="modal open" id="helpModal" role="dialog" aria-modal="true" aria-labelledby="helpTitle">
   <div class="box">
@@ -873,7 +932,25 @@ body.paged #sigWrap{top:46px;left:6px}
       <p class="help-kbd"><kbd>Szóköz</kbd> állj · <kbd>1</kbd> <kbd>2</kbd> <kbd>5</kbd> <kbd>0</kbd> sebesség · <kbd>H</kbd> segítő · <kbd>O</kbd> oktató · <kbd>M</kbd> menetrend · <kbd>P</kbd> pult · <kbd>A</kbd> automata · <kbd>K</kbd> követés · <kbd>D</kbd> napszak · <kbd>Esc</kbd> kijelölés törlése. Húzás: mozgatás, görgő: nagyítás. Jelzőre kattintva, majd a célvágányra: gyors vágányút; jobb kattintás a jelzőn: törlés.</p>
     </details>
     <p class="period-pick"><label for="playerName">Neved</label> <input id="playerName" type="text" maxlength="40" autocomplete="name" placeholder="pl. Kovács János" aria-describedby="playerNameNote"> <span id="playerNameNote">Telefonon a vezetékneveddel nyugtázol.</span></p>
-    <p class="period-pick"><label for="periodSel">Menetrend</label> <select id="periodSel"></select> <span id="periodNote"></span></p>
+    <div class="period-pick"><label for="periodSel">Menetrend</label> <select id="periodSel"></select> <button type="button" id="calBtn" class="cal-btn" aria-expanded="false" aria-controls="calendar"></button> <span id="periodNote"></span></div>
+    <div id="calendar" class="cal" role="group" aria-label="Menetrendi naptár" hidden>
+      <div class="cal-head">
+        <button type="button" class="cal-nav" data-step="-1" aria-label="Előző hónap">‹</button>
+        <div class="cal-title"><b id="calMonth"></b><select id="calYear" aria-label="Év"></select></div>
+        <button type="button" class="cal-nav" data-step="1" aria-label="Következő hónap">›</button>
+      </div>
+      <div class="cal-week" aria-hidden="true"><span>H</span><span>K</span><span>Sze</span><span>Cs</span><span>P</span><span>Szo</span><span>V</span></div>
+      <div id="calGrid" class="cal-grid"></div>
+      <ul class="cal-legend">
+        <li><i class="k-work"></i>Munkanap</li><li><i class="k-rest"></i>Hétvége, ünnep</li><li><i class="k-works"></i>Pályafelújítás</li><li><i class="k-hist"></i>MÁV-menetrend</li><li><i class="k-base"></i>Alapmenetrend</li>
+      </ul>
+      <p id="calInfo" class="cal-info">Válassz egy napot: a játék az aznap érvényes menetrenddel indul.</p>
+      <div class="cal-foot">
+        <button type="button" id="calDefault">Alapmenetrend</button>
+        <button type="button" id="calToday">Ma</button>
+        <button type="button" id="calLoad" class="on" disabled>Betöltés</button>
+      </div>
+    </div>
     <p class="box-foot"><button id="btnStartTutor">Oktató indítása</button> <button id="btnStart" class="on">Kezdés</button></p>
   </div>
 </div>
@@ -1082,8 +1159,21 @@ function msg(text, kind = 'info', phone = false) {
     const ic = document.createElement('span'); ic.className = 'log-tel'; ic.innerHTML = '☎︎<i><s></s><s></s><s></s></i>';
     d.append(ic, document.createTextNode(fmt(now) + '  ' + text));
   } else d.textContent = fmt(now) + '  ' + text;
+  const x = document.createElement('button');
+  x.type = 'button'; x.className = 'log-x'; x.setAttribute('aria-label', 'Értesítés bezárása');
+  x.onclick = () => dismissLog(d);
+  d.append(x);
   logEl.prepend(d);
+  d._logTimer = setTimeout(() => dismissLog(d), LOG_LIFE_MS);
   while (logEl.children.length > 4) logEl.lastChild.remove();
+}
+const LOG_LIFE_MS = 5000;
+function dismissLog(d) {
+  clearTimeout(d._logTimer);
+  if (!d.isConnected || d.classList.contains('log-out')) return;
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) { d.remove(); return; }
+  d.classList.add('log-out');
+  setTimeout(() => d.remove(), 260);
 }
 function switchesReady(r) { return Object.entries(r.def.sw).every(([id, p]) => !SW[id].moving && !SW[id].keyOut && SW[id].pos === p); }
 function computeAspects() {
@@ -1122,8 +1212,21 @@ function throwSwitch(w, pos) {
   if (w.pos === pos && !w.moving) return;
   w.target = pos; w.moving = true; w.until = now + 3;
 }
+const routeTrack = d => SIGS[d.start].kind === 'entry' ? d.end.slice(1) : d.start.slice(1);
+const routeDir = d => SIGS[d.start].dir;
+function overrunConflict(def) {
+  const entry = SIGS[def.start].kind === 'entry', dir = routeDir(def), track = routeTrack(def);
+  for (const r of active) {
+    const o = r.def, oEntry = SIGS[o.start].kind === 'entry';
+    if (entry && oEntry && routeDir(o) !== dir) return `${def.name}: szemből már be van állítva a(z) ${o.name} bejárat. Két irányból egyszerre nem lehet bejáratot állítani (ha az egyik vonat nem tudna megállni, a másik útjába futna).`;
+    if (entry !== oEntry && routeDir(o) === dir && routeTrack(o) !== track) return `${def.name}: a(z) ${o.name} vágányúttal egyidejűleg nem állítható. Bejárat és egy másik vágányról induló, azonos irányú kijárat nem lehet egyszerre beállítva (áthaladás ugyanarra a vágányra lehetséges).`;
+  }
+  return null;
+}
 function routeProblem(def) {
   if (activeFrom[def.start]) return `A(z) ${def.start} jelzőről már van lezárt vágányút (${activeFrom[def.start].def.name}).`;
+  const overrun = overrunConflict(def);
+  if (overrun) return overrun;
   if (def.line) {
     const partner = departingCrossing(def);
     if (partner) return `${def.name}: a kijárattal várd meg a(z) ${partner.no} sz. vonat bejárását.`;
@@ -1171,7 +1274,7 @@ function jelzoAllit(id) {
   if (!r) { msg(`Jelzőállítás: a(z) ${id} jelzőről nincs lezárt vágányút.`, 'err'); return; }
   if (r.train) { msg(`Jelzőállítás: a vágányút már felhasználva.`, 'err'); return; }
   if (r.forceAt) { msg(`Jelzőállítás: kényszeroldás folyamatban.`, 'err'); return; }
-  r.sigReq = true;
+  r.sigReq = true; r.second = true;
   const waiting = exitWaitsForPermission(r);
   msg(`Jelzőállítás: ${id}.` + (r.def.sr && SR.state !== 'closed' ? ' SR2 sorompó zár, a jelző késleltetve vált szabadra.' : '') +
     (waiting ? ` A jelző a(z) ${waiting.no} sz. áthaladó vonat indulási engedélye után vált szabadra.` : ''), 'ok');
@@ -1181,7 +1284,7 @@ function jelzoM(id) {
   const r = activeFrom[id];
   if (SIGS[id].hivoUntil > now) { SIGS[id].hivoUntil = 0; msg(`${id}: hívójelzés megszüntetve.`, 'warn'); return; }
   if (!r || !r.sigReq) { msg(`Jelző M!: a(z) ${id} jelző nem mutat szabad jelzést.`, 'info'); return; }
-  r.sigReq = false; msg(`Jelző M!: ${id} Megállj! állásba kapcsolva, a vágányút lezárva marad.`, 'warn');
+  r.sigReq = false; msg(`Jelző M!: ${id} Megállj! állásba kapcsolva, a vágányút lezárva marad. Feloldani kényszeroldással lehet.`, 'warn');
 }
 function cancelRoute(r, silent) {
   for (const s of r.def.secs) if (SEC[s].lock === r.id) SEC[s].lock = null;
@@ -1190,14 +1293,12 @@ function cancelRoute(r, silent) {
   if (!silent) msg(`Vágányút törölve: ${r.def.name}.`, 'warn');
   computeAspects();
 }
-function approachingTrain(sigId) { return trains.find(t => t.state === 'run' && t.nextSig === sigId && t.nextSigDist < 1000); }
 function torles(id) {
   showHands('pCommon:TO', 'pSig:' + id);
   const r = activeFrom[id];
   if (!r) { msg(`Törlés: a(z) ${id} jelzőről nincs lezárt vágányút.`, 'info'); return; }
   if (r.train) { msg(`Törlés: a vonat már a vágányúton van, az menet közben, szakaszosan oldódik.`, 'err'); return; }
-  const t = r.sigReq && approachingTrain(id);
-  if (t) { msg(`Törlés hatástalan: ${t.no} közeledik a szabad jelzőhöz. Kényszeroldás szükséges.`, 'err'); return; }
+  if (r.second) { msg(`Törlés hatástalan: a(z) ${id} jelzőt már szabadra állítottad. Jelzőállítás után a menet csak kényszeroldással törölhető${r.sigReq ? ' (előtte Jelző Megállj!)' : ''}.`, 'err'); return; }
   cancelRoute(r);
 }
 function kenyszerOldas(id) {
@@ -1205,9 +1306,14 @@ function kenyszerOldas(id) {
   const r = activeFrom[id];
   if (!r) { msg(`Kényszeroldás: a(z) ${id} jelzőről nincs lezárt vágányút.`, 'info'); return; }
   if (r.forceAt) return;
-  r.sigReq = false; r.forceAt = now + 30; COUNT.KO++;
-  msg(`Kényszeroldás: ${r.def.name} – a jelző Megállj!, oldás 30 mp múlva (számláló: ${COUNT.KO}).`, 'warn');
+  const near = !r.train && r.second && trains.find(t => t.state === 'run' && t.nextSig === id && t.nextSigDist < KO_NEAR);
+  r.sigReq = false; r.forceAt = now + (near ? KO_DELAY : 0.01); COUNT.KO++;
+  if (near) msg(`Vágányút-visszavonás: ${r.def.name} – a jelző Megállj!, a(z) ${near.no} sz. vonat már közeledik, ezért az oldás 3 perc késleltetéssel történik (KO lámpa világít, számláló: ${COUNT.KO}).`, 'warn');
+  else msg(`${r.train ? 'Kényszeroldás' : 'Vágányút-visszavonás'}: ${r.def.name}${r.def.secs.some(x => SEC[x].occ) ? ' – az oldás a szakaszok felszabadulásakor történik meg' : ''} (számláló: ${COUNT.KO}).`, 'warn');
+  if (!near && !r.def.secs.some(x => SEC[x].occ)) cancelRoute(r, true);
+  computeAspects();
 }
+const KO_DELAY = 180, KO_NEAR = 1200;
 function hivo(id, which) {
   if (!START_SIGS.has(id)) return;
   const kind = SIGS[id].kind;
@@ -1376,17 +1482,55 @@ const FORMATION_BY_TRAIN = {
   '343': 'G', '7923': 'G',
 };
 const BUILTIN_DAY_TRAINS = [["3719",-1,14280,1],["7919",-1,17760,1],["7930",1,18780,1],["3729",-1,18780,1],["3739",-1,20700,1],["349",1,22895,0],["3749",-1,22920,1],["3712",1,24900,1],["3717",-1,25680,1],["3722",1,28080,1],["7929",-1,28080,1],["3727",-1,29100,1],["7922",1,30095,0],["3732",1,31680,1],["3737",-1,32700,1],["7927",-1,34478,0],["3742",1,35280,1],["3747",-1,36300,1],["3714",1,38880,1],["3715",-1,39900,1],["348",-1,41678,0],["3724",1,42480,1],["3725",-1,43500,1],["343",1,44495,0],["3734",1,46080,1],["3735",-1,47100,1],["3744",1,49680,1],["3745",-1,50700,1],["7916",1,51695,0],["3716",1,53280,1],["3713",-1,54300,1],["7925",-1,56078,0],["3726",1,56880,1],["3723",-1,57900,1],["7926",1,58895,0],["3736",1,60480,1],["3733",-1,61500,1],["342",-1,63278,0],["3746",1,64080,1],["3743",-1,65100,1],["7918",1,66095,0],["3718",1,67680,1],["3711",-1,68700,1],["7923",-1,70478,0],["7928",1,71280,1],["3721",-1,72300,1],["3728",1,74880,1],["3731",-1,75900,1],["3738",1,78480,1],["7911",-1,79320,1],["3748",1,82080,1],["3758",1,85680,1]];
-const MENETREND_PERIODS = {"2013-2014":{"label":"2013–2014 · javított 12.07","from":"2013-12-15","to":"2014-12-13","source":"https://www.mavcsoport.hu/sites/default/files/res/2013-2014__evi_menetrend_jav1207_1.pdf","trains":[["3719",-1,14340,1],["7919",-1,17820,0],["17910",1,18720,0],["7910",1,18720,0],["3729",-1,19740,1],["3739",-1,21720,1],["3749",-1,23340,1],["3712",1,25140,1],["3717",-1,25140,1],["3722",1,28740,1],["3732",1,32340,1],["3727",-1,32340,1],["3737",-1,35940,1],["3742",1,39540,1],["3747",-1,39540,1],["3714",1,43140,1],["3715",-1,43140,1],["3724",1,46740,1],["3725",-1,46740,1],["3734",1,50340,1],["3735",-1,50340,1],["3744",1,53940,1],["3713",-1,53940,1],["3716",1,57540,1],["3723",-1,57540,1],["3726",1,61140,1],["3733",-1,61140,1],["3736",1,64740,1],["3743",-1,64740,1],["3728",1,68340,1],["3711",-1,68340,1],["3721",-1,71940,1],["3731",-1,75540,1],["3748",1,82740,1],["3758",1,86340,1]]},"2015-2016":{"label":"2015–2016 · 1. módosítás","from":"2016-04-04","to":"2016-12-10","source":"https://www.mavcsoport.hu/sites/default/files/upload/page/2015-2016._evi_1._sz._modositassal_aktualizalt_menetrend_viszonylatjellel.pdf","trains":[["3719",-1,14340,1],["7919",-1,17820,0],["3790",1,18660,1],["7930",1,18660,0],["3729",-1,19740,1],["3739",-1,21720,1],["3749",-1,23340,1],["3712",1,25140,1],["3717",-1,25140,1],["3722",1,28740,1],["3727",-1,28740,1],["3732",1,32340,1],["3737",-1,32340,1],["3742",1,35940,1],["3747",-1,35940,1],["3714",1,39540,1],["3715",-1,39540,1],["3724",1,43140,1],["3725",-1,43140,1],["3734",1,46740,1],["3735",-1,46740,1],["3744",1,50340,1],["3745",-1,50340,1],["3716",1,53940,1],["3713",-1,53940,1],["3726",1,57540,1],["3723",-1,57540,1],["3736",1,61140,1],["3733",-1,61140,1],["3746",1,64740,1],["3743",-1,64740,1],["3718",1,68340,1],["3711",-1,68340,1],["3721",-1,71940,1],["3728",1,75540,1],["3731",-1,75540,1],["3738",1,79140,1],["3748",1,82740,1],["3758",1,86340,1]]},"2016-2017":{"label":"2016–2017 · nyomdai állapot","from":"2016-12-11","to":"2017-12-09","source":"https://www.mavcsoport.hu/sites/default/files/upload/page/2016-2017._evi_nyomas_kozbeni_modositasokkal_kiegeszitett_menetrend_11.24.pdf","trains":[["3719",-1,14340,1],["7919",-1,17820,0],["3790",1,18660,1],["7930",1,18660,0],["3729",-1,19740,1],["3739",-1,21720,1],["3749",-1,23340,1],["3712",1,25140,1],["3717",-1,25140,1],["3722",1,28740,1],["3727",-1,28740,1],["3732",1,32340,1],["3737",-1,32340,1],["3742",1,35940,1],["3747",-1,35940,1],["3714",1,39540,1],["3715",-1,39540,1],["3724",1,43140,1],["3725",-1,43140,1],["3734",1,46740,1],["3735",-1,46740,1],["3744",1,50340,1],["3745",-1,50340,1],["3716",1,53940,1],["3713",-1,53940,1],["3726",1,57540,1],["3723",-1,57540,1],["3736",1,61140,1],["3733",-1,61140,1],["3746",1,64740,1],["3743",-1,64740,1],["3718",1,68340,1],["3711",-1,68340,1],["3721",-1,71940,1],["3728",1,75540,1],["3731",-1,75540,1],["3738",1,79140,1],["3748",1,82740,1],["3758",1,86340,1]]},"2017-2018":{"label":"2017–2018 · alap","from":"2017-12-10","to":"2018-12-08","source":"https://www.mavcsoport.hu/sites/default/files/upload/page/150_sz._mezss_343-346._oldal.pdf","trains":[["3719",-1,14220,1],["7919",-1,17880,0],["3790",1,18840,1],["7930",1,18840,0],["3729",-1,18840,1],["3739",-1,20880,1],["3749",-1,22920,1],["3712",1,24840,1],["3717",-1,25680,1],["3722",1,28080,1],["3727",-1,29100,1],["3732",1,31680,1],["3737",-1,32700,1],["3742",1,35280,1],["3747",-1,36300,1],["3714",1,38880,1],["3715",-1,39900,1],["3724",1,42480,1],["3725",-1,43500,1],["3734",1,46080,1],["3735",-1,47100,1],["3744",1,49680,1],["3745",-1,50700,1],["3716",1,53280,1],["3713",-1,54300,1],["3726",1,56880,1],["3723",-1,57900,1],["3736",1,60480,1],["3733",-1,61500,1],["3746",1,64080,1],["3743",-1,65100,1],["3718",1,67680,1],["3711",-1,68700,1],["3721",-1,72300,1],["3728",1,74880,1],["3731",-1,75900,1],["3738",1,78480,1],["7911",-1,79440,0],["3748",1,82080,1],["3758",1,85680,1]]},"2018-2019":{"label":"2018–2019 · VI.15 változat","from":"2019-06-15","to":"2019-12-14","source":"https://www.mavcsoport.hu/sites/default/files/upload/page/150_20190615.pdf","trains":[["3719",-1,14220,1],["7919",-1,17700,0],["3790",1,18840,1],["7930",1,18840,0],["3729",-1,18840,1],["3739",-1,20880,1],["3749",-1,22920,1],["3712",1,24840,1],["3717",-1,25680,1],["3722",1,28080,1],["3727",-1,29100,1],["3732",1,31680,1],["3737",-1,32700,1],["3742",1,35280,1],["3747",-1,36300,1],["3714",1,38880,1],["3715",-1,39900,1],["3724",1,42480,1],["3725",-1,43500,1],["3734",1,46080,1],["3735",-1,47100,1],["3744",1,49680,1],["3745",-1,50700,1],["3716",1,53280,1],["3713",-1,54300,1],["3726",1,56880,1],["3723",-1,57900,1],["3736",1,60480,1],["3733",-1,61500,1],["3746",1,64080,1],["3743",-1,65100,1],["3718",1,67680,1],["3711",-1,68700,1],["3721",-1,72300,1],["3728",1,74880,1],["3731",-1,75900,1],["3738",1,78480,1],["7911",-1,79320,0],["3748",1,82080,1],["3758",1,85680,1]]},"2019-2020":{"label":"2019–2020 · VIII.03 változat","from":"2020-08-03","to":"2020-12-12","source":"https://www.mavcsoport.hu/sites/default/files/upload/page/150_vonali-menetrend-v0803.pdf","trains":[["3719",-1,14220,1],["7919",-1,17760,0],["3790",1,18780,1],["7930",1,18780,0],["3729",-1,18780,1],["3739",-1,20700,1],["3749",-1,22920,1],["3712",1,24840,1],["3717",-1,25680,1],["3722",1,28080,1],["7929",-1,28140,0],["3727",-1,29100,1],["3732",1,31680,1],["3737",-1,32700,1],["3742",1,35280,1],["3747",-1,36300,1],["3714",1,38880,1],["3715",-1,39900,1],["3724",1,42480,1],["3725",-1,43500,1],["3734",1,46080,1],["3735",-1,47100,1],["3744",1,49680,1],["3745",-1,50700,1],["3716",1,53280,1],["3713",-1,54300,1],["3726",1,56880,1],["3723",-1,57900,1],["3736",1,60480,1],["3733",-1,61500,1],["3746",1,64080,1],["3743",-1,65100,1],["3718",1,67680,1],["3711",-1,68700,1],["3721",-1,72300,1],["3728",1,74880,1],["3731",-1,75900,1],["3738",1,78480,1],["7911",-1,79320,0],["3748",1,82080,1],["3758",1,85680,1]]},"2020-2021":{"label":"2020–2021 · XII.13 alap","from":"2020-12-13","to":"2021-12-11","source":"https://www.mavcsoport.hu/sites/default/files/upload/page/150_20201213.pdf","trains":[["3719",-1,14280,1],["7919",-1,17760,0],["3790",1,18780,1],["7930",1,18780,0],["3729",-1,18780,1],["3739",-1,20700,1],["3749",-1,22920,1],["3712",1,24900,1],["3717",-1,25680,1],["3722",1,28080,1],["7929",-1,28080,0],["3727",-1,29100,1],["3732",1,31680,1],["3737",-1,32700,1],["3742",1,35280,1],["3747",-1,36300,1],["3714",1,38880,1],["3715",-1,39900,1],["3724",1,42480,1],["3725",-1,43500,1],["3734",1,46080,1],["3735",-1,47100,1],["3744",1,49680,1],["3745",-1,50700,1],["3716",1,53280,1],["3713",-1,54300,1],["3726",1,56880,1],["3723",-1,57900,1],["3736",1,60480,1],["3733",-1,61500,1],["3746",1,64080,1],["3743",-1,65100,1],["3718",1,67680,1],["3711",-1,68700,1],["3721",-1,72300,1],["3728",1,74880,1],["3731",-1,75900,1],["3738",1,78480,1],["7911",-1,79320,0],["3748",1,82080,1],["3758",1,85680,1]]},"2021-2022":{"label":"2021–2022 · III.18 változat","from":"2022-03-18","to":"2022-04-30","source":"https://www.mavcsoport.hu/sites/default/files/upload/page/150_v0318.pdf","trains":[["3719",-1,14400,1],["7919",-1,17820,0],["3790",1,18840,1],["7930",1,18840,0],["3729",-1,18840,1],["3739",-1,20700,1],["3749",-1,22920,1],["3712",1,24900,1],["3717",-1,25680,1],["3722",1,28080,1],["7929",-1,28080,0],["3727",-1,29100,1],["3732",1,31680,1],["3737",-1,32700,1],["3742",1,35280,1],["3747",-1,36300,1],["3714",1,38880,1],["3715",-1,39900,1],["3724",1,42480,1],["3725",-1,43500,1],["3734",1,46080,1],["3735",-1,47100,1],["3744",1,49680,1],["3745",-1,50700,1],["3716",1,53280,1],["3713",-1,54300,1],["3726",1,56880,1],["3723",-1,57900,1],["3736",1,60480,1],["3733",-1,61500,1],["3746",1,64080,1],["3743",-1,65100,1],["3718",1,67680,1],["3711",-1,68700,1],["3721",-1,72300,1],["3728",1,74880,1],["3731",-1,75900,1],["3738",1,78480,1],["7911",-1,79320,0],["3748",1,82080,1],["3758",1,85680,1]]}};
+const MENETREND_PERIODS = {"2013-2014":{"label":"2013–2014 · javított 12.07","from":"2013-12-15","to":"2014-12-13","source":"https://www.mavcsoport.hu/sites/default/files/res/2013-2014__evi_menetrend_jav1207_1.pdf","trains":[["3719",-1,14340,1],["7919",-1,17820,0],["17910",1,18720,0],["7910",1,18720,0],["3729",-1,19740,1],["3739",-1,21720,1],["3749",-1,23340,1],["3712",1,25140,1],["3717",-1,25140,1],["3722",1,28740,1],["3732",1,32340,1],["3727",-1,32340,1],["3737",-1,35940,1],["3742",1,39540,1],["3747",-1,39540,1],["3714",1,43140,1],["3715",-1,43140,1],["3724",1,46740,1],["3725",-1,46740,1],["3734",1,50340,1],["3735",-1,50340,1],["3744",1,53940,1],["3713",-1,53940,1],["3716",1,57540,1],["3723",-1,57540,1],["3726",1,61140,1],["3733",-1,61140,1],["3736",1,64740,1],["3743",-1,64740,1],["3728",1,68340,1],["3711",-1,68340,1],["3721",-1,71940,1],["3731",-1,75540,1],["3748",1,82740,1],["3758",1,86340,1]]},"2015-2016":{"label":"2015–2016 · 1. módosítás","from":"2016-04-04","to":"2016-12-10","source":"https://www.mavcsoport.hu/sites/default/files/upload/page/2015-2016._evi_1._sz._modositassal_aktualizalt_menetrend_viszonylatjellel.pdf","trains":[["3719",-1,14340,1],["7919",-1,17820,0],["3790",1,18660,1],["7930",1,18660,0],["3729",-1,19740,1],["3739",-1,21720,1],["3749",-1,23340,1],["3712",1,25140,1],["3717",-1,25140,1],["3722",1,28740,1],["3727",-1,28740,1],["3732",1,32340,1],["3737",-1,32340,1],["3742",1,35940,1],["3747",-1,35940,1],["3714",1,39540,1],["3715",-1,39540,1],["3724",1,43140,1],["3725",-1,43140,1],["3734",1,46740,1],["3735",-1,46740,1],["3744",1,50340,1],["3745",-1,50340,1],["3716",1,53940,1],["3713",-1,53940,1],["3726",1,57540,1],["3723",-1,57540,1],["3736",1,61140,1],["3733",-1,61140,1],["3746",1,64740,1],["3743",-1,64740,1],["3718",1,68340,1],["3711",-1,68340,1],["3721",-1,71940,1],["3728",1,75540,1],["3731",-1,75540,1],["3738",1,79140,1],["3748",1,82740,1],["3758",1,86340,1]]},"2016-2017":{"label":"2016–2017 · nyomdai állapot","from":"2016-12-11","to":"2017-12-09","source":"https://www.mavcsoport.hu/sites/default/files/upload/page/2016-2017._evi_nyomas_kozbeni_modositasokkal_kiegeszitett_menetrend_11.24.pdf","trains":[["3719",-1,14340,1],["7919",-1,17820,0],["3790",1,18660,1],["7930",1,18660,0],["3729",-1,19740,1],["3739",-1,21720,1],["3749",-1,23340,1],["3712",1,25140,1],["3717",-1,25140,1],["3722",1,28740,1],["3727",-1,28740,1],["3732",1,32340,1],["3737",-1,32340,1],["3742",1,35940,1],["3747",-1,35940,1],["3714",1,39540,1],["3715",-1,39540,1],["3724",1,43140,1],["3725",-1,43140,1],["3734",1,46740,1],["3735",-1,46740,1],["3744",1,50340,1],["3745",-1,50340,1],["3716",1,53940,1],["3713",-1,53940,1],["3726",1,57540,1],["3723",-1,57540,1],["3736",1,61140,1],["3733",-1,61140,1],["3746",1,64740,1],["3743",-1,64740,1],["3718",1,68340,1],["3711",-1,68340,1],["3721",-1,71940,1],["3728",1,75540,1],["3731",-1,75540,1],["3738",1,79140,1],["3748",1,82740,1],["3758",1,86340,1]]},"2017-2018":{"label":"2017–2018 · alap","from":"2017-12-10","to":"2018-12-08","source":"https://www.mavcsoport.hu/sites/default/files/upload/page/150_sz._mezss_343-346._oldal.pdf","trains":[["3719",-1,14220,1],["7919",-1,17880,0],["3790",1,18840,1],["7930",1,18840,0],["3729",-1,18840,1],["3739",-1,20880,1],["3749",-1,22920,1],["3712",1,24840,1],["3717",-1,25680,1],["3722",1,28080,1],["3727",-1,29100,1],["3732",1,31680,1],["3737",-1,32700,1],["3742",1,35280,1],["3747",-1,36300,1],["3714",1,38880,1],["3715",-1,39900,1],["3724",1,42480,1],["3725",-1,43500,1],["3734",1,46080,1],["3735",-1,47100,1],["3744",1,49680,1],["3745",-1,50700,1],["3716",1,53280,1],["3713",-1,54300,1],["3726",1,56880,1],["3723",-1,57900,1],["3736",1,60480,1],["3733",-1,61500,1],["3746",1,64080,1],["3743",-1,65100,1],["3718",1,67680,1],["3711",-1,68700,1],["3721",-1,72300,1],["3728",1,74880,1],["3731",-1,75900,1],["3738",1,78480,1],["7911",-1,79440,0],["3748",1,82080,1],["3758",1,85680,1]]},"2018-2019":{"label":"2018–2019 · VI.15 változat","from":"2019-06-15","to":"2019-12-14","source":"https://www.mavcsoport.hu/sites/default/files/upload/page/150_20190615.pdf","trains":[["3719",-1,14220,1],["7919",-1,17700,0],["3790",1,18840,1],["7930",1,18840,0],["3729",-1,18840,1],["3739",-1,20880,1],["3749",-1,22920,1],["3712",1,24840,1],["3717",-1,25680,1],["3722",1,28080,1],["3727",-1,29100,1],["3732",1,31680,1],["3737",-1,32700,1],["3742",1,35280,1],["3747",-1,36300,1],["3714",1,38880,1],["3715",-1,39900,1],["3724",1,42480,1],["3725",-1,43500,1],["3734",1,46080,1],["3735",-1,47100,1],["3744",1,49680,1],["3745",-1,50700,1],["3716",1,53280,1],["3713",-1,54300,1],["3726",1,56880,1],["3723",-1,57900,1],["3736",1,60480,1],["3733",-1,61500,1],["3746",1,64080,1],["3743",-1,65100,1],["3718",1,67680,1],["3711",-1,68700,1],["3721",-1,72300,1],["3728",1,74880,1],["3731",-1,75900,1],["3738",1,78480,1],["7911",-1,79320,0],["3748",1,82080,1],["3758",1,85680,1]]},"2019-2020":{"label":"2019–2020 · VIII.03 változat","from":"2020-08-03","to":"2020-12-12","source":"https://www.mavcsoport.hu/sites/default/files/upload/page/150_vonali-menetrend-v0803.pdf","trains":[["3719",-1,14220,1],["7919",-1,17760,0],["3790",1,18780,1],["7930",1,18780,0],["3729",-1,18780,1],["3739",-1,20700,1],["3749",-1,22920,1],["3712",1,24840,1],["3717",-1,25680,1],["3722",1,28080,1],["7929",-1,28140,0],["3727",-1,29100,1],["3732",1,31680,1],["3737",-1,32700,1],["3742",1,35280,1],["3747",-1,36300,1],["3714",1,38880,1],["3715",-1,39900,1],["3724",1,42480,1],["3725",-1,43500,1],["3734",1,46080,1],["3735",-1,47100,1],["3744",1,49680,1],["3745",-1,50700,1],["3716",1,53280,1],["3713",-1,54300,1],["3726",1,56880,1],["3723",-1,57900,1],["3736",1,60480,1],["3733",-1,61500,1],["3746",1,64080,1],["3743",-1,65100,1],["3718",1,67680,1],["3711",-1,68700,1],["3721",-1,72300,1],["3728",1,74880,1],["3731",-1,75900,1],["3738",1,78480,1],["7911",-1,79320,0],["3748",1,82080,1],["3758",1,85680,1]]},"2020-2021":{"label":"2020–2021 · XII.13 alap","from":"2020-12-13","to":"2021-12-11","source":"https://www.mavcsoport.hu/sites/default/files/upload/page/150_20201213.pdf","trains":[["3719",-1,14280,1],["7919",-1,17760,0],["3790",1,18780,1],["7930",1,18780,0],["3729",-1,18780,1],["3739",-1,20700,1],["3749",-1,22920,1],["3712",1,24900,1],["3717",-1,25680,1],["3722",1,28080,1],["7929",-1,28080,0],["3727",-1,29100,1],["3732",1,31680,1],["3737",-1,32700,1],["3742",1,35280,1],["3747",-1,36300,1],["3714",1,38880,1],["3715",-1,39900,1],["3724",1,42480,1],["3725",-1,43500,1],["3734",1,46080,1],["3735",-1,47100,1],["3744",1,49680,1],["3745",-1,50700,1],["3716",1,53280,1],["3713",-1,54300,1],["3726",1,56880,1],["3723",-1,57900,1],["3736",1,60480,1],["3733",-1,61500,1],["3746",1,64080,1],["3743",-1,65100,1],["3718",1,67680,1],["3711",-1,68700,1],["3721",-1,72300,1],["3728",1,74880,1],["3731",-1,75900,1],["3738",1,78480,1],["7911",-1,79320,0],["3748",1,82080,1],["3758",1,85680,1]]},"2021-2022":{"label":"2021–2022 · III.18 változat","from":"2022-03-18","to":"2022-04-30","source":"https://www.mavcsoport.hu/sites/default/files/upload/page/150_v0318.pdf","trains":[["3719",-1,14400,1],["7919",-1,17820,0],["3790",1,18840,1],["7930",1,18840,0],["3729",-1,18840,1],["3739",-1,20700,1],["3749",-1,22920,1],["3712",1,24900,1],["3717",-1,25680,1],["3722",1,28080,1],["7929",-1,28080,0],["3727",-1,29100,1],["3732",1,31680,1],["3737",-1,32700,1],["3742",1,35280,1],["3747",-1,36300,1],["3714",1,38880,1],["3715",-1,39900,1],["3724",1,42480,1],["3725",-1,43500,1],["3734",1,46080,1],["3735",-1,47100,1],["3744",1,49680,1],["3745",-1,50700,1],["3716",1,53280,1],["3713",-1,54300,1],["3726",1,56880,1],["3723",-1,57900,1],["3736",1,60480,1],["3733",-1,61500,1],["3746",1,64080,1],["3743",-1,65100,1],["3718",1,67680,1],["3711",-1,68700,1],["3721",-1,72300,1],["3728",1,74880,1],["3731",-1,75900,1],["3738",1,78480,1],["7911",-1,79320,0],["3748",1,82080,1],["3758",1,85680,1]]},"f2022-mn":{"label":"2022–2023 · munkanap · ütemes alap","from":"2022-12-11","to":"2023-12-09","fictional":true,"days":"mn","freightGap":10,"trains":[["3719",-1,14700,1],["3729",-1,18300,1],["3771",-1,20100,1],["3712",1,20880,1],["341",-1,21300,0],["3739",-1,21900,1],["3770",1,22680,1],["340",1,23280,0],["3773",-1,23700,1],["3722",1,24480,1],["3749",-1,25500,1],["3772",1,26280,1],["3775",-1,27300,1],["3732",1,28080,1],["343",-1,28500,0],["3717",-1,29100,1],["342",1,30480,0],["3742",1,31680,1],["3727",-1,32700,1],["3714",1,35280,1],["345",-1,35700,0],["3737",-1,36300,1],["344",1,37680,0],["3724",1,38880,1],["3747",-1,39900,1],["3734",1,42480,1],["347",-1,42900,0],["3715",-1,43500,1],["346",1,44880,0],["3744",1,46080,1],["3725",-1,47100,1],["3716",1,49680,1],["349",-1,50100,0],["3735",-1,50700,1],["348",1,52080,0],["3726",1,53280,1],["3745",-1,54300,1],["3774",1,55080,1],["3736",1,56880,1],["7921",-1,57300,0],["3713",-1,57900,1],["3776",1,58680,1],["7920",1,59280,0],["3777",-1,59700,1],["3746",1,60480,1],["3723",-1,61500,1],["3778",1,62280,1],["3779",-1,63300,1],["3718",1,64080,1],["7923",-1,64500,0],["3733",-1,65100,1],["7922",1,66480,0],["3728",1,67680,1],["3743",-1,68700,1],["3738",1,71280,1],["7925",-1,71700,0],["3711",-1,72300,1],["7924",1,73680,0],["3748",1,74880,1],["3721",-1,75900,1],["3710",1,78480,1],["7927",-1,78900,0],["3731",-1,79500,1],["3720",1,82080,1],["3730",1,85680,1]]},"f2022-hv":{"label":"2022–2023 · hétvége, ünnep","from":"2022-12-11","to":"2023-12-09","fictional":true,"days":"hv","freightGap":20,"trains":[["3719",-1,18300,1],["3729",-1,21900,1],["3712",1,24480,1],["3739",-1,25500,1],["3722",1,28080,1],["3749",-1,29100,1],["340",1,30480,0],["3732",1,31680,1],["3717",-1,32700,1],["3742",1,35280,1],["341",-1,35700,0],["3727",-1,36300,1],["3714",1,38880,1],["3737",-1,39900,1],["3724",1,42480,1],["3747",-1,43500,1],["342",1,44880,0],["3734",1,46080,1],["3715",-1,47100,1],["3744",1,49680,1],["343",-1,50100,0],["3725",-1,50700,1],["3716",1,53280,1],["3735",-1,54300,1],["3726",1,56880,1],["3745",-1,57900,1],["344",1,59280,0],["3736",1,60480,1],["3713",-1,61500,1],["3746",1,64080,1],["345",-1,64500,0],["3723",-1,65100,1],["3718",1,67680,1],["3733",-1,68700,1],["3728",1,71280,1],["3743",-1,72300,1],["346",1,73680,0],["3738",1,74880,1],["3711",-1,75900,1],["3748",1,78480,1],["347",-1,78900,0],["3721",-1,79500,1],["3710",1,82080,1],["3720",1,85680,1]]},"f2023-mn":{"label":"2023–2024 · munkanap · ütemes alap","from":"2023-12-10","to":"2024-12-14","fictional":true,"days":"mn","freightGap":10,"trains":[["3719",-1,14820,1],["3729",-1,18420,1],["3771",-1,20220,1],["3712",1,21000,1],["341",-1,21420,0],["3739",-1,22020,1],["3770",1,22800,1],["340",1,23400,0],["3773",-1,23820,1],["3722",1,24600,1],["3749",-1,25620,1],["3772",1,26400,1],["3775",-1,27420,1],["3732",1,28200,1],["343",-1,28620,0],["3717",-1,29220,1],["342",1,30600,0],["3742",1,31800,1],["3727",-1,32820,1],["3714",1,35400,1],["345",-1,35820,0],["3737",-1,36420,1],["344",1,37800,0],["3724",1,39000,1],["3747",-1,40020,1],["3734",1,42600,1],["347",-1,43020,0],["3715",-1,43620,1],["346",1,45000,0],["3744",1,46200,1],["3725",-1,47220,1],["3716",1,49800,1],["349",-1,50220,0],["3735",-1,50820,1],["348",1,52200,0],["3726",1,53400,1],["3745",-1,54420,1],["3774",1,55200,1],["3736",1,57000,1],["7921",-1,57420,0],["3713",-1,58020,1],["3776",1,58800,1],["7920",1,59400,0],["3777",-1,59820,1],["3746",1,60600,1],["3723",-1,61620,1],["3778",1,62400,1],["3779",-1,63420,1],["3718",1,64200,1],["7923",-1,64620,0],["3733",-1,65220,1],["7922",1,66600,0],["3728",1,67800,1],["3743",-1,68820,1],["3738",1,71400,1],["7925",-1,71820,0],["3711",-1,72420,1],["7924",1,73800,0],["3748",1,75000,1],["3721",-1,76020,1],["3710",1,78600,1],["7927",-1,79020,0],["3731",-1,79620,1],["3720",1,82200,1],["3730",1,85800,1]]},"f2023-hv":{"label":"2023–2024 · hétvége, ünnep","from":"2023-12-10","to":"2024-12-14","fictional":true,"days":"hv","freightGap":20,"trains":[["3719",-1,18420,1],["3729",-1,22020,1],["3712",1,24600,1],["3739",-1,25620,1],["3722",1,28200,1],["3749",-1,29220,1],["340",1,30600,0],["3732",1,31800,1],["3717",-1,32820,1],["3742",1,35400,1],["341",-1,35820,0],["3727",-1,36420,1],["3714",1,39000,1],["3737",-1,40020,1],["3724",1,42600,1],["3747",-1,43620,1],["342",1,45000,0],["3734",1,46200,1],["3715",-1,47220,1],["3744",1,49800,1],["343",-1,50220,0],["3725",-1,50820,1],["3716",1,53400,1],["3735",-1,54420,1],["3726",1,57000,1],["3745",-1,58020,1],["344",1,59400,0],["3736",1,60600,1],["3713",-1,61620,1],["3746",1,64200,1],["345",-1,64620,0],["3723",-1,65220,1],["3718",1,67800,1],["3733",-1,68820,1],["3728",1,71400,1],["3743",-1,72420,1],["346",1,73800,0],["3738",1,75000,1],["3711",-1,76020,1],["3748",1,78600,1],["347",-1,79020,0],["3721",-1,79620,1],["3710",1,82200,1],["3720",1,85800,1]]},"f2024-mn":{"label":"2024–2025 · munkanap · csúcsidei sűrítés","from":"2024-12-15","to":"2025-12-13","fictional":true,"days":"mn","freightGap":10,"trains":[["3719",-1,14640,1],["3729",-1,18240,1],["3771",-1,20040,1],["3712",1,20820,1],["341",-1,21240,0],["3739",-1,21840,1],["3770",1,22620,1],["340",1,23220,0],["3773",-1,23640,1],["3722",1,24420,1],["3749",-1,25440,1],["3772",1,26220,1],["3775",-1,27240,1],["3732",1,28020,1],["343",-1,28440,0],["3717",-1,29040,1],["342",1,30420,0],["3742",1,31620,1],["3727",-1,32640,1],["3714",1,35220,1],["345",-1,35640,0],["3737",-1,36240,1],["344",1,37620,0],["3724",1,38820,1],["3747",-1,39840,1],["3734",1,42420,1],["347",-1,42840,0],["3715",-1,43440,1],["346",1,44820,0],["3744",1,46020,1],["3725",-1,47040,1],["3716",1,49620,1],["349",-1,50040,0],["3735",-1,50640,1],["348",1,52020,0],["3726",1,53220,1],["3745",-1,54240,1],["3774",1,55020,1],["3736",1,56820,1],["7921",-1,57240,0],["3713",-1,57840,1],["3776",1,58620,1],["7920",1,59220,0],["3777",-1,59640,1],["3746",1,60420,1],["3723",-1,61440,1],["3778",1,62220,1],["3779",-1,63240,1],["3718",1,64020,1],["7923",-1,64440,0],["3733",-1,65040,1],["7922",1,66420,0],["3728",1,67620,1],["3743",-1,68640,1],["3738",1,71220,1],["7925",-1,71640,0],["3711",-1,72240,1],["7924",1,73620,0],["3748",1,74820,1],["3721",-1,75840,1],["3710",1,78420,1],["7927",-1,78840,0],["3731",-1,79440,1],["3720",1,82020,1],["3730",1,85620,1]]},"f2024-hv":{"label":"2024–2025 · hétvége, ünnep","from":"2024-12-15","to":"2025-12-13","fictional":true,"days":"hv","freightGap":20,"trains":[["3719",-1,18240,1],["3729",-1,21840,1],["3712",1,24420,1],["3739",-1,25440,1],["3722",1,28020,1],["3749",-1,29040,1],["340",1,30420,0],["3732",1,31620,1],["3717",-1,32640,1],["3742",1,35220,1],["341",-1,35640,0],["3727",-1,36240,1],["3714",1,38820,1],["3737",-1,39840,1],["3724",1,42420,1],["3747",-1,43440,1],["342",1,44820,0],["3734",1,46020,1],["3715",-1,47040,1],["3744",1,49620,1],["343",-1,50040,0],["3725",-1,50640,1],["3716",1,53220,1],["3735",-1,54240,1],["3726",1,56820,1],["3745",-1,57840,1],["344",1,59220,0],["3736",1,60420,1],["3713",-1,61440,1],["3746",1,64020,1],["345",-1,64440,0],["3723",-1,65040,1],["3718",1,67620,1],["3733",-1,68640,1],["3728",1,71220,1],["3743",-1,72240,1],["346",1,73620,0],["3738",1,74820,1],["3711",-1,75840,1],["3748",1,78420,1],["347",-1,78840,0],["3721",-1,79440,1],["3710",1,82020,1],["3720",1,85620,1]]},"f2025-mn":{"label":"2025–2026 · munkanap · félórás elővárosi ütem","from":"2025-12-14","to":"2026-12-12","fictional":true,"days":"mn","freightGap":10,"trains":[["3719",-1,14700,1],["3729",-1,18300,1],["3770",1,19080,1],["3771",-1,20100,1],["3712",1,20880,1],["341",-1,21300,0],["3739",-1,21900,1],["3772",1,22680,1],["340",1,23280,0],["3773",-1,23700,1],["3722",1,24480,1],["3749",-1,25500,1],["3774",1,26280,1],["3775",-1,27300,1],["3732",1,28080,1],["343",-1,28500,0],["3717",-1,29100,1],["3776",1,29880,1],["342",1,30480,0],["3777",-1,30900,1],["3742",1,31680,1],["3727",-1,32700,1],["3778",1,33480,1],["3779",-1,34500,1],["3714",1,35280,1],["345",-1,35700,0],["3737",-1,36300,1],["3780",1,37080,1],["344",1,37680,0],["3781",-1,38100,1],["3724",1,38880,1],["3747",-1,39900,1],["3782",1,40680,1],["3783",-1,41700,1],["3734",1,42480,1],["347",-1,42900,0],["3715",-1,43500,1],["3784",1,44280,1],["346",1,44880,0],["3785",-1,45300,1],["3744",1,46080,1],["3725",-1,47100,1],["3786",1,47880,1],["3787",-1,48900,1],["3716",1,49680,1],["349",-1,50100,0],["3735",-1,50700,1],["3788",1,51480,1],["348",1,52080,0],["3789",-1,52500,1],["3726",1,53280,1],["3745",-1,54300,1],["3790",1,55080,1],["3791",-1,56100,1],["3736",1,56880,1],["7921",-1,57300,0],["3713",-1,57900,1],["3792",1,58680,1],["7920",1,59280,0],["3793",-1,59700,1],["3746",1,60480,1],["3723",-1,61500,1],["3794",1,62280,1],["3795",-1,63300,1],["3718",1,64080,1],["7923",-1,64500,0],["3733",-1,65100,1],["3796",1,65880,1],["7922",1,66480,0],["3797",-1,66900,1],["3728",1,67680,1],["3743",-1,68700,1],["3798",1,69480,1],["3799",-1,70500,1],["3738",1,71280,1],["7925",-1,71700,0],["3711",-1,72300,1],["3800",1,73080,1],["7924",1,73680,0],["3801",-1,74100,1],["3748",1,74880,1],["3721",-1,75900,1],["3710",1,78480,1],["7927",-1,78900,0],["3731",-1,79500,1],["3720",1,82080,1],["3730",1,85680,1]]},"f2025-hv":{"label":"2025–2026 · hétvége, ünnep","from":"2025-12-14","to":"2026-12-12","fictional":true,"days":"hv","freightGap":16,"trains":[["3719",-1,18300,1],["3712",1,20880,1],["3729",-1,21900,1],["3722",1,24480,1],["3739",-1,25500,1],["3732",1,28080,1],["3749",-1,29100,1],["340",1,30480,0],["3742",1,31680,1],["3717",-1,32700,1],["3770",1,33480,1],["3771",-1,34500,1],["3714",1,35280,1],["341",-1,35700,0],["3727",-1,36300,1],["3772",1,37080,1],["342",1,37680,0],["3773",-1,38100,1],["3724",1,38880,1],["3737",-1,39900,1],["3774",1,40680,1],["3775",-1,41700,1],["3734",1,42480,1],["343",-1,42900,0],["3747",-1,43500,1],["3776",1,44280,1],["344",1,44880,0],["3777",-1,45300,1],["3744",1,46080,1],["3715",-1,47100,1],["3778",1,47880,1],["3779",-1,48900,1],["3716",1,49680,1],["345",-1,50100,0],["3725",-1,50700,1],["3780",1,51480,1],["346",1,52080,0],["3781",-1,52500,1],["3726",1,53280,1],["3735",-1,54300,1],["3782",1,55080,1],["3783",-1,56100,1],["3736",1,56880,1],["347",-1,57300,0],["3745",-1,57900,1],["3784",1,58680,1],["348",1,59280,0],["3785",-1,59700,1],["3746",1,60480,1],["3713",-1,61500,1],["3786",1,62280,1],["3787",-1,63300,1],["3718",1,64080,1],["349",-1,64500,0],["3723",-1,65100,1],["7920",1,66480,0],["3728",1,67680,1],["3733",-1,68700,1],["3738",1,71280,1],["7921",-1,71700,0],["3743",-1,72300,1],["7922",1,73680,0],["3748",1,74880,1],["3711",-1,75900,1],["3710",1,78480,1],["7923",-1,78900,0],["3721",-1,79500,1],["3720",1,82080,1],["3730",1,85680,1]]},"f2026-mn":{"label":"2026–2027 · munkanap · félórás elővárosi ütem","from":"2026-12-13","to":"2027-12-11","fictional":true,"days":"mn","freightGap":10,"trains":[["3719",-1,14760,1],["3729",-1,18360,1],["3770",1,19140,1],["3771",-1,20160,1],["3712",1,20940,1],["341",-1,21360,0],["3739",-1,21960,1],["3772",1,22740,1],["340",1,23340,0],["3773",-1,23760,1],["3722",1,24540,1],["3749",-1,25560,1],["3774",1,26340,1],["3775",-1,27360,1],["3732",1,28140,1],["343",-1,28560,0],["3717",-1,29160,1],["3776",1,29940,1],["342",1,30540,0],["3777",-1,30960,1],["3742",1,31740,1],["3727",-1,32760,1],["3778",1,33540,1],["3779",-1,34560,1],["3714",1,35340,1],["345",-1,35760,0],["3737",-1,36360,1],["3780",1,37140,1],["344",1,37740,0],["3781",-1,38160,1],["3724",1,38940,1],["3747",-1,39960,1],["3782",1,40740,1],["3783",-1,41760,1],["3734",1,42540,1],["347",-1,42960,0],["3715",-1,43560,1],["3784",1,44340,1],["346",1,44940,0],["3785",-1,45360,1],["3744",1,46140,1],["3725",-1,47160,1],["3786",1,47940,1],["3787",-1,48960,1],["3716",1,49740,1],["349",-1,50160,0],["3735",-1,50760,1],["3788",1,51540,1],["348",1,52140,0],["3789",-1,52560,1],["3726",1,53340,1],["3745",-1,54360,1],["3790",1,55140,1],["3791",-1,56160,1],["3736",1,56940,1],["7921",-1,57360,0],["3713",-1,57960,1],["3792",1,58740,1],["7920",1,59340,0],["3793",-1,59760,1],["3746",1,60540,1],["3723",-1,61560,1],["3794",1,62340,1],["3795",-1,63360,1],["3718",1,64140,1],["7923",-1,64560,0],["3733",-1,65160,1],["3796",1,65940,1],["7922",1,66540,0],["3797",-1,66960,1],["3728",1,67740,1],["3743",-1,68760,1],["3798",1,69540,1],["3799",-1,70560,1],["3738",1,71340,1],["7925",-1,71760,0],["3711",-1,72360,1],["3800",1,73140,1],["7924",1,73740,0],["3801",-1,74160,1],["3748",1,74940,1],["3721",-1,75960,1],["3710",1,78540,1],["7927",-1,78960,0],["3731",-1,79560,1],["3720",1,82140,1],["3730",1,85740,1]]},"f2026-hv":{"label":"2026–2027 · hétvége, ünnep","from":"2026-12-13","to":"2027-12-11","fictional":true,"days":"hv","freightGap":16,"trains":[["3719",-1,18360,1],["3712",1,20940,1],["3729",-1,21960,1],["3722",1,24540,1],["3739",-1,25560,1],["3732",1,28140,1],["3749",-1,29160,1],["340",1,30540,0],["3742",1,31740,1],["3717",-1,32760,1],["3770",1,33540,1],["3771",-1,34560,1],["3714",1,35340,1],["341",-1,35760,0],["3727",-1,36360,1],["3772",1,37140,1],["342",1,37740,0],["3773",-1,38160,1],["3724",1,38940,1],["3737",-1,39960,1],["3774",1,40740,1],["3775",-1,41760,1],["3734",1,42540,1],["343",-1,42960,0],["3747",-1,43560,1],["3776",1,44340,1],["344",1,44940,0],["3777",-1,45360,1],["3744",1,46140,1],["3715",-1,47160,1],["3778",1,47940,1],["3779",-1,48960,1],["3716",1,49740,1],["345",-1,50160,0],["3725",-1,50760,1],["3780",1,51540,1],["346",1,52140,0],["3781",-1,52560,1],["3726",1,53340,1],["3735",-1,54360,1],["3782",1,55140,1],["3783",-1,56160,1],["3736",1,56940,1],["347",-1,57360,0],["3745",-1,57960,1],["3784",1,58740,1],["348",1,59340,0],["3785",-1,59760,1],["3746",1,60540,1],["3713",-1,61560,1],["3786",1,62340,1],["3787",-1,63360,1],["3718",1,64140,1],["349",-1,64560,0],["3723",-1,65160,1],["7920",1,66540,0],["3728",1,67740,1],["3733",-1,68760,1],["3738",1,71340,1],["7921",-1,71760,0],["3743",-1,72360,1],["7922",1,73740,0],["3748",1,74940,1],["3711",-1,75960,1],["3710",1,78540,1],["7923",-1,78960,0],["3721",-1,79560,1],["3720",1,82140,1],["3730",1,85740,1]]},"f2027-mn":{"label":"2027–2028 · munkanap · félórás ütem, új Kelebia-járatok","from":"2027-12-12","to":"2028-12-09","fictional":true,"days":"mn","freightGap":10,"trains":[["3719",-1,14580,1],["3729",-1,18180,1],["3770",1,18960,1],["3771",-1,19980,1],["3712",1,20760,1],["341",-1,21180,0],["3739",-1,21780,1],["3772",1,22560,1],["340",1,23160,0],["3773",-1,23580,1],["3722",1,24360,1],["3749",-1,25380,1],["3774",1,26160,1],["3775",-1,27180,1],["3732",1,27960,1],["343",-1,28380,0],["3717",-1,28980,1],["3776",1,29760,1],["342",1,30360,0],["3777",-1,30780,1],["3742",1,31560,1],["3727",-1,32580,1],["3778",1,33360,1],["3779",-1,34380,1],["3714",1,35160,1],["345",-1,35580,0],["3737",-1,36180,1],["3780",1,36960,1],["344",1,37560,0],["3781",-1,37980,1],["3724",1,38760,1],["3747",-1,39780,1],["3782",1,40560,1],["3783",-1,41580,1],["3734",1,42360,1],["347",-1,42780,0],["3715",-1,43380,1],["3784",1,44160,1],["346",1,44760,0],["3785",-1,45180,1],["3744",1,45960,1],["3725",-1,46980,1],["3786",1,47760,1],["3787",-1,48780,1],["3716",1,49560,1],["349",-1,49980,0],["3735",-1,50580,1],["3788",1,51360,1],["348",1,51960,0],["3789",-1,52380,1],["3726",1,53160,1],["3745",-1,54180,1],["3790",1,54960,1],["3791",-1,55980,1],["3736",1,56760,1],["7921",-1,57180,0],["3713",-1,57780,1],["3792",1,58560,1],["7920",1,59160,0],["3793",-1,59580,1],["3746",1,60360,1],["3723",-1,61380,1],["3794",1,62160,1],["3795",-1,63180,1],["3718",1,63960,1],["7923",-1,64380,0],["3733",-1,64980,1],["3796",1,65760,1],["7922",1,66360,0],["3797",-1,66780,1],["3728",1,67560,1],["3743",-1,68580,1],["3798",1,69360,1],["3799",-1,70380,1],["3738",1,71160,1],["7925",-1,71580,0],["3711",-1,72180,1],["3800",1,72960,1],["7924",1,73560,0],["3801",-1,73980,1],["3748",1,74760,1],["3721",-1,75780,1],["3710",1,78360,1],["7927",-1,78780,0],["3731",-1,79380,1],["3720",1,81960,1],["3730",1,85560,1]]},"f2027-hv":{"label":"2027–2028 · hétvége, ünnep","from":"2027-12-12","to":"2028-12-09","fictional":true,"days":"hv","freightGap":16,"trains":[["3719",-1,18180,1],["3712",1,20760,1],["3729",-1,21780,1],["3722",1,24360,1],["3739",-1,25380,1],["3732",1,27960,1],["3749",-1,28980,1],["340",1,30360,0],["3742",1,31560,1],["3717",-1,32580,1],["3770",1,33360,1],["3771",-1,34380,1],["3714",1,35160,1],["341",-1,35580,0],["3727",-1,36180,1],["3772",1,36960,1],["342",1,37560,0],["3773",-1,37980,1],["3724",1,38760,1],["3737",-1,39780,1],["3774",1,40560,1],["3775",-1,41580,1],["3734",1,42360,1],["343",-1,42780,0],["3747",-1,43380,1],["3776",1,44160,1],["344",1,44760,0],["3777",-1,45180,1],["3744",1,45960,1],["3715",-1,46980,1],["3778",1,47760,1],["3779",-1,48780,1],["3716",1,49560,1],["345",-1,49980,0],["3725",-1,50580,1],["3780",1,51360,1],["346",1,51960,0],["3781",-1,52380,1],["3726",1,53160,1],["3735",-1,54180,1],["3782",1,54960,1],["3783",-1,55980,1],["3736",1,56760,1],["347",-1,57180,0],["3745",-1,57780,1],["3784",1,58560,1],["348",1,59160,0],["3785",-1,59580,1],["3746",1,60360,1],["3713",-1,61380,1],["3786",1,62160,1],["3787",-1,63180,1],["3718",1,63960,1],["349",-1,64380,0],["3723",-1,64980,1],["7920",1,66360,0],["3728",1,67560,1],["3733",-1,68580,1],["3738",1,71160,1],["7921",-1,71580,0],["3743",-1,72180,1],["7922",1,73560,0],["3748",1,74760,1],["3711",-1,75780,1],["3710",1,78360,1],["7923",-1,78780,0],["3721",-1,79380,1],["3720",1,81960,1],["3730",1,85560,1]]},"f2028-mn":{"label":"2028–2029 · munkanap · félórás ütem","from":"2028-12-10","to":"2029-12-15","fictional":true,"days":"mn","freightGap":10,"trains":[["3719",-1,14700,1],["3729",-1,18300,1],["3770",1,19080,1],["3771",-1,20100,1],["3712",1,20880,1],["341",-1,21300,0],["3739",-1,21900,1],["3772",1,22680,1],["340",1,23280,0],["3773",-1,23700,1],["3722",1,24480,1],["3749",-1,25500,1],["3774",1,26280,1],["3775",-1,27300,1],["3732",1,28080,1],["343",-1,28500,0],["3717",-1,29100,1],["3776",1,29880,1],["342",1,30480,0],["3777",-1,30900,1],["3742",1,31680,1],["3727",-1,32700,1],["3778",1,33480,1],["3779",-1,34500,1],["3714",1,35280,1],["345",-1,35700,0],["3737",-1,36300,1],["3780",1,37080,1],["344",1,37680,0],["3781",-1,38100,1],["3724",1,38880,1],["3747",-1,39900,1],["3782",1,40680,1],["3783",-1,41700,1],["3734",1,42480,1],["347",-1,42900,0],["3715",-1,43500,1],["3784",1,44280,1],["346",1,44880,0],["3785",-1,45300,1],["3744",1,46080,1],["3725",-1,47100,1],["3786",1,47880,1],["3787",-1,48900,1],["3716",1,49680,1],["349",-1,50100,0],["3735",-1,50700,1],["3788",1,51480,1],["348",1,52080,0],["3789",-1,52500,1],["3726",1,53280,1],["3745",-1,54300,1],["3790",1,55080,1],["3791",-1,56100,1],["3736",1,56880,1],["7921",-1,57300,0],["3713",-1,57900,1],["3792",1,58680,1],["7920",1,59280,0],["3793",-1,59700,1],["3746",1,60480,1],["3723",-1,61500,1],["3794",1,62280,1],["3795",-1,63300,1],["3718",1,64080,1],["7923",-1,64500,0],["3733",-1,65100,1],["3796",1,65880,1],["7922",1,66480,0],["3797",-1,66900,1],["3728",1,67680,1],["3743",-1,68700,1],["3798",1,69480,1],["3799",-1,70500,1],["3738",1,71280,1],["7925",-1,71700,0],["3711",-1,72300,1],["3800",1,73080,1],["7924",1,73680,0],["3801",-1,74100,1],["3748",1,74880,1],["3721",-1,75900,1],["3710",1,78480,1],["7927",-1,78900,0],["3731",-1,79500,1],["3720",1,82080,1],["3730",1,85680,1]]},"f2028-hv":{"label":"2028–2029 · hétvége, ünnep","from":"2028-12-10","to":"2029-12-15","fictional":true,"days":"hv","freightGap":16,"trains":[["3719",-1,18300,1],["3712",1,20880,1],["3729",-1,21900,1],["3722",1,24480,1],["3739",-1,25500,1],["3732",1,28080,1],["3749",-1,29100,1],["340",1,30480,0],["3742",1,31680,1],["3717",-1,32700,1],["3770",1,33480,1],["3771",-1,34500,1],["3714",1,35280,1],["341",-1,35700,0],["3727",-1,36300,1],["3772",1,37080,1],["342",1,37680,0],["3773",-1,38100,1],["3724",1,38880,1],["3737",-1,39900,1],["3774",1,40680,1],["3775",-1,41700,1],["3734",1,42480,1],["343",-1,42900,0],["3747",-1,43500,1],["3776",1,44280,1],["344",1,44880,0],["3777",-1,45300,1],["3744",1,46080,1],["3715",-1,47100,1],["3778",1,47880,1],["3779",-1,48900,1],["3716",1,49680,1],["345",-1,50100,0],["3725",-1,50700,1],["3780",1,51480,1],["346",1,52080,0],["3781",-1,52500,1],["3726",1,53280,1],["3735",-1,54300,1],["3782",1,55080,1],["3783",-1,56100,1],["3736",1,56880,1],["347",-1,57300,0],["3745",-1,57900,1],["3784",1,58680,1],["348",1,59280,0],["3785",-1,59700,1],["3746",1,60480,1],["3713",-1,61500,1],["3786",1,62280,1],["3787",-1,63300,1],["3718",1,64080,1],["349",-1,64500,0],["3723",-1,65100,1],["7920",1,66480,0],["3728",1,67680,1],["3733",-1,68700,1],["3738",1,71280,1],["7921",-1,71700,0],["3743",-1,72300,1],["7922",1,73680,0],["3748",1,74880,1],["3711",-1,75900,1],["3710",1,78480,1],["7923",-1,78900,0],["3721",-1,79500,1],["3720",1,82080,1],["3730",1,85680,1]]},"f2029-mn":{"label":"2029–2030 · munkanap · félórás ütem","from":"2029-12-16","to":"2030-12-14","fictional":true,"days":"mn","freightGap":10,"trains":[["3719",-1,14760,1],["3729",-1,18360,1],["3770",1,19140,1],["3771",-1,20160,1],["3712",1,20940,1],["341",-1,21360,0],["3739",-1,21960,1],["3772",1,22740,1],["340",1,23340,0],["3773",-1,23760,1],["3722",1,24540,1],["3749",-1,25560,1],["3774",1,26340,1],["3775",-1,27360,1],["3732",1,28140,1],["343",-1,28560,0],["3717",-1,29160,1],["3776",1,29940,1],["342",1,30540,0],["3777",-1,30960,1],["3742",1,31740,1],["3727",-1,32760,1],["3778",1,33540,1],["3779",-1,34560,1],["3714",1,35340,1],["345",-1,35760,0],["3737",-1,36360,1],["3780",1,37140,1],["344",1,37740,0],["3781",-1,38160,1],["3724",1,38940,1],["3747",-1,39960,1],["3782",1,40740,1],["3783",-1,41760,1],["3734",1,42540,1],["347",-1,42960,0],["3715",-1,43560,1],["3784",1,44340,1],["346",1,44940,0],["3785",-1,45360,1],["3744",1,46140,1],["3725",-1,47160,1],["3786",1,47940,1],["3787",-1,48960,1],["3716",1,49740,1],["349",-1,50160,0],["3735",-1,50760,1],["3788",1,51540,1],["348",1,52140,0],["3789",-1,52560,1],["3726",1,53340,1],["3745",-1,54360,1],["3790",1,55140,1],["3791",-1,56160,1],["3736",1,56940,1],["7921",-1,57360,0],["3713",-1,57960,1],["3792",1,58740,1],["7920",1,59340,0],["3793",-1,59760,1],["3746",1,60540,1],["3723",-1,61560,1],["3794",1,62340,1],["3795",-1,63360,1],["3718",1,64140,1],["7923",-1,64560,0],["3733",-1,65160,1],["3796",1,65940,1],["7922",1,66540,0],["3797",-1,66960,1],["3728",1,67740,1],["3743",-1,68760,1],["3798",1,69540,1],["3799",-1,70560,1],["3738",1,71340,1],["7925",-1,71760,0],["3711",-1,72360,1],["3800",1,73140,1],["7924",1,73740,0],["3801",-1,74160,1],["3748",1,74940,1],["3721",-1,75960,1],["3710",1,78540,1],["7927",-1,78960,0],["3731",-1,79560,1],["3720",1,82140,1],["3730",1,85740,1]]},"f2029-hv":{"label":"2029–2030 · hétvége, ünnep","from":"2029-12-16","to":"2030-12-14","fictional":true,"days":"hv","freightGap":16,"trains":[["3719",-1,18360,1],["3712",1,20940,1],["3729",-1,21960,1],["3722",1,24540,1],["3739",-1,25560,1],["3732",1,28140,1],["3749",-1,29160,1],["340",1,30540,0],["3742",1,31740,1],["3717",-1,32760,1],["3770",1,33540,1],["3771",-1,34560,1],["3714",1,35340,1],["341",-1,35760,0],["3727",-1,36360,1],["3772",1,37140,1],["342",1,37740,0],["3773",-1,38160,1],["3724",1,38940,1],["3737",-1,39960,1],["3774",1,40740,1],["3775",-1,41760,1],["3734",1,42540,1],["343",-1,42960,0],["3747",-1,43560,1],["3776",1,44340,1],["344",1,44940,0],["3777",-1,45360,1],["3744",1,46140,1],["3715",-1,47160,1],["3778",1,47940,1],["3779",-1,48960,1],["3716",1,49740,1],["345",-1,50160,0],["3725",-1,50760,1],["3780",1,51540,1],["346",1,52140,0],["3781",-1,52560,1],["3726",1,53340,1],["3735",-1,54360,1],["3782",1,55140,1],["3783",-1,56160,1],["3736",1,56940,1],["347",-1,57360,0],["3745",-1,57960,1],["3784",1,58740,1],["348",1,59340,0],["3785",-1,59760,1],["3746",1,60540,1],["3713",-1,61560,1],["3786",1,62340,1],["3787",-1,63360,1],["3718",1,64140,1],["349",-1,64560,0],["3723",-1,65160,1],["7920",1,66540,0],["3728",1,67740,1],["3733",-1,68760,1],["3738",1,71340,1],["7921",-1,71760,0],["3743",-1,72360,1],["7922",1,73740,0],["3748",1,74940,1],["3711",-1,75960,1],["3710",1,78540,1],["7923",-1,78960,0],["3721",-1,79560,1],["3720",1,82140,1],["3730",1,85740,1]]},"f2024-nyar":{"label":"2024 nyár · pályafelújítás Kunszentmiklós-Tass és Kelebia között","from":"2024-07-01","to":"2024-08-31","fictional":true,"days":"all","prio":1,"freightGap":14,"note":"a kelebiai gyorsvonatok helyett pótlóbusz","trains":[["3719",-1,14640,1],["3729",-1,18240,1],["3771",-1,20040,1],["3712",1,20820,1],["3739",-1,21840,1],["3770",1,22620,1],["3773",-1,23640,1],["3722",1,24420,1],["3749",-1,25440,1],["3772",1,26220,1],["3775",-1,27240,1],["3732",1,28020,1],["3717",-1,29040,1],["3742",1,31620,1],["3727",-1,32640,1],["3714",1,35220,1],["3737",-1,36240,1],["3724",1,38820,1],["3747",-1,39840,1],["3734",1,42420,1],["3715",-1,43440,1],["3744",1,46020,1],["3725",-1,47040,1],["3716",1,49620,1],["3735",-1,50640,1],["3726",1,53220,1],["3745",-1,54240,1],["3736",1,56820,1],["3713",-1,57840,1],["3774",1,58620,1],["3777",-1,59640,1],["3746",1,60420,1],["3723",-1,61440,1],["3776",1,62220,1],["3718",1,64020,1],["3733",-1,65040,1],["3728",1,67620,1],["3743",-1,68640,1],["3738",1,71220,1],["3711",-1,72240,1],["3748",1,74820,1],["3721",-1,75840,1],["3710",1,78420,1],["3731",-1,79440,1],["3720",1,82020,1],["3730",1,85620,1]]},"f2028-nyar":{"label":"2028 nyár · pályafelújítás Kunszentmiklós-Tass és Kelebia között","from":"2028-07-01","to":"2028-08-31","fictional":true,"days":"all","prio":1,"freightGap":14,"note":"a kelebiai gyorsvonatok helyett pótlóbusz","trains":[["3719",-1,14700,1],["3729",-1,18300,1],["3771",-1,20100,1],["3712",1,20880,1],["3739",-1,21900,1],["3770",1,22680,1],["3773",-1,23700,1],["3722",1,24480,1],["3749",-1,25500,1],["3772",1,26280,1],["3775",-1,27300,1],["3732",1,28080,1],["3717",-1,29100,1],["3742",1,31680,1],["3727",-1,32700,1],["3714",1,35280,1],["3737",-1,36300,1],["3724",1,38880,1],["3747",-1,39900,1],["3734",1,42480,1],["3715",-1,43500,1],["3744",1,46080,1],["3725",-1,47100,1],["3716",1,49680,1],["3735",-1,50700,1],["3726",1,53280,1],["3745",-1,54300,1],["3736",1,56880,1],["3713",-1,57900,1],["3774",1,58680,1],["3777",-1,59700,1],["3746",1,60480,1],["3723",-1,61500,1],["3776",1,62280,1],["3718",1,64080,1],["3733",-1,65100,1],["3728",1,67680,1],["3743",-1,68700,1],["3738",1,71280,1],["3711",-1,72300,1],["3748",1,74880,1],["3721",-1,75900,1],["3710",1,78480,1],["3731",-1,79500,1],["3720",1,82080,1],["3730",1,85680,1]]}};
 const PERIOD_ALTERNATES = new Set(['3790', '17910']);
 const PERIOD_DEFAULT = '2020-2021';
+const FIXED_HOLIDAYS = { '01-01': 'Újév', '03-15': 'Nemzeti ünnep', '05-01': 'A munka ünnepe', '08-20': 'Államalapítás ünnepe', '10-23': 'Nemzeti ünnep', '11-01': 'Mindenszentek', '12-25': 'Karácsony', '12-26': 'Karácsony másnapja' };
+function easterDate(y) {
+  const a = y % 19, b = Math.floor(y / 100), c = y % 100, d = Math.floor(b / 4), e = b % 4, f = Math.floor((b + 8) / 25), g = Math.floor((b - f + 1) / 3);
+  const h = (19 * a + b - d - g + 15) % 30, i = Math.floor(c / 4), k = c % 4, l = (32 + 2 * e + 2 * i - h - k) % 7, m = Math.floor((a + 11 * h + 22 * l) / 451);
+  const n = h + l - 7 * m + 114;
+  return new Date(y, Math.floor(n / 31) - 1, (n % 31) + 1, 12);
+}
+const isoDate = d => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+function dayInfo(iso) {
+  const d = new Date(iso + 'T12:00:00'), y = d.getFullYear(), e = easterDate(y);
+  const moving = {};
+  for (const [off, name] of [[-2, 'Nagypéntek'], [1, 'Húsvéthétfő'], [50, 'Pünkösdhétfő']]) moving[isoDate(new Date(y, e.getMonth(), e.getDate() + off, 12))] = name;
+  const hol = FIXED_HOLIDAYS[iso.slice(5)] || moving[iso] || null, wd = d.getDay();
+  return { wd, hol, rest: !!hol || wd === 0 || wd === 6 };
+}
+function periodForDate(iso) {
+  const info = dayInfo(iso);
+  let best = null;
+  for (const [k, p] of Object.entries(MENETREND_PERIODS)) {
+    if (!p.from || iso < p.from || iso > p.to) continue;
+    if ((p.days === 'mn' && info.rest) || (p.days === 'hv' && !info.rest)) continue;
+    if (!best || (p.prio || 0) > (MENETREND_PERIODS[best].prio || 0)) best = k;
+  }
+  return best;
+}
+const PLAY_DATE = (() => {
+  const q = new URLSearchParams(location.search);
+  if (q.get('menetrend')) return null;
+  let saved = null; try { saved = localStorage.getItem('dunaharaszti-nap'); } catch {}
+  return [q.get('nap'), saved].find(v => v && /^\d{4}-\d{2}-\d{2}$/.test(v) && periodForDate(v)) || null;
+})();
 const PERIOD_KEY = (() => {
+  if (PLAY_DATE) return periodForDate(PLAY_DATE);
   const q = new URLSearchParams(location.search).get('menetrend');
   let saved = null; try { saved = localStorage.getItem('dunaharaszti-menetrend'); } catch {}
   return [q, saved].find(k => k && MENETREND_PERIODS[k]) || PERIOD_DEFAULT;
 })();
 const PERIOD = MENETREND_PERIODS[PERIOD_KEY];
+const PERIOD_SEED = PERIOD_KEY + (PLAY_DATE || '');
+const MONTH_NAMES = ['január', 'február', 'március', 'április', 'május', 'június', 'július', 'augusztus', 'szeptember', 'október', 'november', 'december'];
+const WEEKDAY_NAMES = ['vasárnap', 'hétfő', 'kedd', 'szerda', 'csütörtök', 'péntek', 'szombat'];
+const fmtDate = iso => { const [y, mo, d] = iso.split('-').map(Number); return `${y}. ${MONTH_NAMES[mo - 1]} ${d}.`; };
+const PERIOD_TAG = PLAY_DATE ? fmtDate(PLAY_DATE) : PERIOD.label.split(' · ')[0];
 const PERIOD_BUILTIN = PERIOD_KEY === PERIOD_DEFAULT;
 const DAY_TRAINS = PERIOD_BUILTIN ? BUILTIN_DAY_TRAINS
+  : PERIOD.fictional ? PERIOD.trains
   : PERIOD.trains.filter(([no]) => !PERIOD_ALTERNATES.has(no)).map(([no, dir, t]) => [no, dir, t, 1]);
 const FREIGHT_SLOTS = (() => { const out = []; for (let t = T(0, 5); t < T(24, 0); t += 5 * 60) out.push(t); return out; })();
 const PASSENGER_CROSSES = PERIOD_BUILTIN ? [['3729', '7930'], ['3749', '349'], ['7929', '3722']] : (() => {
@@ -1453,7 +1597,7 @@ function buildTimetable(t0, t1) {
     let lastF = -1e9, dirF = shift ? 1 : -1, even = 45200 + (shift ? 400 : 0), odd = 47601 + (shift ? 400 : 0);
     for (const t of FREIGHT_SLOTS) {
       const slot = t + shift;
-      if (slot - lastF < 10 * 60) continue;
+      if (slot - lastF < (PERIOD.freightGap || 10) * 60) continue;
       if (list.some(o => o.kind !== 'G' && Math.abs(o.dep - slot) < 6 * 60)) continue;
       if (list.some(o => o.kind === 'G' && slot > o.enter - 9 * 60 && slot < o.exit + 9 * 60)) continue;
       const dir = (dirF = -dirF), no = String(dir > 0 ? (even += 2) : (odd += 2));
@@ -1502,8 +1646,8 @@ const LATE_REASONS = {
   G: ['fékpróba elhúzódott', 'Kelebián késve vették át', 'rendezési munka Ferencvárosban', 'mozdonycsere', 'kocsivizsgálat', 'lassújel a pályán'],
 };
 function plannedLateness(d) {
-  let h = 2166136261 ^ (PERIOD_KEY || '').length * 977;
-  for (const ch of String(d.no) + (PERIOD_KEY || '')) h = Math.imul(h ^ ch.charCodeAt(0), 16777619);
+  let h = 2166136261 ^ PERIOD_SEED.length * 977;
+  for (const ch of String(d.no) + PERIOD_SEED) h = Math.imul(h ^ ch.charCodeAt(0), 16777619);
   const r1 = (h >>> 0) / 4294967296, r2 = (Math.imul(h, 2654435761) >>> 0) / 4294967296, r3 = (Math.imul(h ^ 0x5bd1e995, 1597334677) >>> 0) / 4294967296;
   const hour = (d.enter / 3600) % 24, rush = (hour >= 6 && hour < 9) || (hour >= 15 && hour < 19);
   const p = d.kind === 'G' ? 0.28 : rush ? 0.22 : 0.12;
@@ -1551,10 +1695,90 @@ function extendShift() {
   TEND = newEnd;
   $('#timeSlider').max = TEND;
   renderTT.over = false;
-  $('#shiftLabel').textContent = `Dunaharaszti · ${PERIOD.label.split(' · ')[0]} · ${fmt(T0, false)}–${fmt(TEND, false)}`;
+  $('#shiftLabel').textContent = `Dunaharaszti · ${PERIOD_TAG} · ${fmt(T0, false)}–${fmt(TEND, false)}`;
   $('#tbEnd') && ($('#tbEnd').textContent = fmt(TEND, false));
   msg(`A szolgálat meghosszabbodott ${fmt(TEND, false)}-ig (${extra.length} újabb vonat).`, 'info');
   renderTT(); syncTimebar(true);
+}
+function setupCalendar() {
+  const cal = $('#calendar'), grid = $('#calGrid'), btn = $('#calBtn'), ysel = $('#calYear'), load = $('#calLoad'), info = $('#calInfo');
+  const today = isoDate(new Date());
+  const bounds = Object.values(MENETREND_PERIODS).filter(p => p.from).flatMap(p => [p.from, p.to]).sort();
+  const minM = bounds[0].slice(0, 7), maxM = bounds[bounds.length - 1].slice(0, 7);
+  const start = PLAY_DATE || (periodForDate(today) ? today : PERIOD.from || today);
+  let view = new Date(+start.slice(0, 4), +start.slice(5, 7) - 1, 1, 12), pick = PLAY_DATE;
+  for (let y = +minM.slice(0, 4); y <= +maxM.slice(0, 4); y++) ysel.add(new Option(y, y));
+  const kindOf = k => {
+    const p = MENETREND_PERIODS[k];
+    if (!p) return 'none';
+    if (k === PERIOD_DEFAULT) return 'base';
+    if (!p.fictional) return 'hist';
+    return p.prio ? 'works' : p.days === 'hv' ? 'rest' : 'work';
+  };
+  const passengerCount = k => k === PERIOD_DEFAULT ? BUILTIN_DAY_TRAINS.length : MENETREND_PERIODS[k].trains.filter(([no]) => !PERIOD_ALTERNATES.has(no)).length;
+  function describe(iso) {
+    const k = periodForDate(iso), d = dayInfo(iso), head = `${fmtDate(iso)}, ${WEEKDAY_NAMES[d.wd]}${d.hol ? ' · ' + d.hol : ''}`;
+    if (!k) return `${head}: erre a napra nincs menetrend.`;
+    const p = MENETREND_PERIODS[k];
+    return `${head}: ${p.label}${p.fictional ? ' (fiktív)' : ''} · ${passengerCount(k)} személy- és gyorsvonat naponta, mellettük tehervonatok.`;
+  }
+  btn.textContent = PLAY_DATE ? `${fmtDate(PLAY_DATE)} · ${PERIOD.label}` : 'Naptár megnyitása';
+  function render(step) {
+    const y = view.getFullYear(), mo = view.getMonth(), ym = `${y}-${pad(mo + 1)}`;
+    ysel.value = y; $('#calMonth').textContent = MONTH_NAMES[mo];
+    const lead = (new Date(y, mo, 1).getDay() + 6) % 7, days = new Date(y, mo + 1, 0).getDate(), cells = [];
+    for (let i = 0; i < lead; i++) cells.push('<span class="cal-pad"></span>');
+    for (let d = 1; d <= days; d++) {
+      const iso = `${ym}-${pad(d)}`, k = periodForDate(iso), di = dayInfo(iso);
+      const cls = ['cal-day', 'k-' + kindOf(k), di.rest ? 'rest' : '', iso === today ? 'today' : '', iso === pick ? 'picked' : ''].filter(Boolean).join(' ');
+      cells.push(`<button type="button" class="${cls}" data-day="${iso}"${k ? '' : ' disabled'} title="${describe(iso)}">${d}</button>`);
+    }
+    grid.innerHTML = cells.join('');
+    if (step) { grid.classList.remove('turn-next', 'turn-prev'); void grid.offsetWidth; grid.classList.add(step > 0 ? 'turn-next' : 'turn-prev'); }
+    cal.querySelector('[data-step="-1"]').disabled = ym <= minM;
+    cal.querySelector('[data-step="1"]').disabled = ym >= maxM;
+  }
+  function choose(iso) {
+    pick = iso; info.textContent = describe(iso);
+    load.disabled = !periodForDate(iso) || iso === PLAY_DATE;
+    for (const b of grid.querySelectorAll('.cal-day')) b.classList.toggle('picked', b.dataset.day === iso);
+  }
+  function go(params) {
+    try {
+      if (params.nap) localStorage.setItem('dunaharaszti-nap', params.nap); else localStorage.removeItem('dunaharaszti-nap');
+      if (params.menetrend) localStorage.setItem('dunaharaszti-menetrend', params.menetrend); else localStorage.removeItem('dunaharaszti-menetrend');
+    } catch {}
+    const u = new URL(location.href);
+    if (params.menetrend) u.searchParams.set('menetrend', params.menetrend); else u.searchParams.delete('menetrend');
+    if (params.nap) u.searchParams.set('nap', params.nap); else u.searchParams.delete('nap');
+    location.href = u.href;
+  }
+  const psel = $('#periodSel');
+  psel.add(new Option(PLAY_DATE ? `Naptár szerint: ${fmtDate(PLAY_DATE)}` : 'Naptár szerint (nap választása)…', 'naptar'));
+  const fixed = document.createElement('optgroup'); fixed.label = 'Fix menetrendek';
+  fixed.append(new Option(MENETREND_PERIODS[PERIOD_DEFAULT].label + ' · alapmenetrend, áthaladó gyorsvonatokkal', PERIOD_DEFAULT));
+  for (const [key, p] of Object.entries(MENETREND_PERIODS).reverse()) if (!p.fictional && key !== PERIOD_DEFAULT) fixed.append(new Option(p.label, key));
+  psel.append(fixed);
+  psel.value = PLAY_DATE ? 'naptar' : PERIOD_KEY;
+  btn.hidden = !PLAY_DATE;
+  psel.addEventListener('change', () => {
+    if (psel.value === 'naptar') { btn.hidden = false; if (cal.hidden) setOpen(true); return; }
+    go({ menetrend: psel.value });
+  });
+  function setOpen(on) {
+    btn.setAttribute('aria-expanded', String(on));
+    if (on) { cal.hidden = false; cal.classList.remove('cal-closing'); void cal.offsetWidth; cal.classList.add('cal-opening'); render(); if (pick) choose(pick); requestAnimationFrame(() => cal.scrollIntoView({ block: 'nearest', behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' })); }
+    else { cal.classList.remove('cal-opening'); cal.classList.add('cal-closing'); setTimeout(() => { if (cal.classList.contains('cal-closing')) { cal.hidden = true; cal.classList.remove('cal-closing'); } }, 180); }
+  }
+  btn.onclick = () => setOpen(cal.hidden);
+  for (const b of cal.querySelectorAll('.cal-nav')) b.onclick = () => { const st = +b.dataset.step; view = new Date(view.getFullYear(), view.getMonth() + st, 1, 12); render(st); };
+  ysel.onchange = () => { const st = +ysel.value > view.getFullYear() ? 1 : -1; view = new Date(+ysel.value, view.getMonth(), 1, 12); const ym = isoDate(view).slice(0, 7); if (ym < minM) view = new Date(+minM.slice(0, 4), +minM.slice(5) - 1, 1, 12); if (ym > maxM) view = new Date(+maxM.slice(0, 4), +maxM.slice(5) - 1, 1, 12); render(st); };
+  grid.addEventListener('click', e => { const b = e.target.closest('.cal-day'); if (b && !b.disabled) choose(b.dataset.day); });
+  grid.addEventListener('dblclick', e => { const b = e.target.closest('.cal-day'); if (b && !b.disabled) go({ nap: b.dataset.day }); });
+  $('#calToday').onclick = () => { const st = today.slice(0, 7) > isoDate(view).slice(0, 7) ? 1 : -1; view = new Date(+today.slice(0, 4), +today.slice(5, 7) - 1, 1, 12); render(st); if (periodForDate(today)) choose(today); };
+  $('#calDefault').onclick = () => go({ menetrend: PERIOD_DEFAULT });
+  $('#calDefault').disabled = PERIOD_BUILTIN && !PLAY_DATE;
+  load.onclick = () => { if (pick) go({ nap: pick }); };
 }
 const OFFER_LEAD = 180;
 const originLine = train => train.dir > 0 ? 'W' : 'E';
@@ -1660,6 +1884,33 @@ function dispatchProblem(tr) {
   const after = tr.permAfter && TRAIN[tr.permAfter];
   if (after && after.actualTrack == null && after.state !== 'done') return `Az engedély a(z) ${after.no} sz. vonat beérkezése után érvényes.`;
   return dispatchSignalProblem(tr);
+}
+function permissionWarning(tr) {
+  if (autoMode || tr.departurePermission === true || (tutor.on && !tutor.phone)) return false;
+  const station = LINES[destinationLine(tr)].name, pending = departureCallPending(tr);
+  const call = phoneLines[destinationLine(tr)].call, lineBusy = call && call.stage !== 'done';
+  const canAsk = canAskDeparture(tr) && !pending && !lineBusy;
+  const text = pending ? `${station} állomás még nem válaszolt a kérésedre. Várd meg az engedélyt, csak utána menesztheted a vonatot.`
+    : tr.departurePermission === false ? `${station} állomás megtagadta az indulási engedélyt. Amíg nem kapsz engedélyt, a vonat nem indulhat.`
+    : `${station} állomástól még nem kaptál indulási engedélyt. Engedély nélkül a vonatot meneszteni tilos.`;
+  $('#permBox').innerHTML = `<h2 id="permTitle">Nincs indulási engedély</h2><p><b>${tr.cat} ${tr.no}</b> → ${station}</p><p>${text}</p>
+    ${lineBusy && !pending ? '<p>A vonal telefonja foglalt: előbb bontsd a folyamatban lévő hívást.</p>' : ''}
+    <p class="box-foot"><button type="button" id="permClose">${canAsk ? 'Mégse' : 'Rendben'}</button>${canAsk ? ' <button type="button" id="permAsk" class="on">Engedélyt kérek</button>' : ''}</p>`;
+  const modal = $('#permModal');
+  winOpen(modal);
+  const close = () => winClose(modal);
+  $('#permClose').onclick = close;
+  modal.onclick = e => { if (e.target === modal) close(); };
+  modal.onkeydown = e => { if (e.key === 'Escape') close(); };
+  const ask = $('#permAsk');
+  if (ask) ask.onclick = () => {
+    close();
+    startDepartureCall(tr); renderPhone(); renderTT();
+    msg(`${tr.cat} ${tr.no}: indulási engedélyt kértél ${station} állomástól.`, 'info');
+  };
+  ($('#permAsk') || $('#permClose')).focus();
+  msg(`${tr.cat} ${tr.no}: nincs indulási engedély ${station} állomástól.`, 'warn');
+  return true;
 }
 function issueDispatch(tr) {
   if (dispatchProblem(tr)) return false;
@@ -1889,7 +2140,7 @@ function delayOf(tr) {
 function releaseRoutes() {
   for (const r of active.slice()) {
     if (r.forceAt && now >= r.forceAt) {
-      if (!r.def.secs.some(s => SEC[s].occ)) { msg(`Kényszeroldás végrehajtva: ${r.def.name}.`, 'warn'); cancelRoute(r, true); continue; }
+      if (!r.def.secs.some(s => SEC[s].occ)) { msg(`Vágányút feloldva: ${r.def.name}.`, 'warn'); cancelRoute(r, true); continue; }
     }
     if (!r.train) continue;
     const tr = TRAIN[r.train];
@@ -2597,6 +2848,32 @@ const modelKeep = [[2690,3010,735,892],[5215,5535,476,642],[7950,8170,585,692]];
   cross(e1,f1,900,2660,345,.04); cross(e1,f2,3040,5160,345,.04); cross(e2,f3,5580,8580,345,.04);
   for(const p of streets) modelRoads.push(modelRoadOf([1,p]));
 })();
+(() => {
+  const nearest = (p, pts) => {
+    let best = [Infinity, null];
+    for (let i = 1; i < pts.length; i++) {
+      const [ax, ay] = pts[i - 1], [bx, by] = pts[i], dx = bx - ax, dy = by - ay;
+      const t = clamp(((p[0] - ax) * dx + (p[1] - ay) * dy) / (dx * dx + dy * dy || 1), 0, 1), q = [ax + dx * t, ay + dy * t];
+      const d = Math.hypot(p[0] - q[0], p[1] - q[1]);
+      if (d < best[0]) best = [d, q];
+    }
+    return best;
+  };
+  for (const r of modelRoads) {
+    for (const end of [0, r.pts.length - 1]) {
+      const p = r.pts[end];
+      if (p[1] <= modelTop + 1 || p[1] >= modelBottom - 1) continue;
+      let best = [26, null];
+      for (const o of modelRoads) {
+        if (o === r || p[0] < o.left - 30 || p[0] > o.right + 30) continue;
+        const hit = nearest(p, o.pts);
+        if (hit[0] < best[0]) best = hit;
+      }
+      if (best[1] && best[0] > 0.01) r.pts[end] = best[1];
+    }
+    r.left = Math.min(...r.pts.map(p => p[0])); r.right = Math.max(...r.pts.map(p => p[0]));
+  }
+})();
 const modelFields = [
   ['#9c966d',[[40,-520],[762,-520],[762,76],[710,78],[442,86],[338,75],[196,-110]],true],
   ['#a99b6d',[[760,-520],[1795,-520],[1752,65],[1618,94],[1260,84],[995,87],[810,74]],true],
@@ -2687,6 +2964,7 @@ function modelClear(x,y,margin) {
   const dy = y-ym(x);
   if (x>3020 && x<5130 ? dy>-24-margin && dy<38+margin : Math.abs(dy)<12+margin) return false;
   if (x>4380-margin && x<4810+margin && dy>30-margin && y<229+margin) return false;
+  if (x>4080-margin && x<4141+margin && y>215-margin && y<233+margin) return false;
   return !modelRoads.some(({left,right,pts}) => x>=left-margin && x<=right+margin && modelDistance(x,y,pts)<margin);
 }
 const modelProps = (() => {
@@ -2750,6 +3028,69 @@ const modelProps = (() => {
     [6601,61,32,16,.01,2],[7284,124,11,7,0,3],
     [8020,622,96,30,.3,3],[8100,662,70,24,.3,6],[2975,748,34,14,0,1]
   ]) houses.push({x,y,w,h,angle,roof,lot:0});
+  {
+    const RW = [7,8,13];
+    const outline = p => {
+      const {x,y,w,h,angle,lot} = p, u = w/2, v = h/2, ca = Math.cos(angle), sa = Math.sin(angle);
+      const H = lot ? 5.5 + Math.min(4, w*h/160) : 7 + Math.min(7, w*h/380);
+      const box = lot ? [-u-7, -v-7, u+7, v+lot*7-1] : [-u, -v, u, v], out = [];
+      const [x0,y0,x1,y1] = box;
+      for (const [ax,ay,bx,by] of [[x0,y0,x1,y0],[x1,y0,x1,y1],[x1,y1,x0,y1],[x0,y1,x0,y0]]) {
+        const n = Math.max(1, Math.ceil(Math.hypot(bx-ax, by-ay) / 4));
+        for (let i = 0; i < n; i++) {
+          const a = ax + (bx-ax)*i/n, b = ay + (by-ay)*i/n, px = x + a*ca - b*sa, py = y + a*sa + b*ca;
+          out.push([px, py]);
+          if (Math.abs(a) <= u && Math.abs(b) <= v + .01) out.push([px, py - H]);
+        }
+      }
+      for (const [a,b] of [[-u,-v],[u,-v],[u,v],[-u,v]]) out.push([x + a*ca - b*sa, y + a*sa + b*ca - H]);
+      return out;
+    };
+    const nearestOn = (px, py, pts) => {
+      let best = [Infinity, 0, 0];
+      for (let i = 1; i < pts.length; i++) {
+        const [ax,ay] = pts[i-1], [bx,by] = pts[i], dx = bx-ax, dy = by-ay;
+        const t = clamp(((px-ax)*dx + (py-ay)*dy) / (dx*dx + dy*dy || 1), 0, 1), qx = ax + dx*t, qy = ay + dy*t;
+        const d = Math.hypot(px-qx, py-qy);
+        if (d < best[0]) best = [d, qx, qy];
+      }
+      return best;
+    };
+    const worst = (p, roads) => {
+      let res = null;
+      const pts = outline(p);
+      for (const r of roads) {
+        const half = RW[r.type]/2 + 3.5;
+        for (const [px,py] of pts) {
+          const [d] = nearestOn(px, py, r.pts), over = half - d;
+          if (over > 0 && (!res || over > res.over)) res = { over, r };
+        }
+      }
+      return res;
+    };
+    for (let i = houses.length - 1; i >= 0; i--) {
+      const p = houses[i], x0 = p.x, y0 = p.y, reach = Math.max(p.w, p.h) * .75 + 26;
+      const roads = modelRoads.filter(r => p.x > r.left - reach - 40 && p.x < r.right + reach + 40 && modelDistance(p.x, p.y, r.pts) < reach + 40);
+      if (!roads.some(r => modelDistance(p.x, p.y, r.pts) < reach)) continue;
+      let hit = worst(p, roads), n = 0;
+      while (hit && n++ < 10) {
+        const [, qx, qy] = nearestOn(p.x, p.y, hit.r.pts);
+        let dx = p.x - qx, dy = p.y - qy, len = Math.hypot(dx, dy);
+        if (len < .01) { dx = 0; dy = 1; len = 1; }
+        p.x += dx / len * (hit.over + 1.5); p.y += dy / len * (hit.over + 1.5);
+        hit = worst(p, roads);
+      }
+      const moved = Math.hypot(p.x - x0, p.y - y0);
+      if (!moved) continue;
+      const blocked = hit || moved > 40 || (p.lot && !modelClear(p.x, p.y, 12)) ||
+        houses.some(o => o !== p && Math.abs(o.x - p.x) < (o.w + p.w)/2 + 8 && Math.abs(o.y - p.y) < (o.h + p.h)/2 + 8);
+      if (blocked) { if (p.lot) houses.splice(i, 1); else { p.x = x0; p.y = y0; } continue; }
+      for (let j = trees.length - 1; j >= 0; j--) {
+        const t = trees[j];
+        if (Math.abs(t.x - p.x) < p.w/2 + 9 && Math.abs(t.y - p.y) < p.h/2 + 9) trees.splice(j, 1);
+      }
+    }
+  }
   const lamps = [];
   for (const {type,pts} of modelRoads) {
     if (type === 0) continue;
@@ -3041,9 +3382,9 @@ function modelFacilities(c,l,r) {
     modelPlatform(c,3600,4340,26,10);
     for (const [x,dy] of PLATFORM_LAMPS) modelLamp(c,[x,ym(x)+dy+2]);
     strokePoly(c,[[4075,163],[4075,155]],'#c8c0aa',8);
-    modelRect(c,4120,215,61,18,'#78817d');
+    modelRect(c,4080,215,61,18,'#78817d');
     for (let i=0;i<9;i++) {
-      const x=4124+i*6.4;
+      const x=4084+i*6.4;
       strokePoly(c,[[x,215],[x,226]],'#ded5b5',.65);
       if (i%3!==0) modelCar(c,x+3,220,0,['#9f4f3d','#d8d1af','#516676'][i%3],4,8.5);
     }
@@ -3351,7 +3692,6 @@ function drawScene(c, cm) {
   const hits = [];
   const z = cm.z, k = clamp(z * 0.62, 0.5, 1.3);
   drawModelTerrain(c, cm);
-  drawModelCars(c, cm);
   const trimFor = inactiveEdges();
   const [left] = S2W(cm, -50, 0), [right] = S2W(cm, cm.w + 50, 0);
   const polys = EDGES.filter(e => e.pts[0][0] <= right && e.pts[e.pts.length - 1][0] >= left)
@@ -3367,6 +3707,7 @@ function drawScene(c, cm) {
     drawModelRails(c, pp, k, z);
     if (hover && hover.type === 'section' && hover.id === e.sec && hover.cv === c.canvas) strokePoly(c, pp, '#ffffff40', 9);
   }
+  drawModelCars(c, cm);
   if (document.documentElement.dataset.theme === 'dark') {
     c.save(); c.globalCompositeOperation = 'multiply'; c.fillStyle = '#8f9bcc'; c.fillRect(0, 0, cm.w, cm.h);
     c.globalCompositeOperation = 'source-over'; c.fillStyle = 'rgba(16,26,66,.16)'; c.fillRect(0, 0, cm.w, cm.h); c.restore();
@@ -3596,7 +3937,7 @@ const COMMON = {
   KO: { x: 750, y: -205, label: ['Kényszer', 'oldás'], col: '#c8402e', cnt: 'KO' },
   JM: { x: 840, y: -205, label: ['Jelző', 'Megállj!'], col: '#c8402e' },
   KA: { x: 1010, y: 215, label: ['Közös', 'áll.'], col: '#1b1812' },
-  TO: { x: 1075, y: 215, label: ['Törlés', ''], col: '#f4f0df' },
+  TO: { x: 1075, y: 215, label: ['Törlés', ''], col: '#3dbf5a' },
   JA: { x: 1140, y: 215, label: ['Jelző-', 'áll.'], col: '#c8402e' },
   VV: { x: 1205, y: 215, label: ['Váltó', 'vissz.'], col: '#f4f0df' },
 };
@@ -3660,8 +4001,8 @@ function drawPult(c, cm) {
     const p = E.ppts.map(q => W2S(cm, ...q)); if (E.a !== w.node) p.reverse();
     const st = trimPoly(p, 3, 0).slice(0, 2); if (st.length < 2) continue;
     const d = Math.hypot(st[1][0] - st[0][0], st[1][1] - st[0][1]) || 1, L = Math.min(d, 16 * z);
-    const s = SEC[w.sec];
-    if (!s.occ && !s.lock) { c.shadowColor = '#fff'; c.shadowBlur = 1.5 * pultGlow; strokePoly(c, [st[0], [st[0][0] + (st[1][0] - st[0][0]) * L / d, st[0][1] + (st[1][1] - st[0][1]) * L / d]], '#f4f0df', 3.6 * z); c.shadowBlur = 0; }
+    const stemCol = SEC[w.sec].occ ? '#ff2a1a' : '#f4f0df';
+    c.shadowColor = stemCol; c.shadowBlur = 1.5 * pultGlow; strokePoly(c, [st[0], [st[0][0] + (st[1][0] - st[0][0]) * L / d, st[0][1] + (st[1][1] - st[0][1]) * L / d]], stemCol, 3.6 * z); c.shadowBlur = 0;
     const [x, y] = W2S(cm, ...P[w.node]); const below = w.below;
     pText(c, id, x, y + (below ? -15 : 15) * z, fs(13), '#ffe27a');
   }
@@ -3689,9 +4030,11 @@ function drawPult(c, cm) {
     const lx = x - s.dir * 20 * z, ly = y + side * 15 * z;
     c.strokeStyle = '#0d0b08'; c.lineWidth = 2.5 * z; c.beginPath(); c.moveTo(lx - s.dir * 12 * z, ly - 5 * z); c.lineTo(lx - s.dir * 12 * z, ly + 5 * z); c.moveTo(lx - s.dir * 12 * z, ly); c.lineTo(lx, ly); c.stroke();
     c.fillStyle = '#0d0b08'; c.beginPath(); c.arc(lx, ly, 6.5 * z, 0, 7); c.fill();
-    lampDot(c, lx, ly, 4.6 * z, a === 'VOROS' ? '#ff2a1a' : a === 'HIVO' ? (blink % 0.8 < 0.4 ? '#f4f0df' : '#ff2a1a') : '#3dff7a');
     const r = activeFrom[id];
-    if ((pStart === id && blink % 0.6 < 0.4) || (r && !switchesReady(r) && blink % 0.5 < 0.25)) lampDot(c, lx - s.dir * 12 * z, ly + side * 9 * z, 2.6 * z, '#f4f0df');
+    lampDot(c, lx, ly, 4.6 * z, a === 'VOROS' ? '#ff2a1a' : a === 'HIVO' ? (blink % 0.8 < 0.4 ? '#f4f0df' : '#ff2a1a') : '#3dff7a');
+    const foot = pStart === id ? (blink % 0.6 < 0.4 ? '#ffd23a' : null) : r && !r.second && !r.train ? (!switchesReady(r) && blink % 0.5 < 0.25 ? null : '#ffd23a') : null;
+    if (foot) lampDot(c, lx - s.dir * 12 * z, ly + side * 9 * z, 2.6 * z, foot);
+    if (r && r.forceAt > now) { lampDot(c, lx + s.dir * 2 * z, ly - side * 11 * z, 2.6 * z, '#f4f0df'); pText(c, 'KO', lx + s.dir * 2 * z, ly - side * 19 * z, fs(9), '#f4f0df'); }
     pButton(c, x, y, 8 * z, '#c8402e', '#3dbf5a', pStart === id, false);
     pText(c, id, lx - s.dir * 2 * z, ly + side * 15 * z, fs(13));
     hits.push({ type: 'pSig', id, x, y, rx: 12 * z, ry: 12 * z });
@@ -3733,7 +4076,7 @@ function drawPult(c, cm) {
   }
   for (const [id, xy] of Object.entries(SWBTN)) {
     const [x, y] = W2S(cm, ...xy); const w = SW[id], s = SEC[w.sec];
-    lampDot(c, x, y - 19 * z, 3.4 * z, (s.lock || s.occ) ? '#ff2a1a' : null);
+    lampDot(c, x, y - 19 * z, 3.4 * z, s.lock ? '#ffd23a' : null);
     pButton(c, x, y, 8.5 * z, '#1b1812', '#8a8266', false);
     pText(c, id, x, y + 19 * z, fs(13));
     hits.push({ type: 'pSw', id, x, y, rx: 12 * z, ry: 12 * z });
@@ -3762,12 +4105,12 @@ let camGlide = null;
 function glideMapTo(wx, wy) {
   if (isPaged() && page !== 'map') setPage('map');
   follow = null; setViewButton(null); camHold();
-  camGlide = { x: wx, y: wy, z: clamp(cam.z, 0.9, 3) };
+  camGlide = { x: wx, y: wy, z: mapZoomBack ? cam.z : clamp(cam.z, 0.9, 3) };
 }
 function pultClick(el, at) {
   if (!el) {
     const hadArm = armed || pStart; armed = null; pStart = null;
-    if (!hadArm && at) glideMapTo(...pultToWorld(at[0], at[1]));
+    if (!hadArm && at) { if (!pultGlideFrom || performance.now() - pultGlideFrom.t > 800) pultGlideFrom = { x: cam.x, y: cam.y, z: cam.z, t: performance.now() }; glideMapTo(...pultToWorld(at[0], at[1])); }
     return;
   }
   if (el.type === 'pSig') openSigView(el.id);
@@ -3787,9 +4130,10 @@ function pultClick(el, at) {
     if (pStart && pStart !== el.id) {
       const def = ROUTES.find(r => r.start === pStart && r.end === el.id);
       if (def) { pStart = null; return setRoute(def); }
-      const lineTarget = SIGS[pStart]?.kind === 'exit' && ((el.id === 'A' && SIGS[pStart].dir < 0) || (el.id === 'B' && SIGS[pStart].dir > 0)) ? (el.id === 'A' ? 'cW' : 'cE') : null;
-      const viaLine = lineTarget && ROUTES.find(r => r.start === pStart && r.dest.includes(lineTarget));
-      if (viaLine) { pStart = null; return setRoute(viaLine); }
+      if (SIGS[pStart]?.kind === 'exit' && ((el.id === 'A' && SIGS[pStart].dir < 0) || (el.id === 'B' && SIGS[pStart].dir > 0))) {
+        pStart = null;
+        return msg(`Kijáratnál a vágányút célja a zöld vágányúti célgomb (${el.id === 'A' ? 'bal szélen, Soroksár' : 'jobb szélen, Taksony'} felé), nem a bejárati jelző gombja.`, 'err');
+      }
     }
     if (pStart === el.id) { pStart = null; return; }
     pStart = el.id; pStartAt = performance.now(); return;
@@ -4059,7 +4403,9 @@ function hitTest(cv, cm, x, y, sections, includeTrains = sections && !selStart) 
   }
   return best;
 }
-let lastTrainClick = null;
+let lastTrainClick = null, mapZoomBack = null;
+const MAP_DBL_ZOOM = 2.6;
+let pultGlideFrom = null;
 function mapClick(el, mods) {
   if (!el) { selStart = null; closeInfo(); return; }
   if (el.type === 'train') {
@@ -4116,7 +4462,7 @@ function setupCanvasInput(c, cm, isMap) {
     if (down && down.moved) {
       cm.x = down.cx - (x - down.x) / cm.z;
       cm.y = down.cy - (y - down.y) / cm.z;
-      hover = null; if (isMap) { follow = null; camGlide = null; setViewButton(null); camHold(); }
+      hover = null; if (isMap) { follow = null; camGlide = null; mapZoomBack = null; setViewButton(null); camHold(); }
       $('#tip').style.display = 'none';
       c.style.cursor = 'grabbing';
       return;
@@ -4142,17 +4488,45 @@ function setupCanvasInput(c, cm, isMap) {
     if (el && (el.type === 'signal' || el.type === 'pSig')) torles(el.id); else { selStart = null; armed = null; pStart = null; }
   });
   if (isMap) c.addEventListener('dblclick', e => {
-    const [x, y] = pos(e), el = hitTest(c, cm, x, y, true, false);
-    const no = el?.type === 'train' ? el.id : performance.now() - (lastTrainClick?.t ?? -1e9) < 700 ? lastTrainClick.no : null;
-    if (!no) return;
-    const tr = TRAIN[no], h = tr && trainHead(tr); if (!h) return;
     e.preventDefault();
-    follow = tr.no; followZoom = 4.5; setViewButton(null);
-    camFollow = { no: tr.no, z: 4.5, vx: 0, vy: 0, lp: h };
-    if (!camAuto) { camGlide = { x: h[0], y: h[1], z: 4.5 }; camHold(); }
+    const [x, y] = pos(e), el = hitTest(c, cm, x, y, true, false);
+    if (mapZoomBack) {
+      const b = mapZoomBack; mapZoomBack = null;
+      follow = null; camFollow = null; followZoom = null; setViewButton(null);
+      camGlide = { x: b.x, y: b.y, z: b.z }; camHold();
+      return;
+    }
+    const back = { x: cam.x, y: cam.y, z: cam.z };
+    const no = el?.type === 'train' ? el.id : performance.now() - (lastTrainClick?.t ?? -1e9) < 700 ? lastTrainClick.no : null;
+    const tr = no && TRAIN[no], h = tr && trainHead(tr);
+    if (h) {
+      follow = tr.no; followZoom = 4.5; setViewButton(null);
+      camFollow = { no: tr.no, z: 4.5, vx: 0, vy: 0, lp: h };
+      if (!camAuto) { camGlide = { x: h[0], y: h[1], z: 4.5 }; camHold(); }
+      mapZoomBack = back;
+      return;
+    }
+    const [wx, wy] = S2W(cam, x, y), maxZ = 6, z = cam.z * MAP_DBL_ZOOM;
+    follow = null; camFollow = null; followZoom = null; setViewButton(null);
+    if (z > maxZ * 1.05) { camGlide = { x: wx, y: wy, z: cam.z / MAP_DBL_ZOOM }; camHold(); return; }
+    camGlide = { x: wx, y: wy, z: Math.min(z, maxZ) }; camHold();
+    mapZoomBack = back;
+  });
+  if (!isMap) c.addEventListener('dblclick', e => {
+    const [x, y] = pos(e);
+    if (hitTest(c, cm, x, y, false)) return;
+    e.preventDefault();
+    if (isPaged() && page !== 'map') setPage('map');
+    follow = null; camFollow = null; followZoom = null; setViewButton(null); camHold();
+    if (mapZoomBack) { const b = mapZoomBack; mapZoomBack = null; camGlide = { x: b.x, y: b.y, z: b.z }; return; }
+    const prev = pultGlideFrom && performance.now() - pultGlideFrom.t < 800 ? pultGlideFrom : { x: cam.x, y: cam.y, z: cam.z };
+    const [px, py] = S2W(cm, x, y), [wx, wy] = pultToWorld(px, py);
+    camGlide = { x: wx, y: wy, z: Math.min(6, Math.max(prev.z, 0.9) * MAP_DBL_ZOOM) };
+    mapZoomBack = { x: prev.x, y: prev.y, z: prev.z };
   });
   if (isMap) c.addEventListener('wheel', e => {
     e.preventDefault();
+    mapZoomBack = null;
     const [x, y] = pos(e);
     zoomMap(Math.exp(-e.deltaY * 0.0015), x, y);
   }, { passive: false });
@@ -4837,7 +5211,7 @@ function timetableClick(e) {
   if (e.target.closest('.tt-phone')) return;
   const row = e.target.closest('tr.row'); if (!row) return;
   const tr = TRAIN[row.dataset.no];
-  if (tr.state === 'run') focusTrain(tr);
+  if (tr.state === 'run') { if (!camAuto) setCamAuto(true); focusTrain(tr); }
   else if (tr.state === 'pending') {
     const n = NODES[tr.dir > 0 ? 'A' : 'B'];
     glideMapTo(n[0] - tr.dir * 250, n[1]);
@@ -5019,6 +5393,7 @@ function renderGuide() {
   guidePlan = (items.find(it => it.plan && it.plan.kind !== 'phone') || {}).plan || null;
   const actions = items.filter(it => it.level === 'action').length;
   const count = $('#guideCount');
+  if (count.textContent !== String(actions) && actions > +count.textContent) animateOnce(count, 'bump');
   count.hidden = !actions; count.textContent = actions;
   if (deskTab !== 'guide' || $('#tt').classList.contains('closed')) return;
   const next = trains.filter(t => t.state === 'pending').sort((a, b) => a.enter - b.enter)[0];
@@ -5118,6 +5493,7 @@ function openInfo(sel) {
   placeInfo();
   if (wasHidden) requestAnimationFrame(() => infoCard.classList.remove('no-slide'));
 }
+const INFO_LIFE_MS = 5000;
 function closeInfo() { infoSel = null; infoCard.hidden = true; }
 function infoData() {
   const s = infoSel;
@@ -5397,17 +5773,14 @@ infoCard.addEventListener('click', e => {
     if (act === 'ask') { openDepartureCall(tr); return; }
     if (act === 'cab') {
       if (tr.state === 'run') { const h = trainHead(tr); if (h) { follow = tr.no; if (camAuto) camFollow = { no: tr.no, z: cam.z, vx: 0, vy: 0, lp: h }; else { camGlide = { x: h[0], y: h[1], z: cam.z }; camHold(); } } }
-      if (tr.departurePermission !== true && canAskDeparture(tr) && !departureCallPending(tr) && (!tutor.on || tutor.phone)) {
-        const call = phoneLines[destinationLine(tr)].call;
-        if (!call || call.stage === 'done') { startDepartureCall(tr); renderPhone(); renderTT(); msg(`${tr.cat} ${tr.no}: indulási engedélyt kértél ${LINES[destinationLine(tr)].name} állomástól.`, 'info'); }
-        return;
-      }
+      if (permissionWarning(tr)) return;
       if (!dispatchReady(tr)) { msg(tr.dwell ? `${tr.cat} ${tr.no}: utascsere, ajtózárás után menesztheted.` : `${tr.cat} ${tr.no}: a vonat még nem áll indulásra készen.`, 'info'); return; }
       const problem = dispatchProblem(tr);
       if (problem) { msg(`Menesztés: ${problem}`, 'warn'); return; }
       if (issueDispatch(tr)) { recordSnap(); renderTT(); renderGuide(); renderInfo(); }
       return;
     }
+    if (act?.startsWith('dispatch') && permissionWarning(tr)) return;
     if (act === 'dispatch-menu') infoSel.dispatch = infoSel.dispatch ? '' : 'menu';
     if (act === 'dispatch-delay') infoSel.dispatch = infoSel.dispatch === 'delay' ? 'menu' : 'delay';
     if (act === 'dispatch-now' && issueDispatch(tr)) {
@@ -5461,23 +5834,27 @@ const pb = t => `<kbd>${t}</kbd>`;
 const LESSONS = [
   { title: 'A pult felépítése', sub: 'Mit látsz, mi micsoda', steps: [
     { do: 'A pult az állomás vágányhálózatának rajza. Balra Soroksár, jobbra Taksony, középen a három vágány.', why: 'Minden gomb és lámpa ott ül a rajzon, ahol a valóságban a jelző vagy a váltó áll. Így ránézésre látod a helyzetet.' },
-    { do: 'A vágányok csíkja jelez: sötét = szabad, fehér = lezárt vágányút, piros = vonat van rajta.', why: 'A sínek áramköre érzékeli a vonatot. Foglalt szakaszra a berendezés nem enged másik vonatot.' },
-    { do: 'A piros gombok a jelzők gombjai: A és B a bejárati, K1–K3 és V1–V3 a kijárati jelzőké. Mellettük kis lámpa mutatja a jelző fényét.', why: 'A vágányutat mindig jelzőtől jelzőig állítod, ezért a jelző gombja egyszerre kezdő- és célpont.', hl: ['pSig:A', 'pSig:B', 'pSig:K1', 'pSig:K2', 'pSig:K3', 'pSig:V1', 'pSig:V2', 'pSig:V3'] },
+    { do: 'A vágányok csíkja jelez: sötét = szabad, fehér = lezárt vágányút, vörös = vonat van rajta.', why: 'A sínek áramköre érzékeli a vonatot. Foglalt szakaszra a berendezés nem enged másik vonatot.' },
+    { do: 'A piros gombok a jelzők gombjai: A és B a bejárati, K1–K3 és V1–V3 a kijárati jelzőké. Mellettük kis lámpa mutatja a jelző fényét.', why: 'A jelző lámpája zöld, ha a jelző szabad. Megállj! esetén a bejárati jelzőké vörös, a kijáratiaké sötét. A gomb melletti kis talpponti lámpa sárgán ég, amíg a vágányút le van zárva, de a jelzőt még nem állítottad.', hl: ['pSig:A', 'pSig:B', 'pSig:K1', 'pSig:K2', 'pSig:K3', 'pSig:V1', 'pSig:V2', 'pSig:V3'] },
     { do: 'Alul és felül a közös gombok. Egyedül semmit sem tesznek: mindig egy másik gombbal együtt, két kézzel kell megnyomni őket.', why: 'A kétkezes kezelés véd a véletlen gombnyomástól. A játékban kattints egymás után a két gombra; az elsőn ott marad a kezed.', hl: ['pCommon:KA', 'pCommon:TO', 'pCommon:JA', 'pCommon:HB', 'pCommon:HK', 'pCommon:SK', 'pCommon:KO', 'pCommon:JM'] },
   ] },
   { title: 'Váltóállítás', sub: 'Közös áll. + váltógomb', steps: [
     { do: `Állítsd át a 4-es váltót: ${pb('Közös áll.')} + ${pb('4')}.`, why: 'A váltógomb egyedül nem hat, így véletlenül nem állítható el váltó. Az átállás 3 másodperc, közben a száma villog.', keys: [K.KA, 'pSw:4'], done: () => SW['4'].pos === 'R' && !SW['4'].moving },
-    { do: `Állítsd vissza egyenesbe: ${pb('Közös áll.')} + ${pb('4')}.`, why: 'Az alapállás az egyenes. Lezárt vagy foglalt váltó nem állítható: ilyenkor a gombja fölött piros lámpa ég.', keys: [K.KA, 'pSw:4'], done: () => SW['4'].pos === 'N' && !SW['4'].moving },
+    { do: `Állítsd vissza egyenesbe: ${pb('Közös áll.')} + ${pb('4')}.`, why: 'Az alapállás az egyenes. Lezárt váltó nem állítható: ilyenkor a gombja fölött sárga lámpa (Z) ég. Foglalt váltót sem lehet állítani.', keys: [K.KA, 'pSw:4'], done: () => SW['4'].pos === 'N' && !SW['4'].moving },
   ] },
   { title: 'Bejárati vágányút', sub: 'Kezdőgomb + célgomb, majd jelzőállítás', steps: [
     { do: `Bejárat Soroksár felől a II. vágányra: ${pb('A')} + ${pb('V2')}.`, why: 'A kezdő- és a célgomb kijelöli az utat. A berendezés maga állítja a váltókat és le is zárja őket: ezt mutatja a fehér csík. Ez az első lezárás.', keys: ['pSig:A', 'pSig:V2'], done: () => activeFrom.A && activeFrom.A.def.id === 'A-2' },
-    { do: `Állítsd szabadra a jelzőt: ${pb('Jelzőáll.')} + ${pb('A')}.`, why: 'A jelző csak külön parancsra vált szabadra (második lezárás). Előbb az SR2 sorompó zár le, ezért a jelző pár másodpercet késik.', keys: [K.JA, 'pSig:A'], done: () => ASP.A !== 'VOROS' },
-    { do: `Nem jön vonat, oldd fel: ${pb('Törlés')} + ${pb('A')}.`, why: 'A fel nem használt vágányutat törléssel oldod fel. Ha a vonat már közel jár, csak a Kényszeroldás hat, az 30 másodpercet vár.', keys: [K.TO, 'pSig:A'], done: () => !activeFrom.A },
+    { do: `Meggondoltad magad: töröld a vágányutat: ${pb('Törlés')} + ${pb('A')}.`, why: 'Amíg a jelzőt nem állítottad szabadra (csak első lezárás van), a vágányút a Törlés gombbal feloldható. A fehér csík kialszik, a váltók feloldódnak.', keys: [K.TO, 'pSig:A'], done: () => !activeFrom.A },
+    { do: `Állítsd be újra: ${pb('A')} + ${pb('V2')}.`, why: 'Ugyanaz a kezdő- és célgomb. A talpponti lámpa sárgán ég, amíg a vágányút lezárva várja a jelzőállítást.', keys: ['pSig:A', 'pSig:V2'], done: () => activeFrom.A && activeFrom.A.def.id === 'A-2' },
+    { do: `Állítsd szabadra a jelzőt: ${pb('Jelzőáll.')} + ${pb('A')}.`, why: 'A jelző csak külön parancsra vált szabadra (második lezárás). Előbb az SR2 sorompó zár le, ezért a jelző pár másodpercet késik. A pulton zöld fény jelzi a szabad jelzést, a talpponti lámpa kialszik.', keys: [K.JA, 'pSig:A'], done: () => ASP.A !== 'VOROS' },
+    { do: `Jelzőállítás után a Törlés már nem hat. Állítsd Megállj!-ra: ${pb('Jelző Megállj!')} + ${pb('A')}.`, why: 'A jelző vörösre vált, a pulton zöld fény villog: a második lezárás megtörtént, de a jelző nem a vonat hatására esett vissza. A vágányút lezárva marad.', keys: ['pCommon:JM', 'pSig:A'], done: () => !activeFrom.A || !activeFrom.A.sigReq },
+    { do: `Oldd fel kényszeroldással: ${pb('Kényszeroldás')} + ${pb('A')}.`, why: 'Élesben ezt csak az állomásfőnök kezelheti, és előbb meggyőződik róla, hogy nem közeledik vonat. A számláló rögzíti. Ha nem közeledik vonat, az oldás azonnali, különben 3 perc késleltetéssel történik, addig a jelzőnél a KO lámpa világít.', keys: ['pCommon:KO', 'pSig:A'], done: () => !activeFrom.A },
   ] },
   { title: 'Kijárati vágányút', sub: 'Kijárati jelző + zöld célgomb', steps: [
     { do: `Kijárat a II. vágányról Taksony felé: ${pb('V2')} + a jobb oldali ${pb('zöld')} célgomb.`, why: 'Kijáratnál a cél a nyílt vonal. A menetirány nyila Taksony felé fordul: amíg így áll, szemből nem indulhat vonat.', keys: ['pSig:V2', 'pTarget:cE'], done: () => !!activeFrom.V2 },
     { do: `Jelzőt szabadra: ${pb('Jelzőáll.')} + ${pb('V2')}.`, why: 'A zöld fény azt jelenti, hogy a térköz szabad. A vonat mögött a vágányút magától, szakaszonként feloldódik.', keys: [K.JA, 'pSig:V2'], done: () => ASP.V2 !== 'VOROS' },
-    { do: `Oldd fel: ${pb('Törlés')} + ${pb('V2')}.`, why: 'Feloldás után a menetirány is felszabadul, így a szomszéd állomás újra indíthat vonatot.', keys: [K.TO, 'pSig:V2'], done: () => !activeFrom.V2 },
+    { do: `Nem indul vonat. Állítsd Megállj!-ra: ${pb('Jelző Megállj!')} + ${pb('V2')}.`, why: 'Jelzőállítás után a vágányút törléssel már nem oldható, ezért előbb a jelzőt kell Megállj!-ra állítani.', keys: ['pCommon:JM', 'pSig:V2'], done: () => !activeFrom.V2 || !activeFrom.V2.sigReq },
+    { do: `Oldd fel kényszeroldással: ${pb('Kényszeroldás')} + ${pb('V2')}.`, why: 'Feloldás után a menetirány is felszabadul, így a szomszéd állomás újra indíthat vonatot.', keys: ['pCommon:KO', 'pSig:V2'], done: () => !activeFrom.V2 },
   ] },
   { title: 'Sorompó és rendkívüli gombok', sub: 'SR2, hívójelzés, kényszeroldás', steps: [
     { do: `Zárd le kézzel a sorompót: ${pb('Közös áll.')} + ${pb('SR2')}.`, why: 'Vágányútnál a sorompó magától zár. Kézzel akkor zárod le, ha például tolatás lesz az útátjárón. Záráskor a lámpája villog.', keys: [K.KA, 'sr:SR2'], done: () => SR.state === 'closed' },
@@ -5718,12 +6095,12 @@ const COMMON_HELP = {
   HB: 'Bejárati hívójelzés. + bejárati jelző (A, B) gombja: a jelzőn villogó fehér fény jelenik meg, a vonat 15 km/h-val, a berendezés ellenőrzése nélkül jöhet be. Csak végszükség esetén!',
   HK: 'Kijárati hívójelzés. + kijárati jelző gombja: mint a bejárati, de kijáratra. A berendezés semmit sem ellenőriz.',
   SK: 'Szigetelés kikapcsolása. + váltógomb: foglaltnak mutatott (pl. hibás szigetelésű) váltó állítása saját felelősségre. A számláló minden használatot rögzít.',
-  KO: 'Kényszeroldás. + kezdőjelző gombja: a vágányutat 30 mp késleltetéssel oldja fel akkor is, ha vonat közeledik. A számláló rögzíti.',
-  JM: 'Jelző Megállj!. + jelző gombja: a szabad jelzőt Megállj!-ra állítja, a vágányút lezárva marad. Élő hívójelzést is megszüntet.',
+  KO: 'Kényszeroldás + kezdőjelző gombja: vágányút-visszavonás a jelző szabadra állítása után, vagy kényszeroldás, ha a vonat után a vágányút nem oldódott fel. A jelző Megállj!-ra vált. Ha vonat közeledik a jelzőhöz, az oldás 3 perc múlva történik (KO lámpa), egyébként azonnal. A számláló rögzíti.',
+  JM: 'Jelző Megállj!. + jelző gombja: a szabad jelzőt Megállj!-ra állítja, a vágányút lezárva marad (kényszeroldással oldható). Élő hívójelzést is megszüntet.',
   KA: 'Közös állítás. + váltó, SR2 vagy KS gombja: egyedi váltóállítás, sorompó kézi zárása/nyitása, kisiklasztó saru fel/le.',
-  TO: 'Törlés. + kezdőjelző gombja: a még nem használt vágányút feloldása. Közeledő vonatnál nem hat – ott kényszeroldás kell.',
+  TO: 'Törlés. + kezdőgomb: a lezárt vágányút törlése, de csak jelzőállítás előtt (első lezárás). Jelzőállítás után csak kényszeroldással törölhető.',
   JA: 'Jelzőállítás (második lezárás). + jelző gombja: a lezárt vágányút jelzője szabadra vált.',
-  VV: 'Váltó visszajelentés: a váltók állását mutató fehér szárcsíkok be- és kikapcsolása.',
+  VV: 'Váltó visszajelentés: a váltók állását mutató szárcsíkok be- és kikapcsolása. Sárga = szabad váltó, vörös = jármű van rajta, villog = állítás alatt.',
 };
 function pultTipHtml(el) {
   if (el.type === 'pCommon') return `<b>${COMMON[el.id].label.join(' ').replace('- ', '')}</b><br>${COMMON_HELP[el.id]}`;
@@ -5741,7 +6118,13 @@ function pultTipHtml(el) {
   if (el.type === 'ks') return `<b>${el.id} kisiklasztó saru</b><br>${KS[el.id].on ? 'Sínen (védő állás)' : 'Levéve'}<br>A rakodóvágányról kiguruló kocsit siklasztja ki, így védi az I. vágányt. Állítás: Közös áll. + ${el.id}.`;
   return '';
 }
+function animateOnce(el, cls) {
+  if (!el || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  el.classList.remove(cls); void el.offsetWidth; el.classList.add(cls);
+  el.addEventListener('animationend', () => el.classList.remove(cls), { once: true });
+}
 function showDeskTab(tab) {
+  const changed = deskTab !== tab;
   deskTab = tab;
   for (const b of document.querySelectorAll('[data-tab]')) b.setAttribute('aria-selected', String(b.dataset.tab === tab));
   $('#ttBody').hidden = tab !== 'tt';
@@ -5751,6 +6134,7 @@ function showDeskTab(tab) {
   if (tab === 'tutor') renderTutor(true);
   if (tab === 'score') { scoreKey = ''; renderScore(); }
   guideKey = '';
+  if (changed) animateOnce($({ tt: '#ttBody', guide: '#guideBody', tutor: '#tutorBody', score: '#scoreBody' }[tab]), 'sheet-in');
 }
 function selectDeskTab(tab, toggle) {
   const closed = $('#tt').classList.contains('closed');
@@ -5835,11 +6219,17 @@ function sunAltitude(date) {
   const ha = (((18.697374558 + 24.06570982441908 * d) % 24) * 15 + lon) * rad - ra;
   return Math.asin(Math.sin(lat) * Math.sin(dec) + Math.cos(lat) * Math.cos(dec) * Math.cos(ha)) / rad;
 }
-const LOCAL_MIDNIGHT = (() => { const d = new Date(); d.setHours(0, 0, 0, 0); return d.getTime(); })();
+const LOCAL_MIDNIGHT = (() => { const d = PLAY_DATE ? new Date(PLAY_DATE + 'T12:00:00') : new Date(); d.setHours(0, 0, 0, 0); return d.getTime(); })();
 const isNightAt = t => sunAltitude(new Date(LOCAL_MIDNIGHT + t * 1000)) < -3;
 let themeMode = (() => { try { const v = localStorage.getItem('dunaharaszti-thememode'); return v === 'dark' || v === 'light' ? v : 'auto'; } catch (err) { return 'auto'; } })();
 function setTheme(dark) {
-  if (document.documentElement.dataset.theme !== (dark ? 'dark' : 'light')) document.documentElement.dataset.theme = dark ? 'dark' : 'light';
+  if (document.documentElement.dataset.theme !== (dark ? 'dark' : 'light')) {
+    const root = document.documentElement;
+    if (root.dataset.theme && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      root.classList.add('theme-fade'); clearTimeout(root._fadeT); root._fadeT = setTimeout(() => root.classList.remove('theme-fade'), 700);
+    }
+    root.dataset.theme = dark ? 'dark' : 'light';
+  }
   const b = $('#btnTheme'), label = themeMode === 'auto' ? (dark ? 'Napszak: éj' : 'Napszak: nap') : dark ? 'Sötét' : 'Világos';
   b.setAttribute('aria-pressed', String(themeMode !== 'auto'));
   if (b.textContent !== label) b.textContent = label;
@@ -5977,7 +6367,8 @@ function scoreHTML(final) {
 }
 let scoreKey = '';
 function renderScore() {
-  $('#scoreBadge').textContent = COUNT.pts;
+  const badge = $('#scoreBadge');
+  if (badge.textContent !== String(COUNT.pts)) { if (badge.textContent !== '') animateOnce(badge, 'bump'); badge.textContent = COUNT.pts; }
   if ($('#scoreBody').hidden) return;
   const key = COUNT.pts + '|' + COUNT.ev.length + '|' + Math.floor((now - T0) / 60) + '|' + autoMode;
   if (key === scoreKey) return;
@@ -6219,17 +6610,11 @@ function autoCamera(real) {
   Object.assign($('#timeSlider'), { min: T0, max: TEND, value: T0 });
   const n = trains.length, f = trains.filter(t => t.kind === 'G').length;
   $('#shiftIntro').textContent = n ? `${fmt(T0, false)}–${end}: ${n - f} személy- és gyorsvonat, ${f} tehervonat.` : 'Ebben az időszakban nem közlekedik vonat, válassz másik kezdési időt.';
-  $('#shiftLabel').textContent = `Dunaharaszti · ${PERIOD.label.split(' · ')[0]} · ${fmt(T0, false)}–${end}`;
-  const psel = $('#periodSel');
-  for (const [key, p] of Object.entries(MENETREND_PERIODS).reverse()) psel.add(new Option(p.label + (key === PERIOD_DEFAULT ? ' (áthaladó gyorsvonatokkal)' : ''), key));
-  psel.value = PERIOD_KEY;
-  $('#periodNote').textContent = `Érvényes: ${PERIOD.from ? PERIOD.from.replaceAll('-', '.') + '.' : '?'}–${PERIOD.to ? PERIOD.to.replaceAll('-', '.') + '.' : '?'}` +
-    (PERIOD_BUILTIN ? '' : ' · csak a Dunaharasztin megálló személyvonatok; a tehervonatok becsültek.');
-  psel.addEventListener('change', e => {
-    try { localStorage.setItem('dunaharaszti-menetrend', e.target.value); } catch {}
-    const u = new URL(location.href); u.searchParams.set('menetrend', e.target.value);
-    location.href = u.href;
-  });
+  $('#shiftLabel').textContent = `Dunaharaszti · ${PERIOD_TAG} · ${fmt(T0, false)}–${end}`;
+  $('#periodNote').textContent = (PERIOD.from ? `Érvényes: ${PERIOD.from.replaceAll('-', '.')}.–${PERIOD.to.replaceAll('-', '.')}.` : '') +
+    (PERIOD.fictional ? ` · fiktív menetrend${PERIOD.note ? ', ' + PERIOD.note : ''}; a tehervonatok a szabad menetvonalakon járnak.`
+      : PERIOD_BUILTIN ? '' : ' · csak a Dunaharasztin megálló személyvonatok; a tehervonatok becsültek.');
+  setupCalendar();
   $('#tbEnd').textContent = end === '00:00' ? '24:00' : end;
   $('#clock').textContent = fmt(T0);
   sel.addEventListener('change', e => {
@@ -6393,7 +6778,9 @@ function frame(t) {
   }
   autoCamera(real);
   clampCam(cam);
-  $('#clock').textContent = fmt(now);
+  const clockText = fmt(now), clockEl = $('#clock');
+  if (clockText.slice(0, 5) !== clockEl.textContent.slice(0, 5) && speed > 0 && speed <= 10) animateOnce(clockEl, 'tick');
+  clockEl.textContent = clockText;
   guideHL = guideHighlight();
   drawScene(ctx, cam);
   syncMapControls();
@@ -6419,10 +6806,13 @@ function frame(t) {
   if (infoSel?.kind === 'train' && TRAIN[infoSel.id].state === 'run') { const c = trainCenter(TRAIN[infoSel.id]); if (c) infoSel.w = c; drawInfoLive(); }
   deoverlapPopups();
   if (infoSel?.kind === 'train' && !infoCard.hidden) {
-    if (follow === infoSel.id || infoCard.matches(':hover') || infoCard.contains(document.activeElement)) infoSel.seen = t;
-    else if (t - (infoSel.seen ?? t) > 4000) closeInfo();
+    if (infoCard.matches(':hover') || infoCard.contains(document.activeElement)) infoSel.seen = t;
     else infoSel.seen ??= t;
-  }
+    const life = 1 - (t - infoSel.seen) / INFO_LIFE_MS;
+    infoCard.classList.add('timed');
+    infoCard.style.setProperty('--life', Math.max(0, life).toFixed(3));
+    if (life <= 0) closeInfo();
+  } else infoCard.classList.remove('timed');
   placeInfo();
   if (ttTimer <= 0) { ttTimer = 0.4; renderScore(); renderTT(); if (!tutor.on) phoneTick(); renderGuide(); applyTheme(); renderInfo(); }
   requestAnimationFrame(frame);
