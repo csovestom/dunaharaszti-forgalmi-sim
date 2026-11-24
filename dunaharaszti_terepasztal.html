@@ -700,6 +700,19 @@ html.theme-fade body,html.theme-fade body *:not(canvas){transition:background-co
 .koki-go{display:inline-block;padding:9px 14px;background:#c8402e;color:#fff6e4;border:1px solid #7d1f14;border-radius:2px;font:700 13px var(--mono);letter-spacing:.06em;text-transform:uppercase;text-decoration:none}
 .koki-go:hover{background:#a8321f}
 .koki-later{padding:9px 12px;background:#0000;color:var(--ink);border:1px solid var(--rule);border-radius:2px;font:700 13px var(--mono);letter-spacing:.06em;text-transform:uppercase;cursor:pointer}
+#top{padding-right:100px}
+@media(max-width:1540px) and (min-width:1251px){.top-controls button,.top-controls button:not([aria-pressed=true]):not(.on){padding:7px 9px 7px 20px;letter-spacing:.06em}.top-controls button::before{left:7px}}
+@media(max-width:1400px) and (min-width:1251px){#top{gap:10px;padding-left:10px}.top-controls{gap:4px}.top-controls button,.top-controls button:not([aria-pressed=true]):not(.on){padding:7px 7px 7px 18px;letter-spacing:.03em}.top-controls button::before{left:6px;width:7px;height:7px;margin-top:-3.5px}}
+@media(max-width:1250px){#top{padding-right:10px}}
+#btnSims{position:absolute;top:7px;right:8px;width:86px;min-height:0;padding:5px 4px;white-space:normal;text-align:center;
+  font:700 9.5px/1.2 var(--sans);letter-spacing:.06em;text-transform:uppercase;color:#ff4b38;text-shadow:0 -1px 0 #000,0 0 6px #ff3b2650;
+  border:1px solid #000;border-radius:4px;background:var(--grain),linear-gradient(#3a3a30,#22221b 55%,#18180f);
+  box-shadow:inset 0 1px 0 #ffffff2e,inset 0 -3px 0 #0009,0 2px 0 #000,0 3px 4px #0008}
+#btnSims:hover{color:#ff6a58;background:var(--grain),linear-gradient(#45453a,#28281f 55%,#1c1c13)}
+#btnSims:active{transform:translateY(2px);box-shadow:inset 0 2px 4px #000c}
+body.paged #top{padding-right:8px}
+body.paged #btnSims{position:static;width:100%;min-height:34px}
+body.paged:not([data-page=more]) #btnSims{display:none}
 </style>
 </head>
 <body data-page="">
@@ -726,6 +739,7 @@ html.theme-fade body,html.theme-fade body *:not(canvas){transition:background-co
     <button id="btnTheme" aria-pressed="false" title="Világos/sötét mód: Napszak (a szimulált idő szerint) → Sötét → Világos (D)">Napszak: nap</button>
     <button id="btnHelp" aria-haspopup="dialog">Útmutató</button>
   </div>
+  <button type="button" id="btnSims" title="Összes forgalmi szimulátor (új lapon nyílik)">összes forgalmi szimulátor</button>
 </header>
 <nav id="pager" aria-label="Nézetek">
   <button type="button" data-page="map" aria-pressed="true" title="Terep" aria-label="Terep"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 8.5h20M2 15.5h20M6 6v12M12 6v12M18 6v12"></path></svg><span>Terep</span></button>
@@ -7385,4 +7399,5 @@ function winClose(el) {
   document.addEventListener('keydown', e => { if (e.key === 'Escape' && ad.classList.contains('open')) { e.stopImmediatePropagation(); close(); } }, true);
 })();
 </script>
+<script>document.getElementById('btnSims').onclick=()=>window.open('https://csovestom.github.io/forgalmi-szimulatorok/','_blank','noopener');</script>
 </body></html>
