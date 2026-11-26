@@ -6692,7 +6692,7 @@ function resize() {
   if (pOpen) {
     const w = pw.getBoundingClientRect().width;
     const h = Math.max(0, (isPaged() ? pw : bottom).getBoundingClientRect().height - pw.querySelector('.desk-head').offsetHeight);
-    pcam.w = w; pcam.h = h; pcam.z = Math.min(w / 1260, h / 500);
+    pcam.w = w; pcam.h = h; pcam.z = Math.min(w / 1310, h / 560);
     if (isPaged()) pcam.z = Math.max(pcam.z, Math.min(0.62, h / 520));
     pc.style.height = h + 'px'; pc.width = Math.round(w * dpr); pc.height = Math.round(h * dpr);
     pctx.setTransform(dpr, 0, 0, dpr, 0, 0);
@@ -6789,8 +6789,8 @@ function frame(t) {
       const [sx] = W2S(pcam, ...p);
       if (sx < 36 || sx > pcam.w - 36) pcam.x += (p[0] - pcam.x) * 0.12;
     }
-    const mx = Math.max(0, 640 - pcam.w / 2 / pcam.z), my = Math.max(0, 255 - pcam.h / 2 / pcam.z);
-    pcam.x = clamp(pcam.x, 1100 - mx, 1100 + mx); pcam.y = clamp(pcam.y, 5 - my, 5 + my);
+    const mx = Math.max(0, 655 - pcam.w / 2 / pcam.z), my = Math.max(0, 280 - pcam.h / 2 / pcam.z);
+    pcam.x = clamp(pcam.x, 1100 - mx, 1100 + mx); pcam.y = clamp(pcam.y, 12 - my, 12 + my);
     drawPult(pctx, pcam); pultGlow = 1;
   }
   drawSigView();
