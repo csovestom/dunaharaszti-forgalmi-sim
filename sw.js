@@ -1,7 +1,7 @@
 // Dunaharaszti Forgalmi Szimulátor – service worker az offline működéshez.
 // Hálózat először: ha van net, mindig a GitHubon lévő legfrissebb fájlt kapod
 // (így a szimulátor frissítéséhez elég a HTML-t lecserélni), net nélkül a mentett példányt.
-const CACHE = 'dunaharaszti-v4';
+const CACHE = 'dunaharaszti-v5';
 const FILES = [
   './',
   './index.html',
