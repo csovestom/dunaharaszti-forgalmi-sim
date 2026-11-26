@@ -1294,7 +1294,11 @@ function routeProblem(def) {
 function setRoute(def, withSignal = false) {
   const problem = routeProblem(def);
   if (problem) { msg(problem, 'err'); return false; }
-  for (const [id, p] of Object.entries(def.sw)) throwSwitch(SW[id], p);
+  let k = 0;
+  for (const [id, p] of Object.entries(def.sw).sort((a, b) => parseInt(a[0]) - parseInt(b[0]))) {
+    const w = SW[id]; if (w.pos === p && !w.moving) continue;
+    throwSwitch(w, p); w.until += 3 * k++;
+  }
   const r = { def, id: def.id, sigReq: withSignal, train: null, forceAt: 0, vis: def.secs.map(() => false), rel: def.secs.map(() => false) };
   for (const s of def.secs) SEC[s].lock = def.id;
   if (def.line) LINES[def.line].dir = def.ldir;
@@ -1310,6 +1314,7 @@ function jelzoAllit(id) {
   if (!r) { msg(`Jelzőállítás: a(z) ${id} jelzőről nincs lezárt vágányút.`, 'err'); return; }
   if (r.train) { msg(`Jelzőállítás: a vágányút már felhasználva.`, 'err'); return; }
   if (r.forceAt) { msg(`Jelzőállítás: kényszeroldás folyamatban.`, 'err'); return; }
+  if (r.jm) { msg(`Jelzőállítás: a(z) ${id} jelzőt Jelző M!-mal Megállj!-ra kapcsoltad, újra szabadra csak a vágányút feloldása (kényszeroldás) után állítható.`, 'err'); return; }
   r.sigReq = true; r.second = true;
   const waiting = exitWaitsForPermission(r);
   msg(`Jelzőállítás: ${id}.` + (r.def.sr && SR.state !== 'closed' ? ' SR2 sorompó zár, a jelző késleltetve vált szabadra.' : '') +
@@ -1320,7 +1325,7 @@ function jelzoM(id) {
   const r = activeFrom[id];
   if (SIGS[id].hivoUntil > now) { SIGS[id].hivoUntil = 0; msg(`${id}: hívójelzés megszüntetve.`, 'warn'); return; }
   if (!r || !r.sigReq) { msg(`Jelző M!: a(z) ${id} jelző nem mutat szabad jelzést.`, 'info'); return; }
-  r.sigReq = false; msg(`Jelző M!: ${id} Megállj! állásba kapcsolva, a vágányút lezárva marad. Feloldani kényszeroldással lehet.`, 'warn');
+  r.sigReq = false; r.jm = true; msg(`Jelző M!: ${id} Megállj! állásba kapcsolva, a vágányút lezárva marad. Feloldani kényszeroldással lehet, a jelző addig nem állítható újra szabadra.`, 'warn');
 }
 function cancelRoute(r, silent) {
   for (const s of r.def.secs) if (SEC[s].lock === r.id) SEC[s].lock = null;
@@ -4116,7 +4121,7 @@ function drawPult(c, cm) {
   }
   for (const [id, xy] of Object.entries(SWBTN)) {
     const [x, y] = W2S(cm, ...xy); const w = SW[id], s = SEC[w.sec];
-    lampDot(c, x, y - 19 * z, 3.4 * z, s.lock ? '#ffd23a' : null);
+    lampDot(c, x, y - 19 * z, 3.4 * z, s.lock ? '#f4f0df' : null);
     pButton(c, x, y, 8.5 * z, '#1b1812', '#8a8266', false);
     pText(c, id, x, y + 19 * z, fs(13));
     hits.push({ type: 'pSw', id, x, y, rx: 12 * z, ry: 12 * z });
@@ -6182,7 +6187,7 @@ const COMMON_HELP = {
   KA: 'Közös állítás. + váltó, SR2 vagy KS gombja: egyedi váltóállítás, sorompó kézi zárása/nyitása, kisiklasztó saru fel/le.',
   TO: 'Törlés. + kezdőgomb: a lezárt vágányút törlése, de csak jelzőállítás előtt (első lezárás). Jelzőállítás után csak kényszeroldással törölhető.',
   JA: 'Jelzőállítás (második lezárás). + jelző gombja: a lezárt vágányút jelzője szabadra vált.',
-  VV: 'Váltó visszajelentés: a váltók állását mutató szárcsíkok be- és kikapcsolása. Sárga = szabad váltó, vörös = jármű van rajta, villog = állítás alatt.',
+  VV: 'Váltó visszajelentés: a váltók állását mutató szárcsíkok be- és kikapcsolása. Fehér = szabad váltó, vörös = jármű van rajta, villog = állítás alatt.',
 };
 function pultTipHtml(el) {
   if (el.type === 'pCommon') return `<b>${COMMON[el.id].label.join(' ').replace('- ', '')}</b><br>${COMMON_HELP[el.id]}`;
