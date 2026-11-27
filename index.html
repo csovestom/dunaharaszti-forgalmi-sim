@@ -3,6 +3,38 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<script id="fekvoJs">
+(function () {
+  var m = document.querySelector('meta[name=viewport]');
+  if (!m || !window.matchMedia) return;
+  var BASE = m.getAttribute('content'), cur = '', t = 0;
+  var coarse = matchMedia('(pointer: coarse)');
+  function phone() {
+    var s = window.screen || {};
+    return coarse.matches && Math.min(s.width || 9999, s.height || 9999) < 600;
+  }
+  function set(c) {
+    if (c === cur) return;
+    cur = c; m.setAttribute('content', c);
+  }
+  function fit() {
+    var land = innerWidth > innerHeight;
+    document.documentElement.classList.toggle('fekvo', land && phone());
+    if (land && phone()) {
+      var r = innerWidth / innerHeight, w = Math.max(1200, Math.round(760 * r / 20) * 20);
+      set('width=' + w + ', user-scalable=no');
+    } else if (cur && cur !== BASE) {
+      set(BASE + ', maximum-scale=1');
+      clearTimeout(t); t = setTimeout(function () { set(BASE); }, 400);
+    }
+  }
+  fit();
+  addEventListener('orientationchange', function () { setTimeout(fit, 120); });
+  addEventListener('resize', fit);
+})();
+</script>
+<style id="fekvoCss">html{-webkit-text-size-adjust:100%;text-size-adjust:100%}html.fekvo,html.fekvo body{overscroll-behavior:none}</style>
+
 <title>Dunaharaszti Forgalmi Szimulátor</title>
 <meta name="description" content="MÁV Dominó 55 forgalomirányító szimulátor, Dunaharaszti állomás">
 <meta name="theme-color" content="#1f2a1f">
